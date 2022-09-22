@@ -979,8 +979,8 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="src\fragmentShader.glsl" />
-    <None Include="src\vertexShader.glsl" />
+    <None Include="res\fragmentShader.glsl" />
+    <None Include="res\vertexShader.glsl" />
     <None Include="libs\GLM\detail\func_common.inl">
       <Filter>Файлы заголовков</Filter>
     </None>

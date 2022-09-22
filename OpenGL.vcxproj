@@ -591,8 +591,8 @@
     <None Include="libs\GLM\gtx\vector_angle.inl" />
     <None Include="libs\GLM\gtx\vector_query.inl" />
     <None Include="libs\GLM\gtx\wrap.inl" />
-    <None Include="src\fragmentShader.glsl" />
-    <None Include="src\vertexShader.glsl" />
+    <None Include="res\fragmentShader.glsl" />
+    <None Include="res\vertexShader.glsl" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

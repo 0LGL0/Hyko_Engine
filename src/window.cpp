@@ -43,7 +43,7 @@ int Window::WindowDraw(int weight, int height)
 
 void Window::WindowUpdate()
 {
-	unsigned int shaderProgram = triangle.createShader("C://C++//OpenGL//src//vertexShader.glsl", "C://C++//OpenGL//src//fragmentShader.glsl");	
+	unsigned int shaderProgram = triangle.createShader("res//vertexShader.glsl", "res//fragmentShader.glsl");	
 
 	while (!glfwWindowShouldClose(window)) {
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
