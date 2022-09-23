@@ -60,10 +60,6 @@ void ImGuiWin::ImGuiWindowDraw()
 
 	ImGui::SliderFloat("Rotate(experimental)", &triangleNewRotate, 0.0f, 360.0f);
 
-	std::cout << "ImGuiPosSliderCount" << triangleNewPos.x << ' ' << triangleNewPos.y << std::endl;
-	std::cout << "ImGuiScaleSliderCount" << triangleNewScale.x << ' ' << triangleNewScale.y << std::endl;
-	std::cout << "ImGuiRotSliderCount" << triangleNewRotate << std::endl;
-
 	ImGui::End();
 }
 

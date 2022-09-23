@@ -3,16 +3,17 @@
 #include "Engine/Debug.h"
 #include "Engine/Meshes/Triangle.h"
 #include "Engine/ImGui/ImGuiWindows.h"
+#include "Engine/System/WindowSystem.h"
 #include <iostream>
 #include <vector>
-#include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 Debug debug;
 Triangle triangle;
 ImGuiWin GuiWindow;
+WindowSys WSys;
 
-int Window::WindowDraw(int weight, int height)
+int Window::WindowDraw(int width, int height)
 {
 	glfwInit();
 
@@ -20,7 +21,10 @@ int Window::WindowDraw(int weight, int height)
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);	
 
-	window = glfwCreateWindow(weight, height, "test", NULL, NULL);
+	Cwidth = width;
+	Cheight = height;
+
+	window = glfwCreateWindow(Cwidth, Cheight, "test", NULL, NULL);
 	glfwMakeContextCurrent(window);
 
 	if (!window) {
@@ -43,9 +47,16 @@ int Window::WindowDraw(int weight, int height)
 
 void Window::WindowUpdate()
 {
-	unsigned int shaderProgram = triangle.createShader("res//vertexShader.glsl", "res//fragmentShader.glsl");	
+	unsigned int shaderProgram = triangle.createShader("res//vertexShader.glsl", "res//fragmentShader.glsl");
 
 	while (!glfwWindowShouldClose(window)) {
+		if (WSys.WindowIsResizable(window, Cwidth, Cheight) == true) {
+			windowSize = WSys.resizeGlViewport(window, Cwidth, Cheight);
+			
+			Cwidth = windowSize.x;
+			Cheight = windowSize.y;
+		}
+
 		glClearColor(1.0f, 1.0f, 1.0f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
 

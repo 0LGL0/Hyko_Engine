@@ -136,7 +136,8 @@
     <ClCompile Include="src\Engine\Debug.cpp" />
     <ClCompile Include="src\Engine\ImGui\ImGuiWindows.cpp" />
     <ClCompile Include="src\Engine\Meshes\Triangle.cpp" />
-    <ClCompile Include="src\Engine\System.cpp" />
+    <ClCompile Include="src\Engine\System\System.cpp" />
+    <ClCompile Include="src\Engine\System\WindowSystem.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\GL\VAO.cpp" />
     <ClCompile Include="src\GL\VBO.cpp" />
@@ -438,7 +439,8 @@
     <ClInclude Include="src\Engine\Debug.h" />
     <ClInclude Include="src\Engine\ImGui\ImGuiWindows.h" />
     <ClInclude Include="src\Engine\Meshes\Triangle.h" />
-    <ClInclude Include="src\Engine\System.h" />
+    <ClInclude Include="src\Engine\System\System.h" />
+    <ClInclude Include="src\Engine\System\WindowSystem.h" />
     <ClInclude Include="src\GL\VAO.h" />
     <ClInclude Include="src\GL\VBO.h" />
     <ClInclude Include="src\libSource\imconfig.h" />
