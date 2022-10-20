@@ -5,6 +5,8 @@ VisualStudioVersion = 17.2.32616.157
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "OpenGL", "OpenGL.vcxproj", "{F94A0F9C-C9E4-470F-B52D-FA1A45DC2485}"
 EndProject
+Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "HykoSetup", "..\HykoSetup\HykoSetup.vdproj", "{B443B8C5-0397-44EF-9587-0A8333AB550B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -21,6 +23,10 @@ Global
 		{F94A0F9C-C9E4-470F-B52D-FA1A45DC2485}.Release|x64.Build.0 = Release|x64
 		{F94A0F9C-C9E4-470F-B52D-FA1A45DC2485}.Release|x86.ActiveCfg = Release|Win32
 		{F94A0F9C-C9E4-470F-B52D-FA1A45DC2485}.Release|x86.Build.0 = Release|Win32
+		{B443B8C5-0397-44EF-9587-0A8333AB550B}.Debug|x64.ActiveCfg = Debug
+		{B443B8C5-0397-44EF-9587-0A8333AB550B}.Debug|x86.ActiveCfg = Debug
+		{B443B8C5-0397-44EF-9587-0A8333AB550B}.Release|x64.ActiveCfg = Release
+		{B443B8C5-0397-44EF-9587-0A8333AB550B}.Release|x86.ActiveCfg = Release
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

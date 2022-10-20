@@ -8,6 +8,8 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 {
 	std::ifstream vs;
 
+	VShaderFilePath = vFilePath;
+
 	vs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try {
 		vs.open(vFilePath);
@@ -42,6 +44,8 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 const char* Shader::loadFTextFile(std::string fFilePath)
 {
 	std::ifstream fs;
+
+	FShaderFilePath = fFilePath;
 
 	fs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try {
@@ -79,18 +83,29 @@ const char* Shader::loadFTextFile(std::string fFilePath)
 	return fShaderCode;
 }
 
-unsigned int Shader::createShader(std::string vFilePath, std::string fFilePath)
+unsigned int Shader::createVShader(std::string vFilePath)
 {
 	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	
 
 	glShaderSource(vertexShader, 1, &vShaderCode, NULL);
-	glShaderSource(fragShader, 1, &fShaderCode, NULL);
+	
 
 	glCompileShader(vertexShader);
+	
+
+	return vertexShader;
+}
+
+unsigned int Shader::createFShader(std::string fFilePath)
+{
+	fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+
+	glShaderSource(fragShader, 1, &fShaderCode, NULL);
+
 	glCompileShader(fragShader);
 
-	return 0;
+	return fragShader;
 }
 
 int Shader::isCompileShader(std::string vFilePath, std::string fFilePath)
@@ -125,6 +140,14 @@ int Shader::isCompileShader(std::string vFilePath, std::string fFilePath)
 	return 0;
 }
 
+void Shader::updateFragShader()
+{
+	loadFTextFile(FShaderFilePath);
+	createFShader(FShaderFilePath);
+	isCompileShader(VShaderFilePath, FShaderFilePath);
+	createShaderProgram(VShaderFilePath, FShaderFilePath);
+}
+
 unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFilePath)
 {
 	int success;
@@ -148,4 +171,9 @@ unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFil
 	glDeleteShader(fragShader);
 
 	return shaderProgram;
+}
+
+Shader::~Shader()
+{
+
 }

@@ -21,9 +21,6 @@
     <ClCompile Include="src\window.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Render.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="src\shader.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -33,7 +30,7 @@
     <ClCompile Include="src\glad.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Debug.cpp">
+    <ClCompile Include="src\Engine\Debug\Debug.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\Engine\Meshes\Triangle.cpp">
@@ -46,9 +43,6 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="libs\GLM\detail\glm.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Engine\System\System.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="src\libSource\imgui.cpp">
@@ -75,7 +69,10 @@
     <ClCompile Include="src\Engine\ImGui\ImGuiWindows.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\System\WindowSystem.cpp">
+    <ClCompile Include="src\Engine\Projection\EditorProjection.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Events\EditorInput.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -83,13 +80,10 @@
     <ClInclude Include="src\window.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Render.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="src\shader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Debug.h">
+    <ClInclude Include="src\Engine\Debug\Debug.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Meshes\Triangle.h">
@@ -947,9 +941,6 @@
     <ClInclude Include="libs\GLM\vector_relational.hpp">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\System\System.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="src\libSource\imconfig.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -980,13 +971,26 @@
     <ClInclude Include="src\Engine\ImGui\ImGuiWindows.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\System\WindowSystem.h">
+    <ClInclude Include="libs\GLAD\include\glad\glad.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\GLAD\include\KHR\khrplatform.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\GLFW\include\glfw3.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\GLFW\include\glfw3native.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Projection\EditorProjection.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Events\EditorInput.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="res\fragmentShader.glsl" />
-    <None Include="res\vertexShader.glsl" />
     <None Include="libs\GLM\detail\func_common.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
@@ -1395,5 +1399,12 @@
     <None Include="libs\GLM\gtx\wrap.inl">
       <Filter>Файлы заголовков</Filter>
     </None>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="imgui.ini" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="res\fragmentShader.glsl" />
+    <Text Include="res\vertexShader.glsl" />
   </ItemGroup>
 </Project>

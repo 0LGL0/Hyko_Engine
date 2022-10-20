@@ -8,15 +8,14 @@
 #include <glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 
-ImGuiWin GuiWin;
-
 unsigned int Triangle::createShader(std::string vFilePath, std::string fFilePath)
 {
 	Shader shader;
 
 	shader.loadVTextFile(vFilePath);
 	shader.loadFTextFile(fFilePath);
-	shader.createShader(vFilePath, fFilePath);
+	shader.createVShader(vFilePath);
+	shader.createFShader(fFilePath);
 	shader.isCompileShader(vFilePath, fFilePath);
 	shader.createShaderProgram(vFilePath, fFilePath);
 
@@ -30,8 +29,6 @@ unsigned int Triangle::createVBO()
 {
 	VBO VBO;
 
-	unsigned int vbo;
-
 	vbo = VBO.createVBO(vertices);
 
 	return vbo;
@@ -40,8 +37,6 @@ unsigned int Triangle::createVBO()
 unsigned int Triangle::createVAO()
 {
 	VAO VAO;
-
-	unsigned int vao;
 
 	vao = VAO.createVAO(vertices, createVBO());
 
@@ -77,18 +72,28 @@ glm::mat4 Triangle::createTransformMatrix()
 	glm::mat4 Transform;
 
 	Transform = scale;
-	Transform *= rotate;
 	Transform *= translation;
 
 	return Transform;
 }
 
+glm::vec4 Triangle::getColorFromGUI()
+{
+	ImGuiWin GuiWindow;
+	
+	glm::vec4 outColor;
+
+	outColor.x = GuiWindow.triangleColor[0];
+	outColor.y = GuiWindow.triangleColor[1];
+	outColor.z = GuiWindow.triangleColor[2];
+	outColor.w = GuiWindow.triangleColor[3];
+
+	return outColor;
+}
+
 Triangle::~Triangle()
 {
-	unsigned int VAO = createVAO();
-	unsigned int VBO = createVBO();
-
 	glDisableVertexAttribArray(0);
-	glDeleteVertexArrays(1, &VAO);
-	glDeleteBuffers(1, &VBO);
+	glDeleteBuffers(1, &vbo);
+	glDeleteVertexArrays(1, &vao);
 }

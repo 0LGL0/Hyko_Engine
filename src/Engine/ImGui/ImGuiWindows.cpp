@@ -1,4 +1,5 @@
 #include "ImGuiWindows.h"
+#include "../Engine/Debug/Debug.h"
 #include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -21,44 +22,94 @@ void ImGuiWin::createImGuiNewFrame()
 	ImGui::NewFrame();
 }
 
-void ImGuiWin::ImGuiWindowDraw()
+void ImGuiWin::ImGui_MainWindowDraw()
 {
-	ImGui::Begin("Test");
+	ImGui::Begin("Main window");
 
-	ImGui::SliderFloat("PosX", &triangleNewPos.x, -1.0f, 1.0f);
-	ImGui::SliderFloat("PosY", &triangleNewPos.y, -1.0f, 1.0f);
+	ImGui::Checkbox("Debug", &DebugWindowShow);
+	ImGui::Checkbox("Display settings", &DisplaySettingsShow);
+	ImGui::Checkbox("Scene settings", &SceneSettingsShow);
 
-	ImGui::SliderFloat("ScaleX", &triangleNewScale.x, 0.0f, 5.0f);
-	ImGui::SliderFloat("ScaleY", &triangleNewScale.y, 0.0f, 5.0f);
+	ImGui::End();
+}
 
-	ImGui::Text("Click on some Rot to make a triangle appear (the Rot function is experimental)");
+void ImGuiWin::ImGui_DebugWindowDraw(int fps, double ms)
+{
+	FPSTitle = "Editor window FPS: " + std::to_string(fps);
+	msTitle = "Editor window ms: " + std::to_string(ms);
 
-	ImGui::Checkbox("RotX", &RotX);
-	ImGui::Checkbox("RotY", &RotY);
-	ImGui::Checkbox("RotZ", &RotZ);
+	ImGui::Begin("Debug");
 
-	if (RotX) {
-		axis += glm::vec3(1, 0, 0);
-		if (!RotX) {
-			axis -= glm::vec3(1, 0, 0);
+	ImGui::Text(FPSTitle.c_str());
+	ImGui::Text(msTitle.c_str());
+
+	ImGui::End();
+}
+
+void ImGuiWin::ImGui_DisplaySettingsWindowDraw()
+{
+	ImGui::Begin("Dispaly settings");
+
+	ImGui::Checkbox("VSync", &vsync);
+
+	ImGui::End();
+}
+
+void ImGuiWin::ImGui_SceneComponentsWindowDraw()
+{
+	static const ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+
+	ImGui::Begin("Scene components");
+
+	if (ComponentSettings_TreeShow) {
+		if (ImGui::TreeNodeEx(componentTreeName.c_str(), treeFlags)) {
+			ImGui::TreePop();
 		}
 	}
 
-	if (RotY) {
-		axis += glm::vec3(0, 1, 0);
-		if (!RotY) {
-			axis -= glm::vec3(0, 1, 0);
-		}
+	ImGui::End();
+}
+
+void ImGuiWin::ImGui_SceneSettingsWindowDraw()
+{
+	ImGui::Begin("Scene settings");
+
+	ImGui::ColorEdit4("Sky box color", skySphereColor);
+
+	ImGui::End();
+}
+
+void ImGuiWin::ImGui_HykoPrimitiveMeshes()
+{
+	//ImGui::ShowDemoWindow();
+
+	ImGui::Begin("Primitive meshes");
+
+	if (ImGui::Button("Triangle", ImVec2(70.0f, 25.0f))) {
+		triangleCount++;
+		componentTreeName = "Triangle." + std::to_string(triangleCount);
+		ComponentSettings_TreeShow = true;
+		createTriangle = true; 
 	}
 
-	if (RotZ) {
-		axis += glm::vec3(0, 0, 1);
-		if (!RotZ) {
-			axis -= glm::vec3(0, 0, 1);
-		}
-	}
+	ImGui::End();
+}
 
-	ImGui::SliderFloat("Rotate(experimental)", &triangleNewRotate, 0.0f, 360.0f);
+void ImGuiWin::ImGui_HykoPrimitiveMeshesEdit()
+{
+	static ImGuiSliderFlags Sliderflags = ImGuiSliderFlags_None;
+
+	ImGui::Begin("Mesh edit");
+
+	if (createTriangle) {
+		ImGui::DragFloat("Pos X", &triangleNewPos.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Pos Y", &triangleNewPos.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+
+		ImGui::DragFloat("Scale X", &triangleNewScale.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Scale Y", &triangleNewScale.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+
+		//ImGui::ColorEdit4("Triangle color", triangleColor);
+	}
 
 	ImGui::End();
 }

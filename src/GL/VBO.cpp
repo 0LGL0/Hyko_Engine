@@ -4,8 +4,6 @@
 
 unsigned int VBO::createVBO(std::vector<float> vertices)
 {
-    unsigned int VBO;
-
     glGenBuffers(1, &VBO);
 
     glBindBuffer(GL_ARRAY_BUFFER, VBO);

@@ -70,6 +70,14 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)</IntDir>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <OutDir>$(SolutionDir)bin\$(Configuration)-$(Platform)\$(ProjectName)</OutDir>
+    <IntDir>$(SolutionDir)bin-int\$(Configuration)-$(Platform)\$(ProjectName)</IntDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -104,13 +112,13 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>C:\C++\OpenGL\src\libSource;C:\C++\OpenGL\libs;C:\C++\OpenGL\libs\GLFW\include;C:\C++\OpenGL\libs\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>C:\C++\OpenGL\libs\GLFW\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>D:\C++\Hyko_Engine\libs\GLFW\lib;D:\C++\Hyko_Engine\libs\vld\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
@@ -122,22 +130,25 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalLibraryDirectories>D:\C++\Hyko_Engine\libs\GLFW\lib;D:\C++\Hyko_Engine\libs\vld\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalDependencies>opengl32.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="libs\GLAD\src\glad.c" />
     <ClCompile Include="libs\GLM\detail\glm.cpp" />
-    <ClCompile Include="src\Engine\Debug.cpp" />
+    <ClCompile Include="src\Engine\Debug\Debug.cpp" />
+    <ClCompile Include="src\Engine\Events\EditorInput.cpp" />
     <ClCompile Include="src\Engine\ImGui\ImGuiWindows.cpp" />
     <ClCompile Include="src\Engine\Meshes\Triangle.cpp" />
-    <ClCompile Include="src\Engine\System\System.cpp" />
-    <ClCompile Include="src\Engine\System\WindowSystem.cpp" />
+    <ClCompile Include="src\Engine\Projection\EditorProjection.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\GL\VAO.cpp" />
     <ClCompile Include="src\GL\VBO.cpp" />
@@ -149,11 +160,14 @@
     <ClCompile Include="src\libSource\imgui_tables.cpp" />
     <ClCompile Include="src\libSource\imgui_widgets.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Render.cpp" />
     <ClCompile Include="src\shader.cpp" />
     <ClCompile Include="src\window.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="libs\GLAD\include\glad\glad.h" />
+    <ClInclude Include="libs\GLAD\include\KHR\khrplatform.h" />
+    <ClInclude Include="libs\GLFW\include\glfw3.h" />
+    <ClInclude Include="libs\GLFW\include\glfw3native.h" />
     <ClInclude Include="libs\GLM\common.hpp" />
     <ClInclude Include="libs\GLM\detail\compute_common.hpp" />
     <ClInclude Include="libs\GLM\detail\compute_vector_relational.hpp" />
@@ -436,11 +450,11 @@
     <ClInclude Include="libs\GLM\vec3.hpp" />
     <ClInclude Include="libs\GLM\vec4.hpp" />
     <ClInclude Include="libs\GLM\vector_relational.hpp" />
-    <ClInclude Include="src\Engine\Debug.h" />
+    <ClInclude Include="src\Engine\Debug\Debug.h" />
+    <ClInclude Include="src\Engine\Events\EditorInput.h" />
     <ClInclude Include="src\Engine\ImGui\ImGuiWindows.h" />
     <ClInclude Include="src\Engine\Meshes\Triangle.h" />
-    <ClInclude Include="src\Engine\System\System.h" />
-    <ClInclude Include="src\Engine\System\WindowSystem.h" />
+    <ClInclude Include="src\Engine\Projection\EditorProjection.h" />
     <ClInclude Include="src\GL\VAO.h" />
     <ClInclude Include="src\GL\VBO.h" />
     <ClInclude Include="src\libSource\imconfig.h" />
@@ -452,11 +466,13 @@
     <ClInclude Include="src\libSource\imstb_rectpack.h" />
     <ClInclude Include="src\libSource\imstb_textedit.h" />
     <ClInclude Include="src\libSource\imstb_truetype.h" />
-    <ClInclude Include="src\Render.h" />
     <ClInclude Include="src\shader.h" />
     <ClInclude Include="src\window.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include=".gitattributes" />
+    <None Include=".gitignore" />
+    <None Include="imgui.ini" />
     <None Include="libs\GLM\detail\func_common.inl" />
     <None Include="libs\GLM\detail\func_common_simd.inl" />
     <None Include="libs\GLM\detail\func_exponential.inl" />
@@ -593,8 +609,16 @@
     <None Include="libs\GLM\gtx\vector_angle.inl" />
     <None Include="libs\GLM\gtx\vector_query.inl" />
     <None Include="libs\GLM\gtx\wrap.inl" />
-    <None Include="res\fragmentShader.glsl" />
-    <None Include="res\vertexShader.glsl" />
+    <Text Include="res\fragmentShader.glsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </Text>
+    <Text Include="res\vertexShader.glsl">
+      <FileType>Document</FileType>
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
+      <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
+    </Text>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

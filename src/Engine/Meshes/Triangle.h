@@ -15,6 +15,9 @@ public:
 	glm::mat4 rotate;
 	glm::mat4 scale;
 
+	unsigned int vbo;
+	unsigned int vao;
+
 	unsigned int createShader(std::string vFilePath, std::string fFilePath);
 
 	unsigned int createVBO();
@@ -24,6 +27,8 @@ public:
 	glm::mat4 setRotate(unsigned int shaderProgram, float newRotation, glm::vec3 axis);
 	glm::mat4 setScale(unsigned int shaderProgram, glm::vec3 newScale);
 	glm::mat4 createTransformMatrix();
+
+	glm::vec4 getColorFromGUI();
 
 	~Triangle();
 };
