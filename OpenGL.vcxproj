@@ -145,7 +145,8 @@
     <ClCompile Include="libs\GLAD\src\glad.c" />
     <ClCompile Include="libs\GLM\detail\glm.cpp" />
     <ClCompile Include="src\Engine\Debug\Debug.cpp" />
-    <ClCompile Include="src\Engine\Events\EditorInput.cpp" />
+    <ClCompile Include="src\Engine\Events\InputEvents.cpp" />
+    <ClCompile Include="src\Engine\Events\UpdateEvents.cpp" />
     <ClCompile Include="src\Engine\ImGui\ImGuiWindows.cpp" />
     <ClCompile Include="src\Engine\Meshes\Triangle.cpp" />
     <ClCompile Include="src\Engine\Projection\EditorProjection.cpp" />
@@ -450,11 +451,16 @@
     <ClInclude Include="libs\GLM\vec3.hpp" />
     <ClInclude Include="libs\GLM\vec4.hpp" />
     <ClInclude Include="libs\GLM\vector_relational.hpp" />
+    <ClInclude Include="src\Engine\Core\Hyko.h" />
+    <ClInclude Include="src\Engine\Core\KeyKodes.h" />
+    <ClInclude Include="src\Engine\Core\MouseButtons.h" />
     <ClInclude Include="src\Engine\Debug\Debug.h" />
-    <ClInclude Include="src\Engine\Events\EditorInput.h" />
+    <ClInclude Include="src\Engine\Events\InputEvents.h" />
+    <ClInclude Include="src\Engine\Events\UpdateEvents.h" />
     <ClInclude Include="src\Engine\ImGui\ImGuiWindows.h" />
     <ClInclude Include="src\Engine\Meshes\Triangle.h" />
     <ClInclude Include="src\Engine\Projection\EditorProjection.h" />
+    <ClInclude Include="src\Engine\System\Time.h" />
     <ClInclude Include="src\GL\VAO.h" />
     <ClInclude Include="src\GL\VBO.h" />
     <ClInclude Include="src\libSource\imconfig.h" />
@@ -473,6 +479,7 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="imgui.ini" />
+    <None Include="libs\GLFW\lib\glfw3.dll" />
     <None Include="libs\GLM\detail\func_common.inl" />
     <None Include="libs\GLM\detail\func_common_simd.inl" />
     <None Include="libs\GLM\detail\func_exponential.inl" />
@@ -609,6 +616,7 @@
     <None Include="libs\GLM\gtx\vector_angle.inl" />
     <None Include="libs\GLM\gtx\vector_query.inl" />
     <None Include="libs\GLM\gtx\wrap.inl" />
+    <None Include="LICENSE.md" />
     <Text Include="res\fragmentShader.glsl">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
@@ -619,6 +627,11 @@
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </Text>
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libs\GLFW\lib\glfw3.lib" />
+    <Library Include="libs\GLFW\lib\glfw3dll.lib" />
+    <Library Include="libs\GLFW\lib\glfw3_mt.lib" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

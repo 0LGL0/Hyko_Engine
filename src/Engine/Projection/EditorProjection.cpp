@@ -1,10 +1,10 @@
 #include "EditorProjection.h"
 #include <glm/gtc/matrix_transform.hpp>
 
-glm::mat4 EProjection::createViewMatrix(glm::vec3 camPos)
+glm::mat4 EProjection::createViewMatrix()
 {
     glm::mat4 viewMatrix = glm::mat4(1.0f);
-    viewMatrix = glm::translate(viewMatrix, camPos);
+    viewMatrix = glm::translate(viewMatrix, editorCameraPosition);
 
     return viewMatrix;
 }

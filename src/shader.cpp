@@ -124,28 +124,14 @@ int Shader::isCompileShader(std::string vFilePath, std::string fFilePath)
 		std::cout << vShaderCode << std::endl;
 		return -1;
 	}
-	else {
-		std::cout << "Vertex shader compiled" << std::endl;
-	}
 
 	if (!fSuccess) {
 		glGetShaderInfoLog(fragShader, 512, NULL, infolog);
 		std::cout << "Fragment shader not compilled " << infolog << std::endl;
 		return -1;
 	}
-	else {
-		std::cout << "Fragment shader compiled" << std::endl;
-	}
 
 	return 0;
-}
-
-void Shader::updateFragShader()
-{
-	loadFTextFile(FShaderFilePath);
-	createFShader(FShaderFilePath);
-	isCompileShader(VShaderFilePath, FShaderFilePath);
-	createShaderProgram(VShaderFilePath, FShaderFilePath);
 }
 
 unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFilePath)
@@ -171,9 +157,4 @@ unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFil
 	glDeleteShader(fragShader);
 
 	return shaderProgram;
-}
-
-Shader::~Shader()
-{
-
 }

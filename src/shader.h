@@ -4,19 +4,20 @@
 #include <fstream>
 
 class Shader {
+private:
 	std::string VShaderFilePath;
 	std::string FShaderFilePath;
-public:
+private:
 	std::string vShader;
 	std::string fShader;
-
+private:
 	const char* vShaderCode;
 	const char* fShaderCode;
-
+private:
 	unsigned int vertexShader;
 	unsigned int fragShader;
 	unsigned int shaderProgram;
-
+public:
 	const char *loadVTextFile(std::string vFilePath);
 	const char *loadFTextFile(std::string fFilePath);
 
@@ -27,8 +28,10 @@ public:
 
 	int isCompileShader(std::string vFilePath, std::string fFilePath);
 
-	void updateFragShader();
+	////getters/////////////////////////////////////////////////////////////
 
-	~Shader();
+	unsigned int getShaderProgram() { return shaderProgram; };
+
+	////////////////////////////////////////////////////////////////////////
 
 };

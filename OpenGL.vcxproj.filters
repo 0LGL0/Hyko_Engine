@@ -72,7 +72,10 @@
     <ClCompile Include="src\Engine\Projection\EditorProjection.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Events\EditorInput.cpp">
+    <ClCompile Include="src\Engine\Events\UpdateEvents.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Engine\Events\InputEvents.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -986,7 +989,22 @@
     <ClInclude Include="src\Engine\Projection\EditorProjection.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Events\EditorInput.h">
+    <ClInclude Include="src\Engine\Events\UpdateEvents.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\System\Time.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\KeyKodes.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\MouseButtons.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Events\InputEvents.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Core\Hyko.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>
@@ -1402,9 +1420,16 @@
     <None Include=".gitattributes" />
     <None Include=".gitignore" />
     <None Include="imgui.ini" />
+    <None Include="libs\GLFW\lib\glfw3.dll" />
+    <None Include="LICENSE.md" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="res\fragmentShader.glsl" />
     <Text Include="res\vertexShader.glsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <Library Include="libs\GLFW\lib\glfw3.lib" />
+    <Library Include="libs\GLFW\lib\glfw3_mt.lib" />
+    <Library Include="libs\GLFW\lib\glfw3dll.lib" />
   </ItemGroup>
 </Project>

@@ -1,27 +1,28 @@
 #pragma once
+#include "Engine/Events/UpdateEvents.h"
+#include "Engine/Core/Hyko.h"
 #include <glfw3.h>
 #include <glm/glm.hpp>
 
 class Window {
-	GLFWwindow* window;
-
+private:
+	static GLFWwindow* m_window;
+private:
 	int FPS;
-
-	double ms;
-
-	int Cwidth = 0;
-	int Cheight = 0;
 
 	unsigned int projUniformLocation;
 	unsigned int transUniformLocation;
 	unsigned int viewUniformLocation;
 	unsigned int colorUniformLocation;
 
-	glm::vec2 windowSize;
-
+	float m_LastFrameTime = 0.0f;
 public:
 	glm::mat4 projection;
 	glm::mat4 view;
+
+	Window* Get();
+
+	GLFWwindow* getMainGLFWWindow() { return m_window; };
 
 	int WindowDraw(int width, int height);
 	void WindowUpdate();
@@ -29,4 +30,3 @@ public:
 };
 
 void windowResizeCallback(GLFWwindow* window, int width, int height);
-//void key_callback(GLFWwindow* window, int key, int scancode, int action, int mods);

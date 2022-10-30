@@ -45,24 +45,30 @@ unsigned int Triangle::createVAO()
 
 glm::mat4 Triangle::translate(unsigned int shaderProgram, glm::vec3 newPos)
 {
+	m_position = newPos;
+
 	translation = glm::mat4(1.0f);
-	translation = glm::translate(translation, newPos);
+	translation = glm::translate(translation, m_position);
 
 	return translation;
 }
 
-glm::mat4 Triangle::setRotate(unsigned int shaderProgram, float newRotation, glm::vec3 axis)
-{
-	rotate = glm::mat4(1.0f);
-	rotate = glm::rotate(rotate, glm::radians(newRotation), axis);
+//glm::mat4 Triangle::Rotate(unsigned int shaderProgram, float newRotation, glm::vec3 axis)
+//{
+//	m_rotation = axis * newRotation;
+//
+//	rotate = glm::mat4(1.0f);
+//	rotate = glm::rotate(rotate, glm::radians(newRotation), m_rotation / newRotation);
+//
+//	return rotate;
+//}
 
-	return rotate;
-}
-
-glm::mat4 Triangle::setScale(unsigned int shaderProgram, glm::vec3 newScale)
+glm::mat4 Triangle::Scale(unsigned int shaderProgram, glm::vec3 newScale)
 {
+	m_scale = newScale;
+
 	scale = glm::mat4(1.0f);
-	scale = glm::scale(scale, newScale);
+	scale = glm::scale(scale, m_scale);
 
 	return scale;
 }
@@ -77,18 +83,14 @@ glm::mat4 Triangle::createTransformMatrix()
 	return Transform;
 }
 
-glm::vec4 Triangle::getColorFromGUI()
+void Triangle::getColorFromGUI()
 {
 	ImGuiWin GuiWindow;
-	
-	glm::vec4 outColor;
 
-	outColor.x = GuiWindow.triangleColor[0];
-	outColor.y = GuiWindow.triangleColor[1];
-	outColor.z = GuiWindow.triangleColor[2];
-	outColor.w = GuiWindow.triangleColor[3];
-
-	return outColor;
+	m_diffuseColor.r = GuiWindow.triangleColor[0];
+	m_diffuseColor.g = GuiWindow.triangleColor[1];
+	m_diffuseColor.b = GuiWindow.triangleColor[2];
+	m_diffuseColor.a = GuiWindow.triangleColor[3];
 }
 
 Triangle::~Triangle()

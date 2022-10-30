@@ -33,22 +33,33 @@ void ImGuiWin::ImGui_MainWindowDraw()
 	ImGui::End();
 }
 
-void ImGuiWin::ImGui_DebugWindowDraw(int fps, double ms)
+void ImGuiWin::ImGui_DebugWindowDraw(int fps, double dt)
 {
+	static const ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+
 	FPSTitle = "Editor window FPS: " + std::to_string(fps);
-	msTitle = "Editor window ms: " + std::to_string(ms);
+	dtTitle = "Editor window DeltaTime: " + std::to_string(dt) + "ms";
 
 	ImGui::Begin("Debug");
 
-	ImGui::Text(FPSTitle.c_str());
-	ImGui::Text(msTitle.c_str());
+	if(ImGui::TreeNodeEx("Counters", treeFlags)) {
+		ImGui::Text(FPSTitle.c_str());
+		ImGui::Text(dtTitle.c_str());
+
+		ImGui::TreePop();
+	}
+
+	if (ImGui::TreeNodeEx("Scene edit", treeFlags)) {
+		ImGui::Checkbox("Render only edges for meshes", &meshRenderLineOnly);
+		ImGui::TreePop();
+	}
 
 	ImGui::End();
 }
 
 void ImGuiWin::ImGui_DisplaySettingsWindowDraw()
 {
-	ImGui::Begin("Dispaly settings");
+	ImGui::Begin("Display settings");
 
 	ImGui::Checkbox("VSync", &vsync);
 
@@ -66,6 +77,8 @@ void ImGuiWin::ImGui_SceneComponentsWindowDraw()
 			ImGui::TreePop();
 		}
 	}
+	
+	if (ImGui::IsItemActivated()) itemSelected = true;
 
 	ImGui::End();
 }
@@ -74,14 +87,14 @@ void ImGuiWin::ImGui_SceneSettingsWindowDraw()
 {
 	ImGui::Begin("Scene settings");
 
-	ImGui::ColorEdit4("Sky box color", skySphereColor);
+	ImGui::ColorEdit4("Sky box color", skyBoxColor);
 
 	ImGui::End();
 }
 
 void ImGuiWin::ImGui_HykoPrimitiveMeshes()
 {
-	//ImGui::ShowDemoWindow();
+	ImGui::ShowDemoWindow();
 
 	ImGui::Begin("Primitive meshes");
 

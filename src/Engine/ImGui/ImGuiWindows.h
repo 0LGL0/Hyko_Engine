@@ -5,7 +5,7 @@
 
 class ImGuiWin {
 	std::string FPSTitle;
-	std::string msTitle;
+	std::string dtTitle;
 
 	std::string componentTreeName;
 
@@ -17,13 +17,12 @@ public:
 	glm::vec3 triangleNewPos;
 	glm::vec3 triangleNewScale = glm::vec3(0.5f, 0.5f, 0.5f);
 
-	float triangleColor[4];
-
 	//////////////////////////////////////////////////////////////
 
 	////Scene variables///////////////////////////////////////////
 
-	float skySphereColor[4]{1.0f, 1.0f, 1.0f, 1.0f};
+	float skyBoxColor[4]{1.0f, 1.0f, 1.0f, 1.0f};
+	float triangleColor[4]{1.0f, 0.0f, 0.0f};
 
 	//////////////////////////////////////////////////////////////
 
@@ -44,11 +43,12 @@ public:
 
 	////Functions//////////////////////////////
 
-	bool vsync		= false;
-	bool createTriangle = false;
+	bool vsync				= false;
+	bool createTriangle		= false;
+	bool meshRenderLineOnly = false;
+	bool itemSelected		= false;
 
 	///////////////////////////////////////////
-
 
 	////ImGui window create/////////////////////////
 
@@ -61,7 +61,7 @@ public:
 	////ImGui. Engine window draw///////////////////
 
 	void ImGui_MainWindowDraw();
-	void ImGui_DebugWindowDraw(int fps, double ms);
+	void ImGui_DebugWindowDraw(int fps, double dt);
 	void ImGui_DisplaySettingsWindowDraw();
 	void ImGui_SceneComponentsWindowDraw();
 	void ImGui_SceneSettingsWindowDraw();
