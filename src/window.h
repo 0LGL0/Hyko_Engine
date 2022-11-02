@@ -20,6 +20,8 @@ public:
 	glm::mat4 projection;
 	glm::mat4 view;
 
+	Window* Get();
+
 	GLFWwindow* getMainGLFWWindow() { return m_window; };
 
 	int WindowDraw(int width, int height);

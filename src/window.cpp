@@ -4,10 +4,16 @@
 #include <vector>
 #include <glm/gtc/type_ptr.hpp>
 
-Hyko::EUpdates updates;
 ImGuiWin GuiWindow;
+Hyko::EUpdates updates;
 
 GLFWwindow* Window::m_window;
+
+Window* Window::Get()
+{
+
+	return this;
+}
 
 int Window::WindowDraw(int width, int height)
 {
@@ -20,6 +26,8 @@ int Window::WindowDraw(int width, int height)
 	m_window = glfwCreateWindow(width, height, "Hyko", NULL, NULL);
 	glfwMakeContextCurrent(m_window);
 	glfwSetFramebufferSizeCallback(m_window, windowResizeCallback);
+	//glfwSetKeyCallback(m_window, Hyko::key_callback);
+	//glfwSetMouseButtonCallback(m_window, Hyko::mouse_button_callback);
 
 	if (!m_window) {
 		std::cout << "Window not initialized" << std::endl;
