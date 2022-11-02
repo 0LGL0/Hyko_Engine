@@ -4,18 +4,6 @@
 
 Window m_windowC;
 
-void Hyko::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
-{
-	Hyko::m_keyCode = key;
-	Hyko::m_keyAction = action;
-}
-
-void Hyko::mouse_button_callback(GLFWwindow* window, int button, int action, int mods)
-{
-	m_mouseButton = button;
-	m_mouseButtonAction = action;
-}
-
 bool Hyko::isKeyPressed(const Hyko::keyCode keyCode)
 {
 	auto* window = static_cast<GLFWwindow*>(m_windowC.getMainGLFWWindow());

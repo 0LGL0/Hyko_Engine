@@ -11,10 +11,10 @@
 namespace Hyko {
 	class EUpdates {
 	private:
-		ImGuiWin GuiWindow;
 		Debug dbg;
-		Triangle triangle;
 		EProjection EProj;
+	private:
+		Triangle triangle;
 	private:
 		glm::mat4 projection;
 		glm::mat4 view;

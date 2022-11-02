@@ -8,7 +8,7 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 {
 	std::ifstream vs;
 
-	VShaderFilePath = vFilePath;
+	this->VShaderFilePath = vFilePath;
 
 	vs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try {
@@ -25,9 +25,9 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 
 		vs.close();
 
-		vShader = vShaderStream.str();
+		this->vShader = vShaderStream.str();
 
-		if (vShader.c_str() == NULL) {
+		if (this->vShader.c_str() == NULL) {
 			std::cout << "Vertex shader file not readed" << std::endl;
 			return NULL;
 		}
@@ -36,16 +36,16 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 		std::cout << "ERROR::vSHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
 	}
 
-	vShaderCode = vShader.c_str();
+	this->vShaderCode = this->vShader.c_str();
 
-	return vShaderCode;
+	return this->vShaderCode;
 }
 
 const char* Shader::loadFTextFile(std::string fFilePath)
 {
 	std::ifstream fs;
 
-	FShaderFilePath = fFilePath;
+	this->FShaderFilePath = fFilePath;
 
 	fs.exceptions(std::ifstream::failbit | std::ifstream::badbit);
 	try {
@@ -66,9 +66,9 @@ const char* Shader::loadFTextFile(std::string fFilePath)
 		fs.close();
 
 
-		fShader = fShaderStream.str();
+		this->fShader = fShaderStream.str();
 
-		if (fShader.c_str() == NULL) {
+		if (this->fShader.c_str() == NULL) {
 			std::cout << "Fragment shader file not readed" << std::endl;
 			return NULL;
 		}
@@ -78,55 +78,51 @@ const char* Shader::loadFTextFile(std::string fFilePath)
 	}
 
 
-	fShaderCode = fShader.c_str();
+	this->fShaderCode = this->fShader.c_str();
 
-	return fShaderCode;
+	return this->fShaderCode;
 }
 
-unsigned int Shader::createVShader(std::string vFilePath)
+unsigned int Shader::createVShader()
 {
-	vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	
+	this->vertexShader = glCreateShader(GL_VERTEX_SHADER);
 
-	glShaderSource(vertexShader, 1, &vShaderCode, NULL);
-	
+	glShaderSource(this->vertexShader, 1, &this->vShaderCode, NULL);
 
-	glCompileShader(vertexShader);
-	
+	glCompileShader(this->vertexShader);
 
-	return vertexShader;
+	return this->vertexShader;
 }
 
-unsigned int Shader::createFShader(std::string fFilePath)
+unsigned int Shader::createFShader()
 {
-	fragShader = glCreateShader(GL_FRAGMENT_SHADER);
+	this->fragShader = glCreateShader(GL_FRAGMENT_SHADER);
 
-	glShaderSource(fragShader, 1, &fShaderCode, NULL);
+	glShaderSource(this->fragShader, 1, &this->fShaderCode, NULL);
 
-	glCompileShader(fragShader);
+	glCompileShader(this->fragShader);
 
-	return fragShader;
+	return this->fragShader;
 }
 
-int Shader::isCompileShader(std::string vFilePath, std::string fFilePath)
+int Shader::isCompileShader()
 {
 	int vSuccess;
 	int fSuccess;
 
 	char infolog[512];
 
-	glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &vSuccess);
-	glGetShaderiv(fragShader, GL_COMPILE_STATUS, &fSuccess);
+	glGetShaderiv(this->vertexShader, GL_COMPILE_STATUS, &vSuccess);
+	glGetShaderiv(this->fragShader, GL_COMPILE_STATUS, &fSuccess);
 
 	if (!vSuccess) {
-		glGetShaderInfoLog(vertexShader, 512, NULL, infolog);
+		glGetShaderInfoLog(this->vertexShader, 512, NULL, infolog);
 		std::cout << "Vertex shader not compilled " << infolog << std::endl;
-		std::cout << vShaderCode << std::endl;
 		return -1;
 	}
 
 	if (!fSuccess) {
-		glGetShaderInfoLog(fragShader, 512, NULL, infolog);
+		glGetShaderInfoLog(this->fragShader, 512, NULL, infolog);
 		std::cout << "Fragment shader not compilled " << infolog << std::endl;
 		return -1;
 	}
@@ -134,27 +130,27 @@ int Shader::isCompileShader(std::string vFilePath, std::string fFilePath)
 	return 0;
 }
 
-unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFilePath)
+unsigned int Shader::createShaderProgram()
 {
 	int success;
 
 	char infolog[512];
 
-	shaderProgram = glCreateProgram();
+	this->shaderProgram = glCreateProgram();
 
-	glAttachShader(shaderProgram, vertexShader);
-	glAttachShader(shaderProgram, fragShader);
-	glLinkProgram(shaderProgram);
+	glAttachShader(this->shaderProgram, this->vertexShader);
+	glAttachShader(this->shaderProgram, this->fragShader);
+	glLinkProgram(this->shaderProgram);
 
-	glGetProgramiv(shaderProgram, GL_LINK_STATUS, &success);
+	glGetProgramiv(this->shaderProgram, GL_LINK_STATUS, &success);
 	if (!success) {
-		glGetProgramInfoLog(shaderProgram, 512, NULL, infolog);
+		glGetProgramInfoLog(this->shaderProgram, 512, NULL, infolog);
 		std::cout << "Shader program is not compiled" << std::endl;
 		return -1;
 	}
 
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragShader);
+	glDeleteShader(this->vertexShader);
+	glDeleteShader(this->fragShader);
 
-	return shaderProgram;
+	return this->shaderProgram;
 }

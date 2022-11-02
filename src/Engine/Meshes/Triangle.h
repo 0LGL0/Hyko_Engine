@@ -17,54 +17,70 @@ private:
 private:
 	unsigned int vbo;
 	unsigned int vao;
+
+	unsigned int m_shaderProgram;
+
+	unsigned int transUniformLocation;
+	unsigned int colorUniformLocation;
+private:
+	std::string vFilePath = "res//vertexShader.glsl";
+	std::string fFilePath = "res//fragmentShader.glsl";
 private:
 	void getColorFromGUI();
 private:
 	unsigned int createVBO();
-public:
+	unsigned int createVAO();
+private:
 	std::vector<float> vertices = {
 		 -0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
 		0.0f, 0.5f, 0.0f
 	};
-
-	unsigned int createVAO();
-
-	unsigned int createShader(std::string vFilePath, std::string fFilePath);
-
-	glm::mat4 translate(unsigned int shaderProgram, glm::vec3 newPos);
-	glm::mat4 Rotate(unsigned int shaderProgram, float newRotation, glm::vec3 axis);
-	glm::mat4 Scale(unsigned int shaderProgram, glm::vec3 newScale);
+private:
+	unsigned int createShader();
+private:
+	glm::mat4 translate(glm::vec3 newPos);
+	/*glm::mat4 Rotate(float newRotation, glm::vec3 axis);*/
+	glm::mat4 Scale(glm::vec3 newScale);
 	glm::mat4 createTransformMatrix();
+public:
+	void createTriangle();
+	void createTriangle(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, glm::vec4 diffuseColor);
+	void createTriangle(glm::vec2 pos, glm::vec3 rot, glm::vec2 scale, glm::vec4 diffuseColor);
+	void createTriangle(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ, float colorR, float colorG, float colorB, float colorA);
+public:
+	////getters/////////////////////////////////////////////////////////////////////////////////
 
-	////getters//////////////////////////////////////////////////
+	glm::vec3 getPosition() { return this->m_position; };
+	glm::vec3 getRotation() { return this->m_rotation; };
+	glm::vec3 getScale()	{ return this->m_scale; };
 
-	glm::vec3 getPosition() { return m_position; };
-	glm::vec3 getRotation() { return m_rotation; };
-	glm::vec3 getScale()	{ return m_scale; };
+	glm::vec4 getDiffuseColor() { this->getColorFromGUI(); return this->m_diffuseColor; };
 
-	glm::vec4 getDiffuseColor() { getColorFromGUI(); return m_diffuseColor; };
+	unsigned int getShaderProgram() { return this->m_shaderProgram; };
 
-	/////////////////////////////////////////////////////////////
+	////////////////////////////////////////////////////////////////////////////////////////////
 
-	////setters/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	////setters////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	void setPosition(glm::vec3 newPos) { m_position = newPos; };
-	void setPosition(float x, float y, float z) { m_position.x = x; m_position.y = y; m_position.z = z; };
-	void setPosition(float x, float y) { m_position.x = x; m_position.y = y; m_position.z = 0.0f; };
+	void setPosition(glm::vec3 newPos) { this->m_position = newPos; };
+	void setPosition(float x, float y, float z) { this->m_position.x = x; this->m_position.y = y; this->m_position.z = z; };
+	void setPosition(float x, float y) { this->m_position.x = x; this->m_position.y = y; this->m_position.z = 0.0f; };
 
-	void setRotation(glm::vec3 newRot) { m_rotation = newRot; };
-	void setRotation(float x, float y, float z) { m_rotation.x = x; m_rotation.y = y; m_rotation.z = z; };
-	void setRotation(float x, float y) { m_rotation.x = x; m_rotation.y = y; m_rotation.z = 0.0f; };
+	void setRotation(glm::vec3 newRot) { this->m_rotation = newRot; };
+	void setRotation(float x, float y, float z) { this->m_rotation.x = x; this->m_rotation.y = y; this->m_rotation.z = z; };
+	void setRotation(float x, float y) { this->m_rotation.x = x; this->m_rotation.y = y; this->m_rotation.z = 0.0f; };
 
-	void setScale(glm::vec3 newScale)  { m_scale = newScale; };
-	void setScale(float x, float y, float z) { m_scale.x = x; m_scale.y = y; m_scale.z = z; };
-	void setScale(float x, float y) { m_scale.x = x; m_scale.y = y; m_scale.z = 0.0f; };
+	void setScale(glm::vec3 newScale)  { this->m_scale = newScale; };
+	void setScale(float x, float y, float z) { this->m_scale.x = x; this->m_scale.y = y; this->m_scale.z = z; };
+	void setScale(float x, float y) { this->m_scale.x = x; this->m_scale.y = y; this->m_scale.z = 0.0f; };
 
-	void setDeffuseColor(glm::vec4 newDeffuseColor) { m_diffuseColor = newDeffuseColor; };
-	void setDeffuseColor(float r, float g, float b, float a) { m_diffuseColor.r = r; m_diffuseColor.g = g; m_diffuseColor.b = b; m_diffuseColor.a = a; };
+	void setDeffuseColor(glm::vec4 newDeffuseColor) { this->m_diffuseColor = newDeffuseColor; };
+	void setDeffuseColor(float r, float g, float b, float a) { this->m_diffuseColor.r = r; this->m_diffuseColor.g = g; this->m_diffuseColor.b = b; this->m_diffuseColor.a = a; };
 
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void meshRender();	//function for render triangle
 
 	~Triangle();
 };

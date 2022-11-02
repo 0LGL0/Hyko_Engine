@@ -5,16 +5,16 @@
 
 unsigned int VAO::createVAO(std::vector<float> vertices, unsigned int VBO)
 {
-    vbo = VBO;
+    this->vbo = VBO;
 
-    glGenVertexArrays(1, &VAO);
-    glBindVertexArray(VAO);
+    glGenVertexArrays(1, &this->VAO);
+    glBindVertexArray(this->VAO);
 
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
+    glBindBuffer(GL_ARRAY_BUFFER, this->vbo);
     glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), &vertices.front(), GL_STATIC_DRAW);
 
     glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
 
-    return VAO;
+    return this->VAO;
 }

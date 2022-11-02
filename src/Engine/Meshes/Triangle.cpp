@@ -7,50 +7,103 @@
 #include <glad/glad.h>
 #include <glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
-unsigned int Triangle::createShader(std::string vFilePath, std::string fFilePath)
+ImGuiWin Gui;
+
+////functions for create triangle////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Triangle::createTriangle()
+{
+	this->m_position	 = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->m_rotation	 = glm::vec3(0.0f, 0.0f, 0.0f);
+	this->m_scale		 = glm::vec3(0.5f, 0.5f, 0.5f);
+	this->m_diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
+
+	this->createShader();
+
+	glBindVertexArray(this->createVAO());
+}
+
+void Triangle::createTriangle(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, glm::vec4 diffuseColor)
+{
+	this->m_position	 = pos;
+	this->m_rotation	 = rot;
+	this->m_scale		 = scale;
+	this->m_diffuseColor = diffuseColor;
+
+	this->createShader();
+
+	glBindVertexArray(this->createVAO());
+}
+
+void Triangle::createTriangle(glm::vec2 pos, glm::vec3 rot, glm::vec2 scale, glm::vec4 diffuseColor)
+{
+	this->m_position	 = glm::vec3(pos, 0.0f);
+	this->m_rotation	 = rot;
+	this->m_scale		 = glm::vec3(scale, 0.0f);
+	this->m_diffuseColor = diffuseColor;
+
+	this->createShader();
+
+	glBindVertexArray(this->createVAO());
+}
+
+void Triangle::createTriangle(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ, float colorR, float colorG, float colorB, float colorA)
+{
+	this->m_position	 = glm::vec3(posX, posY, posZ);
+	this->m_rotation	 = glm::vec3(rotX, rotY, rotZ);
+	this->m_scale		 = glm::vec3(scaleX, scaleY, scaleZ);
+	this->m_diffuseColor = glm::vec4(colorR, colorG, colorB, colorA);
+
+	this->createShader();
+
+	glBindVertexArray(this->createVAO());
+}
+
+/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+unsigned int Triangle::createShader()
 {
 	Shader shader;
 
 	shader.loadVTextFile(vFilePath);
 	shader.loadFTextFile(fFilePath);
-	shader.createVShader(vFilePath);
-	shader.createFShader(fFilePath);
-	shader.isCompileShader(vFilePath, fFilePath);
-	shader.createShaderProgram(vFilePath, fFilePath);
+	shader.createVShader();
+	shader.createFShader();
+	shader.isCompileShader();
 
-	unsigned int shaderProgram;
-	shaderProgram = shader.createShaderProgram(vFilePath, fFilePath);
+	this->m_shaderProgram = shader.createShaderProgram();
 
-	return shaderProgram;
+	return this->m_shaderProgram;
 }
 
 unsigned int Triangle::createVBO()
 {
 	VBO VBO;
 
-	vbo = VBO.createVBO(vertices);
+	this->vbo = VBO.createVBO(vertices);
 
-	return vbo;
+	return this->vbo;
 }
 
 unsigned int Triangle::createVAO()
 {
 	VAO VAO;
 
-	vao = VAO.createVAO(vertices, createVBO());
+	this->vao = VAO.createVAO(vertices, this->createVBO());
 
-	return vao;
+	return this->vao;
 }
 
-glm::mat4 Triangle::translate(unsigned int shaderProgram, glm::vec3 newPos)
+glm::mat4 Triangle::translate(glm::vec3 newPos)
 {
-	m_position = newPos;
+	this->m_position = newPos;
 
-	translation = glm::mat4(1.0f);
-	translation = glm::translate(translation, m_position);
+	this->translation = glm::mat4(1.0f);
+	this->translation = glm::translate(this->translation, this->m_position);
 
-	return translation;
+	return this->translation;
 }
 
 //glm::mat4 Triangle::Rotate(unsigned int shaderProgram, float newRotation, glm::vec3 axis)
@@ -63,39 +116,53 @@ glm::mat4 Triangle::translate(unsigned int shaderProgram, glm::vec3 newPos)
 //	return rotate;
 //}
 
-glm::mat4 Triangle::Scale(unsigned int shaderProgram, glm::vec3 newScale)
+glm::mat4 Triangle::Scale(glm::vec3 newScale)
 {
-	m_scale = newScale;
+	this->m_scale = newScale;
 
-	scale = glm::mat4(1.0f);
-	scale = glm::scale(scale, m_scale);
+	this->scale = glm::mat4(1.0f);
+	this->scale = glm::scale(scale, m_scale);
 
-	return scale;
+	return this->scale;
 }
 
 glm::mat4 Triangle::createTransformMatrix()
 {
 	glm::mat4 Transform;
 
-	Transform = scale;
-	Transform *= translation;
+	Transform  = this->scale;
+	Transform *= this->translation;
 
 	return Transform;
 }
 
 void Triangle::getColorFromGUI()
 {
-	ImGuiWin GuiWindow;
+	this->m_diffuseColor.r = Gui.triangleColor[0];
+	this->m_diffuseColor.g = Gui.triangleColor[1];
+	this->m_diffuseColor.b = Gui.triangleColor[2];
+	this->m_diffuseColor.a = Gui.triangleColor[3];
+}
 
-	m_diffuseColor.r = GuiWindow.triangleColor[0];
-	m_diffuseColor.g = GuiWindow.triangleColor[1];
-	m_diffuseColor.b = GuiWindow.triangleColor[2];
-	m_diffuseColor.a = GuiWindow.triangleColor[3];
+void Triangle::meshRender()
+{
+	glUseProgram(this->m_shaderProgram);
+
+	this->Scale(Gui.triangleNewScale);
+	this->translate(Gui.triangleNewPos);
+
+	this->transUniformLocation = glGetUniformLocation(this->getShaderProgram(), "transform");
+	glUniformMatrix4fv(this->transUniformLocation, 1, GL_FALSE, glm::value_ptr(this->createTransformMatrix()));
+
+	this->colorUniformLocation = glGetUniformLocation(this->getShaderProgram(), "inColor");
+	glUniform4f(this->colorUniformLocation, this->getDiffuseColor().r, this->getDiffuseColor().g, this->getDiffuseColor().b, this->getDiffuseColor().a);
+
+	glDrawArrays(GL_TRIANGLES, 0, 3);
 }
 
 Triangle::~Triangle()
 {
 	glDisableVertexAttribArray(0);
-	glDeleteBuffers(1, &vbo);
-	glDeleteVertexArrays(1, &vao);
+	glDeleteBuffers(1, &this->vbo);
+	glDeleteVertexArrays(1, &this->vao);
 }
