@@ -18,19 +18,22 @@ private:
 	unsigned int fragShader;
 	unsigned int shaderProgram;
 public:
-	const char *loadVTextFile(std::string vFilePath);
-	const char *loadFTextFile(std::string fFilePath);
+	const char* loadVTextFile(std::string vFilePath);
+	const char* loadFTextFile(std::string fFilePath);
 
-	unsigned int createVShader(std::string vFilePath);
-	unsigned int createFShader(std::string fFilePath);
+	unsigned int createVShader();
+	unsigned int createFShader();
 
-	unsigned int createShaderProgram(std::string vFilePath, std::string fFilePath);
+	unsigned int createShaderProgram();
 
-	int isCompileShader(std::string vFilePath, std::string fFilePath);
+	int isCompileShader();
 
 	////getters/////////////////////////////////////////////////////////////
 
 	unsigned int getShaderProgram() { return shaderProgram; };
+
+	std::string getVertexShaderFilePath() { return VShaderFilePath; };
+	std::string getFragmentShaderFilePath() { return FShaderFilePath; };
 
 	////////////////////////////////////////////////////////////////////////
 

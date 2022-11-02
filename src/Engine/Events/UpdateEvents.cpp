@@ -6,6 +6,7 @@
 #include <iostream>
 
 Window winClass;
+extern ImGuiWin GuiWindow;
 
 void Hyko::EUpdates::EventStart()
 {
@@ -13,15 +14,14 @@ void Hyko::EUpdates::EventStart()
 
 	projection = EProj.createOrthoProjection(-1.0f, 1.0f, -1.0f, 1.0f);
 
-	shaderProgram = triangle.createShader("res//vertexShader.glsl", "res//fragmentShader.glsl");
-	glBindVertexArray(triangle.createVAO());
+	triangle.createTriangle();
 }
 
 void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 {
 	FPS = dbg.getFPS(ts.getDeltaSeconds());
 
-	view = EProj.createViewMatrix(); 
+	view = EProj.createViewMatrix();
 
 	glClearColor(GuiWindow.skyBoxColor[0], GuiWindow.skyBoxColor[1], GuiWindow.skyBoxColor[2], GuiWindow.skyBoxColor[3]);
 	glClear(GL_COLOR_BUFFER_BIT);
@@ -39,10 +39,10 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 	////Editor camera control//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	if (Hyko::isMouseButtonPressed(Hyko::Mouse::HK_MOUSE_BUTTON_RIGHT)) {
-		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_W)) 
+		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_W))
 			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y - 1.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
 
-		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_S)) 
+		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_S))
 			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y + 1.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
 
 		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_A))
@@ -52,6 +52,7 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x - 1.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().y, EProj.getEditorCameraPosition().z);
 	}
 
+
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -60,34 +61,25 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	if (GuiWindow.itemSelected) {
 		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_DELETE)) {
-			GuiWindow.createTriangle			 = false;
-			GuiWindow.itemSelected				 = false;
+			GuiWindow.createTriangle = false;
+			GuiWindow.itemSelected = false;
 			GuiWindow.ComponentSettings_TreeShow = false;
 		}
 	}
 
 	///////////////////////////////////////////////////////////////////
 
-	if (GuiWindow.createTriangle) {
-		glUseProgram(shaderProgram);
+	////uniform variables in shaders////////////////////////////////////////////////////////////
 
-		triangle.Scale(shaderProgram, GuiWindow.triangleNewScale);
-		triangle.translate(shaderProgram, GuiWindow.triangleNewPos);
-
-		transUniformLocation = glGetUniformLocation(shaderProgram, "transform");
-		glUniformMatrix4fv(transUniformLocation, 1, GL_FALSE, glm::value_ptr(triangle.createTransformMatrix()));
-	}
-
-	viewUniformLocation = glGetUniformLocation(shaderProgram, "view");
+	viewUniformLocation = glGetUniformLocation(triangle.getShaderProgram(), "view");
 	glUniformMatrix4fv(viewUniformLocation, 1, GL_FALSE, glm::value_ptr(view));
 
-	projUniformLocation = glGetUniformLocation(shaderProgram, "projection");
+	projUniformLocation = glGetUniformLocation(triangle.getShaderProgram(), "projection");
 	glUniformMatrix4fv(projUniformLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
-	colorUniformLocation = glGetUniformLocation(shaderProgram, "inColor");
-	glUniform4f(colorUniformLocation, triangle.getDiffuseColor().r, triangle.getDiffuseColor().g, triangle.getDiffuseColor().b, triangle.getDiffuseColor().a);
+	////////////////////////////////////////////////////////////////////////////////////////////
 
-	if (GuiWindow.createTriangle) glDrawArrays(GL_TRIANGLES, 0, 3);
+	triangle.meshRender();
 
 	////ImGui. Hyko GUI windows///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

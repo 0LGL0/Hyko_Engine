@@ -42,7 +42,7 @@ void ImGuiWin::ImGui_DebugWindowDraw(int fps, double dt)
 
 	ImGui::Begin("Debug");
 
-	if(ImGui::TreeNodeEx("Counters", treeFlags)) {
+	if (ImGui::TreeNodeEx("Counters", treeFlags)) {
 		ImGui::Text(FPSTitle.c_str());
 		ImGui::Text(dtTitle.c_str());
 
@@ -73,12 +73,12 @@ void ImGuiWin::ImGui_SceneComponentsWindowDraw()
 	ImGui::Begin("Scene components");
 
 	if (ComponentSettings_TreeShow) {
-		if (ImGui::TreeNodeEx(componentTreeName.c_str(), treeFlags)) {
+		if (ImGui::TreeNodeEx(this->componentTreeName.c_str(), treeFlags)) {
 			ImGui::TreePop();
 		}
 	}
-	
-	if (ImGui::IsItemActivated()) itemSelected = true;
+
+	if (ImGui::IsItemActivated()) this->itemSelected = true;
 
 	ImGui::End();
 }
@@ -102,7 +102,7 @@ void ImGuiWin::ImGui_HykoPrimitiveMeshes()
 		triangleCount++;
 		componentTreeName = "Triangle." + std::to_string(triangleCount);
 		ComponentSettings_TreeShow = true;
-		createTriangle = true; 
+		createTriangle = true;
 	}
 
 	ImGui::End();
@@ -115,13 +115,13 @@ void ImGuiWin::ImGui_HykoPrimitiveMeshesEdit()
 	ImGui::Begin("Mesh edit");
 
 	if (createTriangle) {
-		ImGui::DragFloat("Pos X", &triangleNewPos.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-		ImGui::DragFloat("Pos Y", &triangleNewPos.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Pos X", &this->triangleNewPos.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Pos Y", &this->triangleNewPos.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
 
-		ImGui::DragFloat("Scale X", &triangleNewScale.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-		ImGui::DragFloat("Scale Y", &triangleNewScale.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Scale X", &this->triangleNewScale.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Scale Y", &this->triangleNewScale.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
 
-		//ImGui::ColorEdit4("Triangle color", triangleColor);
+		ImGui::ColorEdit4("Triangle color", triangleColor);
 	}
 
 	ImGui::End();
