@@ -9,8 +9,6 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-ImGuiWin Gui;
-
 ////functions for create triangle////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Triangle::createTriangle()
@@ -138,18 +136,22 @@ glm::mat4 Triangle::createTransformMatrix()
 
 void Triangle::getColorFromGUI()
 {
-	this->m_diffuseColor.r = Gui.triangleColor[0];
-	this->m_diffuseColor.g = Gui.triangleColor[1];
-	this->m_diffuseColor.b = Gui.triangleColor[2];
-	this->m_diffuseColor.a = Gui.triangleColor[3];
+	extern ImGuiWin GuiWindow;
+
+	this->m_diffuseColor.r = GuiWindow.triangleColor[0];
+	this->m_diffuseColor.g = GuiWindow.triangleColor[1];
+	this->m_diffuseColor.b = GuiWindow.triangleColor[2];
+	this->m_diffuseColor.a = GuiWindow.triangleColor[3];
 }
 
 void Triangle::meshRender()
 {
+	extern ImGuiWin GuiWindow;
+
 	glUseProgram(this->m_shaderProgram);
 
-	this->Scale(Gui.triangleNewScale);
-	this->translate(Gui.triangleNewPos);
+	this->Scale(GuiWindow.triangleNewScale);
+	this->translate(GuiWindow.triangleNewPos);
 
 	this->transUniformLocation = glGetUniformLocation(this->getShaderProgram(), "transform");
 	glUniformMatrix4fv(this->transUniformLocation, 1, GL_FALSE, glm::value_ptr(this->createTransformMatrix()));
