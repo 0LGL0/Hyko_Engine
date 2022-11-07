@@ -1,4 +1,5 @@
 #include <glad/glad.h>
+#include "../shader.h"
 #include "UpdateEvents.h"
 #include <glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
@@ -6,6 +7,7 @@
 #include <iostream>
 
 Window winClass;
+Shader c_shader;
 extern ImGuiWin GuiWindow;
 
 void Hyko::EUpdates::EventStart()
@@ -15,6 +17,8 @@ void Hyko::EUpdates::EventStart()
 	projection = EProj.createOrthoProjection(-1.0f, 1.0f, -1.0f, 1.0f);
 
 	triangle.createTriangle();
+
+	shaderProgram = c_shader.createShaderProgram("res//vertexShader.glsl", "res//fragmentShader.glsl");
 }
 
 void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
@@ -23,7 +27,7 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	view = EProj.createViewMatrix();
 
-	glClearColor(GuiWindow.skyBoxColor[0], GuiWindow.skyBoxColor[1], GuiWindow.skyBoxColor[2], GuiWindow.skyBoxColor[3]);
+	glClearColor(GuiWindow.getSkyBoxColor().r, GuiWindow.getSkyBoxColor().g, GuiWindow.getSkyBoxColor().b, GuiWindow.getSkyBoxColor().a);
 	glClear(GL_COLOR_BUFFER_BIT);
 
 	GuiWindow.createImGuiNewFrame();
@@ -71,15 +75,15 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	////uniform variables in shaders////////////////////////////////////////////////////////////
 
-	viewUniformLocation = glGetUniformLocation(triangle.getShaderProgram(), "view");
+	viewUniformLocation = glGetUniformLocation(shaderProgram, "view");
 	glUniformMatrix4fv(viewUniformLocation, 1, GL_FALSE, glm::value_ptr(view));
 
-	projUniformLocation = glGetUniformLocation(triangle.getShaderProgram(), "projection");
+	projUniformLocation = glGetUniformLocation(shaderProgram, "projection");
 	glUniformMatrix4fv(projUniformLocation, 1, GL_FALSE, glm::value_ptr(projection));
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 
-	triangle.meshRender();
+	triangle.meshRender(shaderProgram);
 
 	////ImGui. Hyko GUI windows///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 

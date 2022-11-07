@@ -14,15 +14,15 @@ class ImGuiWin {
 public:
 	////Mesh settings variables//////////////////////////////////
 
-	glm::vec3 triangleNewPos;
-	glm::vec3 triangleNewScale = glm::vec3(0.5f, 0.5f, 0.5f);
+	glm::vec3 m_triangleNewPos;
+	glm::vec3 m_triangleNewScale = glm::vec3(0.5f, 0.5f, 0.5f);
 
 	//////////////////////////////////////////////////////////////
 
 	////Scene variables///////////////////////////////////////////
 
-	float skyBoxColor[4]{1.0f, 1.0f, 1.0f, 1.0f};
-	float triangleColor[4]{1.0f, 0.0f, 0.0f};
+	float m_skyBoxColor[4]{1.0f, 1.0f, 1.0f, 1.0f};
+	float m_triangleColor[4]{1.0f, 0.0f, 0.0f};
 
 	//////////////////////////////////////////////////////////////
 
@@ -69,6 +69,22 @@ public:
 	void ImGui_HykoPrimitiveMeshesEdit();
 
 	////////////////////////////////////////////////
+
+	////getters///////////////////////////////////////////////////////////////////////////////////////////
+
+	glm::vec4 getSkyBoxColor() { return glm::vec4(m_skyBoxColor[0], m_skyBoxColor[1], m_skyBoxColor[2], m_skyBoxColor[3]); };
+
+	//////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	/////setters/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+	void setMeshPosition(glm::vec3 pos) { m_triangleNewPos = pos; };
+	void setMeshScale(glm::vec3 scale) { m_triangleNewScale = scale; };
+
+	void setMeshDiffuseColor(glm::vec4 diffColor) { m_triangleColor[0] = diffColor.r; m_triangleColor[1] = diffColor.g; m_triangleColor[2] = diffColor.b; m_triangleColor[3] = diffColor.a; };
+	void setMeshDiffuseColor(float* diffColor) { m_triangleColor[0] = diffColor[0]; m_triangleColor[1] = diffColor[1]; m_triangleColor[2] = diffColor[2]; m_triangleColor[3] = diffColor[3]; };
+
+	/////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
 	void ImGuiRender();

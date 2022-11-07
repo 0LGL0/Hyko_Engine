@@ -17,16 +17,17 @@ private:
 	unsigned int vertexShader;
 	unsigned int fragShader;
 	unsigned int shaderProgram;
-public:
+private:
 	const char* loadVTextFile(std::string vFilePath);
 	const char* loadFTextFile(std::string fFilePath);
 
-	unsigned int createVShader();
-	unsigned int createFShader();
+	unsigned int createVShader(const char* vSrc);
+	unsigned int createFShader(const char* fSrc);
 
-	unsigned int createShaderProgram();
+	int isCompileShader(unsigned int shader);
+public:
 
-	int isCompileShader();
+	unsigned int createShaderProgram(std::string vFilePath, std::string fFilePath);
 
 	////getters/////////////////////////////////////////////////////////////
 

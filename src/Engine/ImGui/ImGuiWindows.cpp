@@ -87,7 +87,7 @@ void ImGuiWin::ImGui_SceneSettingsWindowDraw()
 {
 	ImGui::Begin("Scene settings");
 
-	ImGui::ColorEdit4("Sky box color", skyBoxColor);
+	ImGui::ColorEdit4("Sky box color", m_skyBoxColor);
 
 	ImGui::End();
 }
@@ -115,13 +115,13 @@ void ImGuiWin::ImGui_HykoPrimitiveMeshesEdit()
 	ImGui::Begin("Mesh edit");
 
 	if (createTriangle) {
-		ImGui::DragFloat("Pos X", &this->triangleNewPos.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-		ImGui::DragFloat("Pos Y", &this->triangleNewPos.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Pos X", &this->m_triangleNewPos.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Pos Y", &this->m_triangleNewPos.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
 
-		ImGui::DragFloat("Scale X", &this->triangleNewScale.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-		ImGui::DragFloat("Scale Y", &this->triangleNewScale.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Scale X", &this->m_triangleNewScale.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
+		ImGui::DragFloat("Scale Y", &this->m_triangleNewScale.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
 
-		ImGui::ColorEdit4("Triangle color", triangleColor);
+		ImGui::ColorEdit4("Triangle color", m_triangleColor);
 	}
 
 	ImGui::End();

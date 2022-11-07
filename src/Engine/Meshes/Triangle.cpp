@@ -18,8 +18,6 @@ void Triangle::createTriangle()
 	this->m_scale = glm::vec3(0.5f, 0.5f, 0.5f);
 	this->m_diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	this->createShader();
-
 	glBindVertexArray(this->createVAO());
 }
 
@@ -29,8 +27,6 @@ void Triangle::createTriangle(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, glm
 	this->m_rotation = rot;
 	this->m_scale = scale;
 	this->m_diffuseColor = diffuseColor;
-
-	this->createShader();
 
 	glBindVertexArray(this->createVAO());
 }
@@ -42,8 +38,6 @@ void Triangle::createTriangle(glm::vec2 pos, glm::vec3 rot, glm::vec2 scale, glm
 	this->m_scale = glm::vec3(scale, 0.0f);
 	this->m_diffuseColor = diffuseColor;
 
-	this->createShader();
-
 	glBindVertexArray(this->createVAO());
 }
 
@@ -54,33 +48,16 @@ void Triangle::createTriangle(float posX, float posY, float posZ, float rotX, fl
 	this->m_scale = glm::vec3(scaleX, scaleY, scaleZ);
 	this->m_diffuseColor = glm::vec4(colorR, colorG, colorB, colorA);
 
-	this->createShader();
-
 	glBindVertexArray(this->createVAO());
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned int Triangle::createShader()
-{
-	Shader shader;
-
-	shader.loadVTextFile(vFilePath);
-	shader.loadFTextFile(fFilePath);
-	shader.createVShader();
-	shader.createFShader();
-	shader.isCompileShader();
-
-	this->m_shaderProgram = shader.createShaderProgram();
-
-	return this->m_shaderProgram;
-}
-
 unsigned int Triangle::createVBO()
 {
 	VBO VBO;
 
-	this->vbo = VBO.createVBO(vertices);
+	this->vbo = VBO.createVBO(vertices, 3);
 
 	return this->vbo;
 }
@@ -138,25 +115,93 @@ void Triangle::getColorFromGUI()
 {
 	extern ImGuiWin GuiWindow;
 
-	this->m_diffuseColor.r = GuiWindow.triangleColor[0];
-	this->m_diffuseColor.g = GuiWindow.triangleColor[1];
-	this->m_diffuseColor.b = GuiWindow.triangleColor[2];
-	this->m_diffuseColor.a = GuiWindow.triangleColor[3];
+	this->m_diffuseColor.r = GuiWindow.m_triangleColor[0];
+	this->m_diffuseColor.g = GuiWindow.m_triangleColor[1];
+	this->m_diffuseColor.b = GuiWindow.m_triangleColor[2];
+	this->m_diffuseColor.a = GuiWindow.m_triangleColor[3];
 }
 
-void Triangle::meshRender()
+////setters////////////////////////////////////////////////////////////////////////////////////////
+
+void Triangle::setPosition(glm::vec3 newPos)
 {
 	extern ImGuiWin GuiWindow;
 
-	glUseProgram(this->m_shaderProgram);
+	GuiWindow.setMeshPosition(newPos);
+	m_position = newPos;
+}
 
-	this->Scale(GuiWindow.triangleNewScale);
-	this->translate(GuiWindow.triangleNewPos);
+void Triangle::setPosition(float x, float y, float z)
+{
+	extern ImGuiWin GuiWindow;
 
-	this->transUniformLocation = glGetUniformLocation(this->getShaderProgram(), "transform");
+	GuiWindow.setMeshPosition(glm::vec3(x, y, z));
+	m_position = glm::vec3(x, y, z);
+}
+
+void Triangle::setPosition(float x, float y)
+{
+	extern ImGuiWin GuiWindow;
+
+	GuiWindow.setMeshPosition(glm::vec3(x, y, 0.0f));
+	m_position = glm::vec3(x, y, 0.0f);
+}
+
+void Triangle::setScale(glm::vec3 newScale)
+{
+	extern ImGuiWin GuiWindow;
+
+	GuiWindow.setMeshScale(newScale);
+	m_scale = newScale;
+}
+
+void Triangle::setScale(float x, float y, float z)
+{
+	extern ImGuiWin GuiWindow;
+
+	GuiWindow.setMeshScale(glm::vec3(x, y, z));
+	m_scale = glm::vec3(x, y, z);
+}
+
+void Triangle::setScale(float x, float y)
+{
+	extern ImGuiWin GuiWindow;
+
+	GuiWindow.setMeshScale(glm::vec3(x, y, 0.0f));
+	m_scale = glm::vec3(x, y, 0.0f);
+}
+
+void Triangle::setDeffuseColor(glm::vec4 newDeffuseColor)
+{
+	extern ImGuiWin GuiWindow;
+
+	GuiWindow.setMeshDiffuseColor(newDeffuseColor);
+	m_diffuseColor = newDeffuseColor;
+}
+
+void Triangle::setDeffuseColor(float r, float g, float b, float a)
+{
+	extern ImGuiWin GuiWindow;
+
+	GuiWindow.setMeshDiffuseColor(glm::vec4(r, g, b, a));
+	m_diffuseColor = glm::vec4(r, g, b, a);
+}
+
+///////////////////////////////////////////////////////////////////////////////////////////////////
+
+void Triangle::meshRender(unsigned int shaderProgram)
+{
+	extern ImGuiWin GuiWindow;
+
+	glUseProgram(shaderProgram);
+
+	this->Scale(GuiWindow.m_triangleNewScale);
+	this->translate(GuiWindow.m_triangleNewPos);
+
+	this->transUniformLocation = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(this->transUniformLocation, 1, GL_FALSE, glm::value_ptr(this->createTransformMatrix()));
 
-	this->colorUniformLocation = glGetUniformLocation(this->getShaderProgram(), "inColor");
+	this->colorUniformLocation = glGetUniformLocation(shaderProgram, "inColor");
 	glUniform4f(this->colorUniformLocation, this->getDiffuseColor().r, this->getDiffuseColor().g, this->getDiffuseColor().b, this->getDiffuseColor().a);
 
 	glDrawArrays(GL_TRIANGLES, 0, 3);
