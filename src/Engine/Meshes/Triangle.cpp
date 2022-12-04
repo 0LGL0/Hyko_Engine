@@ -1,7 +1,5 @@
 #include "Triangle.h"
 #include "../../shader.h"
-#include "../../GL/VBO.h"
-#include "../../GL/VAO.h"
 #include "../ImGui/ImGuiWindows.h"
 #include <iostream>
 #include <glad/glad.h>
