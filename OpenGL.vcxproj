@@ -151,8 +151,7 @@
     <ClCompile Include="src\Engine\Meshes\Triangle.cpp" />
     <ClCompile Include="src\Engine\Projection\EditorProjection.cpp" />
     <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\GL\VAO.cpp" />
-    <ClCompile Include="src\GL\VBO.cpp" />
+    <ClCompile Include="src\GL\VO.cpp" />
     <ClCompile Include="src\libSource\imgui.cpp" />
     <ClCompile Include="src\libSource\imgui_demo.cpp" />
     <ClCompile Include="src\libSource\imgui_draw.cpp" />
@@ -461,8 +460,7 @@
     <ClInclude Include="src\Engine\Meshes\Triangle.h" />
     <ClInclude Include="src\Engine\Projection\EditorProjection.h" />
     <ClInclude Include="src\Engine\System\Time.h" />
-    <ClInclude Include="src\GL\VAO.h" />
-    <ClInclude Include="src\GL\VBO.h" />
+    <ClInclude Include="src\GL\VO.h" />
     <ClInclude Include="src\libSource\imconfig.h" />
     <ClInclude Include="src\libSource\imgui.h" />
     <ClInclude Include="src\libSource\imgui_impl_glfw.h" />

@@ -11,7 +11,6 @@
 namespace Hyko {
 	class EUpdates {
 	private:
-		Debug dbg;
 		EProjection EProj;
 	private:
 		Triangle triangle;

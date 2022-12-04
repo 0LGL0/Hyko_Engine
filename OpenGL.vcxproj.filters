@@ -30,16 +30,7 @@
     <ClCompile Include="src\glad.c">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="src\Engine\Debug\Debug.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="src\Engine\Meshes\Triangle.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GL\VBO.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GL\VAO.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="libs\GLM\detail\glm.cpp">
@@ -78,6 +69,12 @@
     <ClCompile Include="src\Engine\Events\InputEvents.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="src\Engine\Debug\Debug.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GL\VO.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\window.h">
@@ -86,16 +83,7 @@
     <ClInclude Include="src\shader.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="src\Engine\Debug\Debug.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="src\Engine\Meshes\Triangle.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GL\VBO.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GL\VAO.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="libs\GLM\detail\_features.hpp">
@@ -1005,6 +993,12 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="src\Engine\Core\Hyko.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Engine\Debug\Debug.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GL\VO.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

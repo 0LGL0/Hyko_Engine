@@ -1,6 +1,7 @@
 #include <glad/glad.h>
 #include "../shader.h"
 #include "UpdateEvents.h"
+#include "../GL/VO.h"
 #include <glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -9,6 +10,7 @@
 Window winClass;
 Shader c_shader;
 extern ImGuiWin GuiWindow;
+VO vo;
 
 void Hyko::EUpdates::EventStart()
 {
@@ -16,14 +18,14 @@ void Hyko::EUpdates::EventStart()
 
 	projection = EProj.createOrthoProjection(-1.0f, 1.0f, -1.0f, 1.0f);
 
-	triangle.createTriangle();
-
 	shaderProgram = c_shader.createShaderProgram("res//vertexShader.glsl", "res//fragmentShader.glsl");
+
+	triangle.createTriangle();
 }
 
 void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 {
-	FPS = dbg.getFPS(ts.getDeltaSeconds());
+	FPS = Hyko::getFPS(ts.getDeltaMilliseconds());
 
 	view = EProj.createViewMatrix();
 
@@ -35,8 +37,8 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 	if (GuiWindow.vsync) glfwSwapInterval(1);
 	else glfwSwapInterval(0);
 
-	if (GuiWindow.meshRenderLineOnly) dbg.edgeRenderingLineOnly(true);
-	else dbg.edgeRenderingLineOnly(false);
+	if (GuiWindow.meshRenderLineOnly) Hyko::edgeRenderingLineOnly(true);
+	else Hyko::edgeRenderingLineOnly(false);
 
 	////Input//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -73,6 +75,8 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	///////////////////////////////////////////////////////////////////
 
+	c_shader.use();
+
 	////uniform variables in shaders////////////////////////////////////////////////////////////
 
 	viewUniformLocation = glGetUniformLocation(shaderProgram, "view");
@@ -85,6 +89,8 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	triangle.meshRender(shaderProgram);
 
+	c_shader.unUse();
+
 	////ImGui. Hyko GUI windows///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	GuiWindow.ImGui_MainWindowDraw();
@@ -93,7 +99,6 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	if (GuiWindow.DebugWindowShow)																						   GuiWindow.ImGui_DebugWindowDraw(FPS, ts.getDeltaMilliseconds());
 	if (GuiWindow.DisplaySettingsShow)																					   GuiWindow.ImGui_DisplaySettingsWindowDraw();
-	if (GuiWindow.createTriangle /*|| GuiWindow.createRectangle || GuiWindow.createCircle || GuiWindow.createStaticMesh*/) GuiWindow.ImGui_HykoPrimitiveMeshesEdit();
 	if (GuiWindow.SceneSettingsShow)																					   GuiWindow.ImGui_SceneSettingsWindowDraw();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

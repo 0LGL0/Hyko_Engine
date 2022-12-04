@@ -29,6 +29,9 @@ public:
 
 	unsigned int createShaderProgram(std::string vFilePath, std::string fFilePath);
 
+	void use();
+	void unUse();
+
 	////getters/////////////////////////////////////////////////////////////
 
 	unsigned int getShaderProgram() { return shaderProgram; };

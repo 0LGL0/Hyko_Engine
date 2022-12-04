@@ -145,3 +145,13 @@ unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFil
 
 	return this->shaderProgram;
 }
+
+void Shader::use()
+{
+	glUseProgram(this->shaderProgram);
+}
+
+void Shader::unUse()
+{
+	glUseProgram(0);
+}

@@ -9,16 +9,18 @@
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+ImGuiWin gui;
+
 ////functions for create triangle////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void Triangle::createTriangle()
 {
 	this->m_position = glm::vec3(0.0f, 0.0f, 0.0f);
 	this->m_rotation = glm::vec3(0.0f, 0.0f, 0.0f);
-	this->m_scale = glm::vec3(0.5f, 0.5f, 0.5f);
+	this->m_scale = glm::vec3(0.5f, 0.5f, 0.0f);
 	this->m_diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	glBindVertexArray(this->createVAO());
+	createVO();
 }
 
 void Triangle::createTriangle(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, glm::vec4 diffuseColor)
@@ -28,7 +30,7 @@ void Triangle::createTriangle(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, glm
 	this->m_scale = scale;
 	this->m_diffuseColor = diffuseColor;
 
-	glBindVertexArray(this->createVAO());
+	createVO();
 }
 
 void Triangle::createTriangle(glm::vec2 pos, glm::vec3 rot, glm::vec2 scale, glm::vec4 diffuseColor)
@@ -38,7 +40,7 @@ void Triangle::createTriangle(glm::vec2 pos, glm::vec3 rot, glm::vec2 scale, glm
 	this->m_scale = glm::vec3(scale, 0.0f);
 	this->m_diffuseColor = diffuseColor;
 
-	glBindVertexArray(this->createVAO());
+	createVO();
 }
 
 void Triangle::createTriangle(float posX, float posY, float posZ, float rotX, float rotY, float rotZ, float scaleX, float scaleY, float scaleZ, float colorR, float colorG, float colorB, float colorA)
@@ -48,27 +50,16 @@ void Triangle::createTriangle(float posX, float posY, float posZ, float rotX, fl
 	this->m_scale = glm::vec3(scaleX, scaleY, scaleZ);
 	this->m_diffuseColor = glm::vec4(colorR, colorG, colorB, colorA);
 
-	glBindVertexArray(this->createVAO());
+	createVO();
 }
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-unsigned int Triangle::createVBO()
+void Triangle::createVO()
 {
-	VBO VBO;
+	vo.createVertexObjects(vertices, 3, indices);
 
-	this->vbo = VBO.createVBO(vertices, 3);
-
-	return this->vbo;
-}
-
-unsigned int Triangle::createVAO()
-{
-	VAO VAO;
-
-	this->vao = VAO.createVAO(vertices, this->createVBO());
-
-	return this->vao;
+	vertexObj = vo.getVAO();
 }
 
 glm::mat4 Triangle::translate(glm::vec3 newPos)
@@ -113,77 +104,60 @@ glm::mat4 Triangle::createTransformMatrix()
 
 void Triangle::getColorFromGUI()
 {
-	extern ImGuiWin GuiWindow;
-
-	this->m_diffuseColor.r = GuiWindow.m_triangleColor[0];
-	this->m_diffuseColor.g = GuiWindow.m_triangleColor[1];
-	this->m_diffuseColor.b = GuiWindow.m_triangleColor[2];
-	this->m_diffuseColor.a = GuiWindow.m_triangleColor[3];
+	this->m_diffuseColor.r = gui.m_triangleColor[0];
+	this->m_diffuseColor.g = gui.m_triangleColor[1];
+	this->m_diffuseColor.b = gui.m_triangleColor[2];
+	this->m_diffuseColor.a = gui.m_triangleColor[3];
 }
 
 ////setters////////////////////////////////////////////////////////////////////////////////////////
 
 void Triangle::setPosition(glm::vec3 newPos)
 {
-	extern ImGuiWin GuiWindow;
-
-	GuiWindow.setMeshPosition(newPos);
+	gui.setMeshPosition(newPos);
 	m_position = newPos;
 }
 
 void Triangle::setPosition(float x, float y, float z)
 {
-	extern ImGuiWin GuiWindow;
 
-	GuiWindow.setMeshPosition(glm::vec3(x, y, z));
+	gui.setMeshPosition(glm::vec3(x, y, z));
 	m_position = glm::vec3(x, y, z);
 }
 
 void Triangle::setPosition(float x, float y)
 {
-	extern ImGuiWin GuiWindow;
-
-	GuiWindow.setMeshPosition(glm::vec3(x, y, 0.0f));
+	gui.setMeshPosition(glm::vec3(x, y, 0.0f));
 	m_position = glm::vec3(x, y, 0.0f);
 }
 
 void Triangle::setScale(glm::vec3 newScale)
 {
-	extern ImGuiWin GuiWindow;
-
-	GuiWindow.setMeshScale(newScale);
+	gui.setMeshScale(newScale);
 	m_scale = newScale;
 }
 
 void Triangle::setScale(float x, float y, float z)
 {
-	extern ImGuiWin GuiWindow;
-
-	GuiWindow.setMeshScale(glm::vec3(x, y, z));
+	gui.setMeshScale(glm::vec3(x, y, z));
 	m_scale = glm::vec3(x, y, z);
 }
 
 void Triangle::setScale(float x, float y)
 {
-	extern ImGuiWin GuiWindow;
-
-	GuiWindow.setMeshScale(glm::vec3(x, y, 0.0f));
+	gui.setMeshScale(glm::vec3(x, y, 0.0f));
 	m_scale = glm::vec3(x, y, 0.0f);
 }
 
 void Triangle::setDeffuseColor(glm::vec4 newDeffuseColor)
 {
-	extern ImGuiWin GuiWindow;
-
-	GuiWindow.setMeshDiffuseColor(newDeffuseColor);
+	gui.setMeshDiffuseColor(newDeffuseColor);
 	m_diffuseColor = newDeffuseColor;
 }
 
 void Triangle::setDeffuseColor(float r, float g, float b, float a)
 {
-	extern ImGuiWin GuiWindow;
-
-	GuiWindow.setMeshDiffuseColor(glm::vec4(r, g, b, a));
+	gui.setMeshDiffuseColor(glm::vec4(r, g, b, a));
 	m_diffuseColor = glm::vec4(r, g, b, a);
 }
 
@@ -191,12 +165,8 @@ void Triangle::setDeffuseColor(float r, float g, float b, float a)
 
 void Triangle::meshRender(unsigned int shaderProgram)
 {
-	extern ImGuiWin GuiWindow;
-
-	glUseProgram(shaderProgram);
-
-	this->Scale(GuiWindow.m_triangleNewScale);
-	this->translate(GuiWindow.m_triangleNewPos);
+	this->Scale(gui.m_triangleNewScale);
+	this->translate(gui.m_triangleNewPos);
 
 	this->transUniformLocation = glGetUniformLocation(shaderProgram, "transform");
 	glUniformMatrix4fv(this->transUniformLocation, 1, GL_FALSE, glm::value_ptr(this->createTransformMatrix()));
@@ -204,12 +174,8 @@ void Triangle::meshRender(unsigned int shaderProgram)
 	this->colorUniformLocation = glGetUniformLocation(shaderProgram, "inColor");
 	glUniform4f(this->colorUniformLocation, this->getDiffuseColor().r, this->getDiffuseColor().g, this->getDiffuseColor().b, this->getDiffuseColor().a);
 
-	glDrawArrays(GL_TRIANGLES, 0, 3);
-}
+	if (gui.createTriangle /*|| gui.createRectangle || gui.createCircle || gui.createStaticMesh*/) gui.ImGui_HykoPrimitiveMeshesEdit();
 
-Triangle::~Triangle()
-{
-	glDisableVertexAttribArray(0);
-	glDeleteBuffers(1, &this->vbo);
-	glDeleteVertexArrays(1, &this->vao);
+	vo.bind(vertexObj);
+	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
 }

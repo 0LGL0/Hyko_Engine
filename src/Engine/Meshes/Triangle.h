@@ -1,9 +1,14 @@
 #pragma once
+
+#include"../GL/VO.h"
+
 #include <string>
 #include <vector>
 #include <glm/glm.hpp>
 
 class Triangle {
+private:
+	VO vo;
 private:
 	glm::mat4 translation;
 	glm::mat4 rotate;
@@ -15,8 +20,7 @@ private:
 private:
 	glm::vec4 m_diffuseColor;
 private:
-	unsigned int vbo;
-	unsigned int vao;
+	unsigned int vertexObj;
 
 	unsigned int m_shaderProgram;
 
@@ -25,13 +29,16 @@ private:
 private:
 	void getColorFromGUI();
 private:
-	unsigned int createVBO();
-	unsigned int createVAO();
+	void createVO();
 private:
 	std::vector<float> vertices = {
 		 -0.5f, -0.5f, 0.0f,
 		0.5f, -0.5f, 0.0f,
 		0.0f, 0.5f, 0.0f
+	};
+
+	std::vector<unsigned int> indices = {
+		0, 1, 2
 	};
 private:
 	glm::mat4 translate(glm::vec3 newPos);
@@ -53,6 +60,7 @@ public:
 	glm::vec4 getDiffuseColor() { this->getColorFromGUI(); return this->m_diffuseColor; };
 
 	unsigned int getShaderProgram() { return this->m_shaderProgram; };
+	//unsigned int getVAO() { return this->vo.getVAO(); };
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -77,5 +85,5 @@ public:
 
 	void meshRender(unsigned int shaderProgram);	//function for render triangle
 
-	~Triangle();
+	~Triangle() = default;
 };

@@ -42,9 +42,13 @@ int Window::WindowDraw(int width, int height)
 void Window::WindowUpdate()
 {
 	while (!glfwWindowShouldClose(m_window)) {
+		////DeltaTime (Seconds | Milliseconds)/////////////////////////
+
 		float time = (float)glfwGetTime();
 		Hyko::Time ts = time - m_LastFrameTime;
 		m_LastFrameTime = time;
+
+		///////////////////////////////////////////////////////////////
 
 		updates.EventUpdate(ts);
 
