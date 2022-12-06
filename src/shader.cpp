@@ -132,26 +132,92 @@ unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFil
 	unsigned int vShader = createVShader(loadVTextFile(vFilePath));
 	unsigned int fShader = createFShader(loadVTextFile(fFilePath));
 
-	this->shaderProgram = glCreateProgram();
+	this->m_shaderProgram = glCreateProgram();
 
-	glAttachShader(this->shaderProgram, vShader);
-	glAttachShader(this->shaderProgram, fShader);
-	glLinkProgram(this->shaderProgram);
+	glAttachShader(this->m_shaderProgram, vShader);
+	glAttachShader(this->m_shaderProgram, fShader);
+	glLinkProgram(this->m_shaderProgram);
 
-	isCompileShader(shaderProgram);
+	isCompileShader(m_shaderProgram);
 
 	glDeleteShader(this->vertexShader);
 	glDeleteShader(this->fragShader);
 
-	return this->shaderProgram;
+	return this->m_shaderProgram;
 }
 
 void Shader::use()
 {
-	glUseProgram(this->shaderProgram);
+	glUseProgram(this->m_shaderProgram);
 }
 
 void Shader::unUse()
 {
 	glUseProgram(0);
+}
+
+void Shader::setUniformMat4(const char* name, const glm::mat4 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniformMatrix4fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Shader::setUniformMat3(const char* name, const glm::mat3 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniformMatrix3fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Shader::setUniformMat2(const char* name, const glm::mat2 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniformMatrix2fv(location, 1, GL_FALSE, glm::value_ptr(value));
+}
+
+void Shader::setUnifromf(const char* name, const float value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform1f(location, value);
+}
+
+void Shader::setUnifrom2f(const char* name, const glm::vec2 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform2f(location, value.x, value.y);
+}
+
+void Shader::setUnifrom3f(const char* name, const glm::vec3 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform3f(location, value.x, value.y, value.z);
+}
+
+void Shader::setUnifrom4f(const char* name, const glm::vec4 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform4f(location, value.x, value.y, value.z, value.w);
+}
+
+void Shader::setUnifromi(const char* name, const int value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform1i(location, value);
+}
+
+void Shader::setUnifrom2i(const char* name, const glm::vec2 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform2i(location, value.x, value.y);
+}
+
+void Shader::setUnifrom3i(const char* name, const glm::vec3 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform3i(location, value.x, value.y, value.z);
+}
+
+void Shader::setUnifrom4i(const char* name, const glm::vec4 value)
+{
+	unsigned int location = glGetUniformLocation(m_shaderProgram, name);
+	glUniform4i(location, value.x, value.y, value.z, value.w);
 }

@@ -1001,6 +1001,9 @@
     <ClInclude Include="src\GL\VO.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="src\Engine\Meshes\Entity.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="libs\GLM\detail\func_common.inl">

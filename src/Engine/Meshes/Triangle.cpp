@@ -18,7 +18,11 @@ void Triangle::createTriangle()
 	this->m_scale = glm::vec3(0.5f, 0.5f, 0.0f);
 	this->m_diffuseColor = glm::vec4(1.0f, 1.0f, 1.0f, 1.0f);
 
-	createVO();
+	gui.setMeshPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+	gui.setMeshScale(glm::vec3(0.5f, 0.5f, 0.0f));
+	gui.setMeshDiffuseColor(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f));
+
+	this->createVO();
 }
 
 void Triangle::createTriangle(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, glm::vec4 diffuseColor)
@@ -28,7 +32,11 @@ void Triangle::createTriangle(glm::vec3 pos, glm::vec3 rot, glm::vec3 scale, glm
 	this->m_scale = scale;
 	this->m_diffuseColor = diffuseColor;
 
-	createVO();
+	gui.setMeshPosition(pos);
+	gui.setMeshScale(scale);
+	gui.setMeshDiffuseColor(diffuseColor);
+
+	this->createVO();
 }
 
 void Triangle::createTriangle(glm::vec2 pos, glm::vec3 rot, glm::vec2 scale, glm::vec4 diffuseColor)
@@ -37,6 +45,10 @@ void Triangle::createTriangle(glm::vec2 pos, glm::vec3 rot, glm::vec2 scale, glm
 	this->m_rotation = rot;
 	this->m_scale = glm::vec3(scale, 0.0f);
 	this->m_diffuseColor = diffuseColor;
+
+	gui.setMeshPosition(glm::vec3(pos, 0.0f));
+	gui.setMeshScale(glm::vec3(scale, 0.0f));
+	gui.setMeshDiffuseColor(diffuseColor);
 
 	createVO();
 }
@@ -47,6 +59,10 @@ void Triangle::createTriangle(float posX, float posY, float posZ, float rotX, fl
 	this->m_rotation = glm::vec3(rotX, rotY, rotZ);
 	this->m_scale = glm::vec3(scaleX, scaleY, scaleZ);
 	this->m_diffuseColor = glm::vec4(colorR, colorG, colorB, colorA);
+
+	gui.setMeshPosition(glm::vec3(posX, posY, posZ));
+	gui.setMeshScale(glm::vec3(scaleX, scaleY, scaleZ));
+	gui.setMeshDiffuseColor(glm::vec4(colorR, colorG, colorB, colorA));
 
 	createVO();
 }
@@ -174,6 +190,7 @@ void Triangle::meshRender(unsigned int shaderProgram)
 
 	if (gui.createTriangle /*|| gui.createRectangle || gui.createCircle || gui.createStaticMesh*/) gui.ImGui_HykoPrimitiveMeshesEdit();
 
-	vo.bind(vertexObj);
+	vo.bind();
 	glDrawElements(GL_TRIANGLES, 3, GL_UNSIGNED_INT, nullptr);
+	vo.unBind();
 }

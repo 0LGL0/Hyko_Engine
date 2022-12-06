@@ -16,7 +16,7 @@ public:
 
     unsigned int createVertexObjects(std::vector<float> vertices, int verticesCount, std::vector<unsigned int> indices);
 
-    void bind(unsigned int VAO);
+    void bind();
     void unBind();
 
     unsigned int getVAO() { return m_VAO; }

@@ -457,6 +457,7 @@
     <ClInclude Include="src\Engine\Events\InputEvents.h" />
     <ClInclude Include="src\Engine\Events\UpdateEvents.h" />
     <ClInclude Include="src\Engine\ImGui\ImGuiWindows.h" />
+    <ClInclude Include="src\Engine\Meshes\Entity.h" />
     <ClInclude Include="src\Engine\Meshes\Triangle.h" />
     <ClInclude Include="src\Engine\Projection\EditorProjection.h" />
     <ClInclude Include="src\Engine\System\Time.h" />

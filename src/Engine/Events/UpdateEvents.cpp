@@ -18,9 +18,12 @@ void Hyko::EUpdates::EventStart()
 
 	projection = EProj.createOrthoProjection(-1.0f, 1.0f, -1.0f, 1.0f);
 
-	shaderProgram = c_shader.createShaderProgram("res//vertexShader.glsl", "res//fragmentShader.glsl");
-
 	triangle.createTriangle();
+	triangle.setDeffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
+
+	tr.createTriangle(glm::vec3(0.5f, 0.6f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.0f), glm::vec4(0.5f, 1.0f, 0.0f, 1.0f));
+
+	shaderProgram = c_shader.createShaderProgram("res//vertexShader.glsl", "res//fragmentShader.glsl");
 }
 
 void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
@@ -79,15 +82,13 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	////uniform variables in shaders////////////////////////////////////////////////////////////
 
-	viewUniformLocation = glGetUniformLocation(shaderProgram, "view");
-	glUniformMatrix4fv(viewUniformLocation, 1, GL_FALSE, glm::value_ptr(view));
-
-	projUniformLocation = glGetUniformLocation(shaderProgram, "projection");
-	glUniformMatrix4fv(projUniformLocation, 1, GL_FALSE, glm::value_ptr(projection));
+	c_shader.setUniformMat4("view", view);
+	c_shader.setUniformMat4("projection", projection);
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 
 	triangle.meshRender(shaderProgram);
+	tr.meshRender(shaderProgram);
 
 	c_shader.unUse();
 

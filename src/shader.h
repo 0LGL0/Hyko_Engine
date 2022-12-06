@@ -1,5 +1,7 @@
 #pragma once
 #include "glad/glad.h"
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include <string>
 #include <fstream>
 
@@ -16,7 +18,7 @@ private:
 private:
 	unsigned int vertexShader;
 	unsigned int fragShader;
-	unsigned int shaderProgram;
+	unsigned int m_shaderProgram;
 private:
 	const char* loadVTextFile(std::string vFilePath);
 	const char* loadFTextFile(std::string fFilePath);
@@ -32,9 +34,27 @@ public:
 	void use();
 	void unUse();
 
+	////setters/////////////////////////////////////////////////////////////
+
+	void setUniformMat4(const char* name, const glm::mat4 value);
+	void setUniformMat3(const char* name, const glm::mat3 value);
+	void setUniformMat2(const char* name, const glm::mat2 value);
+
+	void setUnifromf(const char* name, const float value);
+	void setUnifrom2f(const char* name, const glm::vec2 value);
+	void setUnifrom3f(const char* name, const glm::vec3 value);
+	void setUnifrom4f(const char* name, const glm::vec4 value);
+
+	void setUnifromi(const char* name, const int value);
+	void setUnifrom2i(const char* name, const glm::vec2 value);
+	void setUnifrom3i(const char* name, const glm::vec3 value);
+	void setUnifrom4i(const char* name, const glm::vec4 value);
+
+	////////////////////////////////////////////////////////////////////////
+
 	////getters/////////////////////////////////////////////////////////////
 
-	unsigned int getShaderProgram() { return shaderProgram; };
+	unsigned int getShaderProgram() { return m_shaderProgram; };
 
 	std::string getVertexShaderFilePath() { return VShaderFilePath; };
 	std::string getFragmentShaderFilePath() { return FShaderFilePath; };

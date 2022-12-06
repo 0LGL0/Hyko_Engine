@@ -14,6 +14,7 @@ namespace Hyko {
 		EProjection EProj;
 	private:
 		Triangle triangle;
+		Triangle tr;
 	private:
 		glm::mat4 projection;
 		glm::mat4 view;

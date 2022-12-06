@@ -1,7 +1,9 @@
 #pragma once
+#include "../Meshes/Entity.h"
 #include <glfw3.h>
 #include <glm/glm.hpp>
 #include <string>
+#include <vector>
 
 class ImGuiWin {
 	std::string FPSTitle;
