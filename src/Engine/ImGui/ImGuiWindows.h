@@ -34,19 +34,12 @@ public:
 	bool DisplaySettingsShow = false;
 	bool SceneSettingsShow   = false;
 
-	////Trees widgets//////////////////////////
-
-	bool ComponentSettings_TreeShow = false;
-
-	///////////////////////////////////////////
-
 	///////////////////////////////////////////
 
 
 	////Functions//////////////////////////////
 
 	bool vsync				= false;
-	bool createTriangle		= false;
 	bool meshRenderLineOnly = false;
 	bool itemSelected		= false;
 
@@ -65,10 +58,7 @@ public:
 	void ImGui_MainWindowDraw();
 	void ImGui_DebugWindowDraw(int fps, double dt);
 	void ImGui_DisplaySettingsWindowDraw();
-	void ImGui_SceneComponentsWindowDraw();
 	void ImGui_SceneSettingsWindowDraw();
-	void ImGui_HykoPrimitiveMeshes();
-	void ImGui_HykoPrimitiveMeshesEdit();
 
 	////////////////////////////////////////////////
 

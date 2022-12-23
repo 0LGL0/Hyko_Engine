@@ -13,12 +13,12 @@ private:
 	std::string vShader;
 	std::string fShader;
 private:
-	const char* vShaderCode;
-	const char* fShaderCode;
+	const char* vShaderCode = nullptr;
+	const char* fShaderCode = nullptr;
 private:
-	unsigned int vertexShader;
-	unsigned int fragShader;
-	unsigned int m_shaderProgram;
+	unsigned int vertexShader	 = 0;
+	unsigned int fragShader		 = 0;
+	unsigned int m_shaderProgram = 0;
 private:
 	const char* loadVTextFile(std::string vFilePath);
 	const char* loadFTextFile(std::string fFilePath);

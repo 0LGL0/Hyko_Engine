@@ -1,4 +1,5 @@
 #pragma once
+
 #include "Engine/Events/UpdateEvents.h"
 #include "Engine/Core/Hyko.h"
 #include <glfw3.h>
@@ -7,20 +8,20 @@
 class Window {
 private:
 	static GLFWwindow* m_window;
-private:
-	int FPS;
 
-	unsigned int projUniformLocation;
-	unsigned int transUniformLocation;
-	unsigned int viewUniformLocation;
-	unsigned int colorUniformLocation;
+	
+private:
+	int FPS = 0;
+
+	unsigned int projUniformLocation = 0;
+	unsigned int viewUniformLocation = 0;
 
 	float m_LastFrameTime = 0.0f;
 public:
 	glm::mat4 projection;
 	glm::mat4 view;
 
-	GLFWwindow* getMainGLFWWindow() { return m_window; };
+	static GLFWwindow* getMainGLFWWindow() { return m_window; };
 
 	int WindowDraw(int width, int height);
 	void WindowUpdate();

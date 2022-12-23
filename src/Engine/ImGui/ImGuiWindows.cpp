@@ -66,63 +66,11 @@ void ImGuiWin::ImGui_DisplaySettingsWindowDraw()
 	ImGui::End();
 }
 
-void ImGuiWin::ImGui_SceneComponentsWindowDraw()
-{
-	static const ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
-
-	ImGui::Begin("Scene components");
-
-	if (ComponentSettings_TreeShow) {
-		if (ImGui::TreeNodeEx(this->componentTreeName.c_str(), treeFlags)) {
-			ImGui::TreePop();
-		}
-	}
-
-	if (ImGui::IsItemActivated()) this->itemSelected = true;
-
-	ImGui::End();
-}
-
 void ImGuiWin::ImGui_SceneSettingsWindowDraw()
 {
 	ImGui::Begin("Scene settings");
 
 	ImGui::ColorEdit4("Sky box color", m_skyBoxColor);
-
-	ImGui::End();
-}
-
-void ImGuiWin::ImGui_HykoPrimitiveMeshes()
-{
-	ImGui::ShowDemoWindow();
-
-	ImGui::Begin("Primitive meshes");
-
-	if (ImGui::Button("Triangle", ImVec2(70.0f, 25.0f))) {
-		triangleCount++;
-		componentTreeName = "Triangle." + std::to_string(triangleCount);
-		ComponentSettings_TreeShow = true;
-		createTriangle = true;
-	}
-
-	ImGui::End();
-}
-
-void ImGuiWin::ImGui_HykoPrimitiveMeshesEdit()
-{
-	static ImGuiSliderFlags Sliderflags = ImGuiSliderFlags_None;
-
-	ImGui::Begin("Mesh edit");
-
-	if (createTriangle) {
-		ImGui::DragFloat("Pos X", &this->m_triangleNewPos.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-		ImGui::DragFloat("Pos Y", &this->m_triangleNewPos.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-
-		ImGui::DragFloat("Scale X", &this->m_triangleNewScale.x, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-		ImGui::DragFloat("Scale Y", &this->m_triangleNewScale.y, 0.01f, -FLT_MAX, FLT_MAX, NULL, Sliderflags);
-
-		ImGui::ColorEdit4("Triangle color", m_triangleColor);
-	}
 
 	ImGui::End();
 }

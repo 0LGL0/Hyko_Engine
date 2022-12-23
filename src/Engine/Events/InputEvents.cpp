@@ -1,8 +1,13 @@
 #include "InputEvents.h"
-#include "../Engine/Core/Hyko.h"
 #include <iostream>
 
 Window m_windowC;
+
+void Hyko::cursor_position_callback(GLFWwindow* window, double xpos, double ypos)
+{
+	m_mousePosX = xpos;
+	m_mousePosY = ypos;
+}
 
 bool Hyko::isKeyPressed(const Hyko::keyCode keyCode)
 {
@@ -32,4 +37,9 @@ bool Hyko::isMouseButtonReleased(int mouseButton) {
 	auto state = glfwGetMouseButton(window, static_cast<int32_t>(mouseButton));
 
 	return state == GLFW_RELEASE;
+}
+
+glm::vec2 Hyko::getMousePos()
+{
+	return { m_mousePosX, m_mousePosY };
 }

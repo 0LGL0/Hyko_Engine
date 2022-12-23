@@ -1,8 +1,10 @@
 #version 330 core
 
-uniform vec4 inColor;
+//uniform vec4 inColor;
 layout(location = 0) out vec4 outColor;
 
+in vec4 vColor;
+
 void main(){
-	outColor = inColor;
+	outColor = vColor;
 }

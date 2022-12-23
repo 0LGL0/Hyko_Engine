@@ -1,6 +1,5 @@
 #pragma once
 #include <stdint.h>
-#include <glfw3.h>
 
 namespace Hyko {
 	using keyCode = uint16_t;

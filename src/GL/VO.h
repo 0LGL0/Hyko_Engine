@@ -19,6 +19,8 @@ public:
     void bind();
     void unBind();
 
+    void deleteVO();
+
     unsigned int getVAO() { return m_VAO; }
 
     ~VO();

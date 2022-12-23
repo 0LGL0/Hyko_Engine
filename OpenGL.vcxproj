@@ -148,8 +148,16 @@
     <ClCompile Include="src\Engine\Events\InputEvents.cpp" />
     <ClCompile Include="src\Engine\Events\UpdateEvents.cpp" />
     <ClCompile Include="src\Engine\ImGui\ImGuiWindows.cpp" />
+    <ClCompile Include="src\Engine\Meshes\Components.cpp" />
+    <ClCompile Include="src\Engine\Meshes\Entity.cpp" />
     <ClCompile Include="src\Engine\Meshes\Triangle.cpp" />
     <ClCompile Include="src\Engine\Projection\EditorProjection.cpp" />
+    <ClCompile Include="src\Engine\Scene\Scene.cpp" />
+    <ClCompile Include="src\Engine\System\Tools.cpp" />
+    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\EditorComponentSettings.cpp" />
+    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.cpp" />
+    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\EditorToolbar.cpp" />
+    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\UI.cpp" />
     <ClCompile Include="src\glad.c" />
     <ClCompile Include="src\GL\VO.cpp" />
     <ClCompile Include="src\libSource\imgui.cpp" />
@@ -457,10 +465,20 @@
     <ClInclude Include="src\Engine\Events\InputEvents.h" />
     <ClInclude Include="src\Engine\Events\UpdateEvents.h" />
     <ClInclude Include="src\Engine\ImGui\ImGuiWindows.h" />
+    <ClInclude Include="src\Engine\Meshes\Components.h" />
     <ClInclude Include="src\Engine\Meshes\Entity.h" />
     <ClInclude Include="src\Engine\Meshes\Triangle.h" />
     <ClInclude Include="src\Engine\Projection\EditorProjection.h" />
+    <ClInclude Include="src\Engine\Scene\Scene.h">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+      </ExcludedFromBuild>
+    </ClInclude>
     <ClInclude Include="src\Engine\System\Time.h" />
+    <ClInclude Include="src\Engine\System\Tools.h" />
+    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\EditorComponentSettings.h" />
+    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\EditorToolbar.h" />
+    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.h" />
+    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\UI.h" />
     <ClInclude Include="src\GL\VO.h" />
     <ClInclude Include="src\libSource\imconfig.h" />
     <ClInclude Include="src\libSource\imgui.h" />

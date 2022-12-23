@@ -1,7 +1,7 @@
 #include <glad/glad.h>
 #include "../shader.h"
 #include "UpdateEvents.h"
-#include "../GL/VO.h"
+#include "../Engine/Scene/Scene.h"
 #include <glfw3.h>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -10,18 +10,14 @@
 Window winClass;
 Shader c_shader;
 extern ImGuiWin GuiWindow;
-VO vo;
+extern Hyko::Entity entity;
+extern Hyko::Scene scene;
 
 void Hyko::EUpdates::EventStart()
 {
 	window = winClass.getMainGLFWWindow();
 
-	projection = EProj.createOrthoProjection(-1.0f, 1.0f, -1.0f, 1.0f);
-
-	triangle.createTriangle();
-	triangle.setDeffuseColor(1.0f, 0.0f, 0.0f, 1.0f);
-
-	tr.createTriangle(glm::vec3(0.5f, 0.6f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.5f, 0.5f, 0.0f), glm::vec4(0.5f, 1.0f, 0.0f, 1.0f));
+	projection = EProj.createOrthoProjection(-100.0f, 100.0f, -100.0f, 100.0f);
 
 	shaderProgram = c_shader.createShaderProgram("res//vertexShader.glsl", "res//fragmentShader.glsl");
 }
@@ -33,7 +29,7 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 	view = EProj.createViewMatrix();
 
 	glClearColor(GuiWindow.getSkyBoxColor().r, GuiWindow.getSkyBoxColor().g, GuiWindow.getSkyBoxColor().b, GuiWindow.getSkyBoxColor().a);
-	glClear(GL_COLOR_BUFFER_BIT);
+	glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 	GuiWindow.createImGuiNewFrame();
 
@@ -49,31 +45,27 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	if (Hyko::isMouseButtonPressed(Hyko::Mouse::HK_MOUSE_BUTTON_RIGHT)) {
 		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_W))
-			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y - 1.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
+			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y - 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
 
 		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_S))
-			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y + 1.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
+			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y + 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
 
 		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_A))
-			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x + 1.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().y, EProj.getEditorCameraPosition().z);
+			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x + 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().y, EProj.getEditorCameraPosition().z);
 
 		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_D))
-			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x - 1.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().y, EProj.getEditorCameraPosition().z);
+			EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x - 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().y, EProj.getEditorCameraPosition().z);
 	}
 
-
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-	////Delete mesh////////////////////////////////////////////////////
-
-	if (GuiWindow.itemSelected) {
-		if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_DELETE)) {
-			GuiWindow.createTriangle = false;
-			GuiWindow.itemSelected = false;
-			GuiWindow.ComponentSettings_TreeShow = false;
-		}
+	for (int i = 0; i < scene.sceneTriangles.size(); i++) {
+		entity.setPosition(i, HK_TRIANGLE, scene.sceneTriangles[i].m_position);
+		entity.setScale(i, HK_TRIANGLE, scene.sceneTriangles[i].m_scale);
+		entity.setRot(i, HK_TRIANGLE, glm::radians(scene.sceneTriangles[i].m_rotation));
+		entity.setColor(i, HK_TRIANGLE, scene.sceneTriangles[i].m_color);
 	}
 
 	///////////////////////////////////////////////////////////////////
@@ -87,20 +79,22 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 
-	triangle.meshRender(shaderProgram);
-	tr.meshRender(shaderProgram);
+	//if (MainEditoreUI.mashIsCreated(HK_TRIANGLE)) {
+		entity.render(HK_TRIANGLE);
+		entity.EndDraw();
+	//}
 
 	c_shader.unUse();
 
 	////ImGui. Hyko GUI windows///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	GuiWindow.ImGui_MainWindowDraw();
-	GuiWindow.ImGui_SceneComponentsWindowDraw();
-	GuiWindow.ImGui_HykoPrimitiveMeshes();
+	MainEditoreUI.createEditorUI();
 
 	if (GuiWindow.DebugWindowShow)																						   GuiWindow.ImGui_DebugWindowDraw(FPS, ts.getDeltaMilliseconds());
 	if (GuiWindow.DisplaySettingsShow)																					   GuiWindow.ImGui_DisplaySettingsWindowDraw();
 	if (GuiWindow.SceneSettingsShow)																					   GuiWindow.ImGui_SceneSettingsWindowDraw();
+	//if (GuiWindow.ComponentSettings_TreeShow)																			   GuiWindow.ImGui_HykoPrimitiveMeshesEdit();
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 }

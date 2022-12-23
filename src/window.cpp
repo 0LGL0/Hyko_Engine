@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <glm/gtc/type_ptr.hpp>
+#include "window.h"
 
 Hyko::EUpdates updates;
 ImGuiWin GuiWindow;
@@ -20,6 +21,7 @@ int Window::WindowDraw(int width, int height)
 	m_window = glfwCreateWindow(width, height, "Hyko", NULL, NULL);
 	glfwMakeContextCurrent(m_window);
 	glfwSetFramebufferSizeCallback(m_window, windowResizeCallback);
+	glfwSetCursorPosCallback(m_window, Hyko::cursor_position_callback);
 
 	if (!m_window) {
 		std::cout << "Window not initialized" << std::endl;
@@ -33,6 +35,8 @@ int Window::WindowDraw(int width, int height)
 	}
 
 	GuiWindow.createImGuiWindow(m_window);
+
+	glEnable(GL_DEPTH_TEST);
 
 	updates.EventStart();
 
@@ -51,6 +55,8 @@ void Window::WindowUpdate()
 		///////////////////////////////////////////////////////////////
 
 		updates.EventUpdate(ts);
+
+		
 
 		GuiWindow.ImGuiRender();
 
