@@ -22,6 +22,12 @@ void Hyko::EToolbar::create_Menu()
 	}
 }
 
+void Hyko::EToolbar::Christmas()
+{
+	ImGui::Text("Merry christmas!");
+	ImGui::Text("Congratulations on the new year 2023");
+}
+
 void Hyko::EToolbar::createEToolbar()
 {
 	ImGuiWindowFlags winFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar
@@ -43,6 +49,10 @@ void Hyko::EToolbar::createEToolbar()
 			sceneData_Menu();
 
 			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Christmas")) {
+			Christmas();
 		}
 
 		ImGui::EndMenuBar();

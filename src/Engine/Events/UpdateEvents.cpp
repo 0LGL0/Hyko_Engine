@@ -79,10 +79,10 @@ void Hyko::EUpdates::EventUpdate(Hyko::Time ts)
 
 	////////////////////////////////////////////////////////////////////////////////////////////
 
-	//if (MainEditoreUI.mashIsCreated(HK_TRIANGLE)) {
+	if (MainEditoreUI.mashIsCreated(HK_TRIANGLE)) {
 		entity.render(HK_TRIANGLE);
 		entity.EndDraw();
-	//}
+	}
 
 	c_shader.unUse();
 

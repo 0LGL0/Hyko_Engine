@@ -13,6 +13,7 @@ namespace Hyko {
 	private:
 		void sceneData_Menu();
 		void create_Menu();
+		void Christmas();
 	public:
 		bool meshIsCreting = false;
 	public:
