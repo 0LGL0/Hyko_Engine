@@ -1,0 +1,45 @@
+#pragma once
+
+#include "../Engine/Scene/Scene.h"
+#include "../Engine/Meshes/Entity.h"
+
+// imgui
+#include <imgui.h>
+#include <imgui_internal.h>
+
+//std
+#include <string>
+#include <memory>
+
+//#include "Engine/UI/EngineUILayer.h"
+
+namespace Hyko {
+	class EToolbar {
+	private:
+		friend class EUILayer;
+
+		std::shared_ptr<Hyko::Entity> m_entity{ new Hyko::Entity{ m_scene } };
+	private:
+		bool createIsOpen  = false;
+		bool debugIsOpen   = false;
+		bool meshLineMode  = false;
+		bool meshIsCreting = false;
+		bool VSync		   = false;
+
+		float backgroundColor[3]{1.0f, 1.0f, 1.0f};
+
+		std::shared_ptr<Hyko::Scene> m_scene;
+	private:
+		void scene_Menu();
+		void create_Menu();
+		void debug(int FPS, float dt);
+		void Christmas();		
+	public:
+		EToolbar() = default;
+		EToolbar(std::shared_ptr<Hyko::Scene> &scene, std::shared_ptr<Hyko::Entity> &entity)
+			: m_scene(scene), m_entity(entity) {};
+		~EToolbar() = default;
+
+		void createEToolbar(int FPS, float dt);
+	};
+}

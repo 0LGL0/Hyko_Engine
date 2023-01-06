@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,7 +130,8 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -139,37 +140,37 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
       <AdditionalLibraryDirectories>D:\C++\Hyko_Engine\libs\GLFW\lib;D:\C++\Hyko_Engine\libs\vld\lib;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
       <AdditionalDependencies>opengl32.lib;glfw3.lib;$(CoreLibraryDependencies);%(AdditionalDependencies)</AdditionalDependencies>
+      <AssemblyDebug>
+      </AssemblyDebug>
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="libs\GLAD\src\glad.c" />
     <ClCompile Include="libs\GLM\detail\glm.cpp" />
-    <ClCompile Include="src\Engine\Debug\Debug.cpp" />
-    <ClCompile Include="src\Engine\Events\InputEvents.cpp" />
-    <ClCompile Include="src\Engine\Events\UpdateEvents.cpp" />
-    <ClCompile Include="src\Engine\ImGui\ImGuiWindows.cpp" />
-    <ClCompile Include="src\Engine\Meshes\Components.cpp" />
-    <ClCompile Include="src\Engine\Meshes\Entity.cpp" />
-    <ClCompile Include="src\Engine\Meshes\Triangle.cpp" />
-    <ClCompile Include="src\Engine\Projection\EditorProjection.cpp" />
-    <ClCompile Include="src\Engine\Scene\Scene.cpp" />
-    <ClCompile Include="src\Engine\System\Tools.cpp" />
-    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\EditorComponentSettings.cpp" />
-    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.cpp" />
-    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\EditorToolbar.cpp" />
-    <ClCompile Include="src\Engine\UI\Editor\MainEditorUI\UI.cpp" />
-    <ClCompile Include="src\glad.c" />
-    <ClCompile Include="src\GL\VO.cpp" />
-    <ClCompile Include="src\libSource\imgui.cpp" />
-    <ClCompile Include="src\libSource\imgui_demo.cpp" />
-    <ClCompile Include="src\libSource\imgui_draw.cpp" />
-    <ClCompile Include="src\libSource\imgui_impl_glfw.cpp" />
-    <ClCompile Include="src\libSource\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="src\libSource\imgui_tables.cpp" />
-    <ClCompile Include="src\libSource\imgui_widgets.cpp" />
-    <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\shader.cpp" />
-    <ClCompile Include="src\window.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Core\Application.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Debug\Debug.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Events\InputEvents.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Meshes\Components.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Meshes\Entity.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Projection\EditorProjection.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Scene\Camera\EditorCamera.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Scene\Scene.cpp" />
+    <ClCompile Include="Hyko\src\Engine\System\Tools.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorComponentSettings.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorToolbar.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\EngineUILayer.cpp" />
+    <ClCompile Include="Hyko\src\GL\VO.cpp" />
+    <ClCompile Include="Hyko\src\GL\Window\window.cpp" />
+    <ClCompile Include="Hyko\src\libSource\imgui.cpp" />
+    <ClCompile Include="Hyko\src\libSource\imgui_demo.cpp" />
+    <ClCompile Include="Hyko\src\libSource\imgui_draw.cpp" />
+    <ClCompile Include="Hyko\src\libSource\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Hyko\src\libSource\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Hyko\src\libSource\imgui_tables.cpp" />
+    <ClCompile Include="Hyko\src\libSource\imgui_widgets.cpp" />
+    <ClCompile Include="Hyko\src\main.cpp" />
+    <ClCompile Include="Hyko\src\Engine\System\FileSystem\shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="libs\GLAD\include\glad\glad.h" />
@@ -458,39 +459,39 @@
     <ClInclude Include="libs\GLM\vec3.hpp" />
     <ClInclude Include="libs\GLM\vec4.hpp" />
     <ClInclude Include="libs\GLM\vector_relational.hpp" />
-    <ClInclude Include="src\Engine\Core\Hyko.h" />
-    <ClInclude Include="src\Engine\Core\KeyKodes.h" />
-    <ClInclude Include="src\Engine\Core\MouseButtons.h" />
-    <ClInclude Include="src\Engine\Debug\Debug.h" />
-    <ClInclude Include="src\Engine\Events\InputEvents.h" />
-    <ClInclude Include="src\Engine\Events\UpdateEvents.h" />
-    <ClInclude Include="src\Engine\ImGui\ImGuiWindows.h" />
-    <ClInclude Include="src\Engine\Meshes\Components.h" />
-    <ClInclude Include="src\Engine\Meshes\Entity.h" />
-    <ClInclude Include="src\Engine\Meshes\Triangle.h" />
-    <ClInclude Include="src\Engine\Projection\EditorProjection.h" />
-    <ClInclude Include="src\Engine\Scene\Scene.h">
+    <ClInclude Include="Hyko\src\Engine\Core\Application.h" />
+    <ClInclude Include="Hyko\src\Engine\Core\Hyko.h" />
+    <ClInclude Include="Hyko\src\Engine\Core\KeyKodes.h" />
+    <ClInclude Include="Hyko\src\Engine\Core\Macro.h" />
+    <ClInclude Include="Hyko\src\Engine\Core\MouseButtons.h" />
+    <ClInclude Include="Hyko\src\Engine\Debug\Debug.h" />
+    <ClInclude Include="Hyko\src\Engine\Events\InputEvents.h" />
+    <ClInclude Include="Hyko\src\Engine\Meshes\Components.h" />
+    <ClInclude Include="Hyko\src\Engine\Meshes\Entity.h" />
+    <ClInclude Include="Hyko\src\Engine\Projection\EditorProjection.h" />
+    <ClInclude Include="Hyko\src\Engine\Scene\Camera\EditorCamera.h" />
+    <ClInclude Include="Hyko\src\Engine\Scene\Scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
       </ExcludedFromBuild>
     </ClInclude>
-    <ClInclude Include="src\Engine\System\Time.h" />
-    <ClInclude Include="src\Engine\System\Tools.h" />
-    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\EditorComponentSettings.h" />
-    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\EditorToolbar.h" />
-    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.h" />
-    <ClInclude Include="src\Engine\UI\Editor\MainEditorUI\UI.h" />
-    <ClInclude Include="src\GL\VO.h" />
-    <ClInclude Include="src\libSource\imconfig.h" />
-    <ClInclude Include="src\libSource\imgui.h" />
-    <ClInclude Include="src\libSource\imgui_impl_glfw.h" />
-    <ClInclude Include="src\libSource\imgui_impl_opengl3.h" />
-    <ClInclude Include="src\libSource\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="src\libSource\imgui_internal.h" />
-    <ClInclude Include="src\libSource\imstb_rectpack.h" />
-    <ClInclude Include="src\libSource\imstb_textedit.h" />
-    <ClInclude Include="src\libSource\imstb_truetype.h" />
-    <ClInclude Include="src\shader.h" />
-    <ClInclude Include="src\window.h" />
+    <ClInclude Include="Hyko\src\Engine\System\Time.h" />
+    <ClInclude Include="Hyko\src\Engine\System\Tools.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorComponentSettings.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorToolbar.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\EngineUILayer.h" />
+    <ClInclude Include="Hyko\src\GL\VO.h" />
+    <ClInclude Include="Hyko\src\GL\Window\window.h" />
+    <ClInclude Include="Hyko\src\libSource\imconfig.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui_impl_glfw.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui_impl_opengl3.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui_internal.h" />
+    <ClInclude Include="Hyko\src\libSource\imstb_rectpack.h" />
+    <ClInclude Include="Hyko\src\libSource\imstb_textedit.h" />
+    <ClInclude Include="Hyko\src\libSource\imstb_truetype.h" />
+    <ClInclude Include="Hyko\src\Engine\System\FileSystem\shader.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -634,12 +635,12 @@
     <None Include="libs\GLM\gtx\vector_query.inl" />
     <None Include="libs\GLM\gtx\wrap.inl" />
     <None Include="LICENSE.md" />
-    <Text Include="res\fragmentShader.glsl">
+    <Text Include="Hyko\res\fragmentShader.glsl">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </Text>
-    <Text Include="res\vertexShader.glsl">
+    <Text Include="Hyko\res\vertexShader.glsl">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
