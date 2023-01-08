@@ -6,6 +6,9 @@
 #include "Engine/System/Tools.h"
 #include "Engine/System/FileSystem/shader.h"
 
+// Editor camera
+#include "Engine/Scene/Camera/EditorCamera.h"
+
 // UI
 #include "Engine/UI/EngineUILayer.h"
 
@@ -14,12 +17,13 @@
 
 class App {
 private:
-	EProjection EProj;
+	//EProjection EProj;
 	std::shared_ptr<Hyko::Scene> m_scene{ new Hyko::Scene };
 	Shader c_shader;
+	std::shared_ptr<Hyko::ECamera> eCamera{ new Hyko::ECamera };
 
 	// UI
-	Hyko::EUILayer eUILayer{ m_scene };
+	Hyko::EUILayer eUILayer{ m_scene, eCamera };
 private:
 	glm::mat4 projection;
 	glm::mat4 view;

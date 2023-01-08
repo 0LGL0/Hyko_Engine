@@ -67,6 +67,25 @@ void Hyko::EToolbar::Christmas()
 	ImGui::Text("Congratulations on the new year 2023");
 }
 
+void Hyko::EToolbar::settings_Menu()
+{
+	const ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
+	const ImGuiSliderFlags fl = ImGuiSliderFlags_Logarithmic;
+	
+	const char* projectionNames[2]{
+		"Perspective",
+		"Orthographic"
+	};
+
+	if (ImGui::TreeNodeEx("Editor camera", treeFlags)) {
+		ImGui::Combo("Projection type", &projectionTypeIndx, projectionNames, 2, IM_ARRAYSIZE(projectionNames));
+
+		ImGui::SliderInt("Camera speed", &camSpeed, 10, 200);
+
+		ImGui::TreePop();
+	}
+}
+
 void Hyko::EToolbar::createEToolbar(int FPS, float dt)
 {
 	ImGuiWindowFlags winFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_MenuBar
@@ -75,7 +94,7 @@ void Hyko::EToolbar::createEToolbar(int FPS, float dt)
 	ImGui::Begin("Toolbar", nullptr, winFlags);
 
 	ImGui::SetWindowPos({ 0.0f, 0.0f });
-	ImGui::SetWindowSize({ Hyko::getWinSize(Window::getNativeWindow()).x, 1});
+	ImGui::SetWindowSize({ static_cast<float>(Window::getWindowWidth(Window::getNativeWindow())), 1.0f});
 
 	if (ImGui::BeginMenuBar()) {
 		if (ImGui::BeginMenu("Create")) {
@@ -84,7 +103,7 @@ void Hyko::EToolbar::createEToolbar(int FPS, float dt)
 			ImGui::EndMenu();
 		}
 
-		if (ImGui::BeginMenu("Scene data")) {
+		if (ImGui::BeginMenu("Scene")) {
 			scene_Menu();
 
 			ImGui::EndMenu();
@@ -100,6 +119,12 @@ void Hyko::EToolbar::createEToolbar(int FPS, float dt)
 		if (ImGui::BeginMenu("Windows")) {
 			ImGui::MenuItem("Debug", nullptr, &debugIsOpen);
 			
+			ImGui::EndMenu();
+		}
+
+		if (ImGui::BeginMenu("Settings")) {
+			settings_Menu();
+
 			ImGui::EndMenu();
 		}
 

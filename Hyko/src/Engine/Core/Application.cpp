@@ -1,20 +1,27 @@
-#include <glad/glad.h>
-#include <glfw3.h>
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
+#include "Application.h"
 
 #include "Engine/Scene/Scene.h"
 #include "Engine/Events/InputEvents.h"
 #include "Engine/Debug/Debug.h"
 
-#include "Application.h"
+#include <glad/glad.h>
+#include <glfw3.h>
+#include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 void App::Init()
 {
-	Window window{ "test", 1280, 720, 3, 3 };
+	Window window{ "Hyko", 1280, 720, 3, 3 };
+	window.updateViewportSizeCallback(window.getNativeWindow(), window.getWindowWidth(), window.getWindowHeight());
+
 	eUILayer.createUILayer(window.getNativeWindow());
 
-	projection = EProj.createOrthoProjection(-100.0f, 100.0f, -100.0f, 100.0f);
+	eCamera->setData(Hyko::PerspectiveData{ 90.0f, 1280.0f / 720.0f, 0.1f, 100.0f });
+	eCamera->setData(Hyko::OrthographicData{ -100.0f, 100.0f, -100.0f, 100.0f });
+
+	eCamera->initProjection();
+	projection = eCamera->getProjectionMat();
+	view = eCamera->getViewMat();
 
 	shaderProgram = c_shader.createShaderProgram("Hyko//res//vertexShader.glsl", "Hyko//res//fragmentShader.glsl");
 
@@ -25,47 +32,21 @@ void App::Init()
 		Hyko::Time ts = time - m_LastFrameTime;
 		m_LastFrameTime = time;
 
-		view = EProj.createViewMatrix();
-
 		glClearColor(m_scene->getBackgroundColor_Vec().r, m_scene->getBackgroundColor_Vec().g, m_scene->getBackgroundColor_Vec().b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		eUILayer.newFrame();
 
-		////Input//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		////Editor camera control//////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		if (Hyko::isMouseButtonPressed(Hyko::Mouse::HK_MOUSE_BUTTON_RIGHT)) {
-			if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_W))
-				EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y - 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
-
-			if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_S))
-				EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x, EProj.getEditorCameraPosition().y + 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().z);
-
-			if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_A))
-				EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x + 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().y, EProj.getEditorCameraPosition().z);
-
-			if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_D))
-				EProj.setEditorCameraPosition(EProj.getEditorCameraPosition().x - 100.0f * ts.getDeltaSeconds(), EProj.getEditorCameraPosition().y, EProj.getEditorCameraPosition().z);
-
-			// reset camera position
-			if (Hyko::isKeyPressed(Hyko::Key::HK_KEYBORD_LEFT_CONTROL))
-				EProj.setEditorCameraPosition(0.0f, 0.0f, 0.0f);
-		}
-
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-		///////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+		// input
+		eCamera->updateInput(ts.getDeltaSeconds(), eUILayer.getCamSpeed());
+		view = eCamera->updateView();
+		projection = eCamera->updateProjection();
 
 		c_shader.use();
 
-		////uniform variables in shaders////////////////////////////////////////////////////////////
-
+		// set uniform variables for shaders
 		c_shader.setUniformMat4("view", view);
 		c_shader.setUniformMat4("projection", projection);
-
-		////////////////////////////////////////////////////////////////////////////////////////////
 
 		eUILayer.renderEnities();
 
@@ -73,7 +54,6 @@ void App::Init()
 
 		// UI
 		eUILayer.OnUpdate(ts);
-
 		eUILayer.Render();
 
 		glfwSwapBuffers(window.getNativeWindow());

@@ -37,6 +37,8 @@ Window::Window(std::string title, int width, int height, const int GLMajorVersio
 	m_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr); // creating window
 	glfwMakeContextCurrent(m_window);
 
+	glfwSetWindowSizeCallback(m_window, viewportResizeCallback);
+
 	setupGLAD();
 }
 
@@ -44,6 +46,29 @@ Window::~Window()
 {
 	glfwTerminate();
 	glfwDestroyWindow(m_window);
+}
+
+void Window::updateViewportSizeCallback(GLFWwindow *window, int width, int height)
+{
+	viewportResizeCallback(window, width, height);
+}
+
+int Window::getWindowWidth(GLFWwindow* window)
+{
+	int w = 0;
+
+	glfwGetWindowSize(window, &w, nullptr);
+
+	return w;
+}
+
+int Window::getWindowHeight(GLFWwindow* window)
+{
+	int h = 0;
+
+	glfwGetWindowSize(window, nullptr, &h);
+
+	return h;
 }
 
 void Window::setVSync(bool state)
@@ -56,4 +81,9 @@ void Window::setVSync(bool state)
 		glfwSwapInterval(0);
 		break;
 	}
+}
+
+void viewportResizeCallback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
 }

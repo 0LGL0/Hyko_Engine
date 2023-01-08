@@ -37,9 +37,12 @@ public:
 	Window(std::string title, int width, int height, const int GLMajorVersion, const int GLVersionMinor);
 	~Window();
 
+	void updateViewportSizeCallback(GLFWwindow *window, int width, int height);
 public: // getters
 	int getWindowWidth() { return m_WindowData.Width; }
 	int getWindowHeight() { return m_WindowData.Height; }
+	static int getWindowWidth(GLFWwindow* window);
+	static int getWindowHeight(GLFWwindow* window);
 
 	std::string getWindowTitle() { return m_WindowData.Title; }
 
@@ -50,3 +53,5 @@ public: // getters
 public: // setters
 	static void setVSync(bool state);
 };
+
+static void viewportResizeCallback(GLFWwindow* window, int width, int height);

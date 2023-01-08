@@ -1,12 +1,14 @@
 #pragma once
 
+// GL / Maths
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+
+// std
 #include <vector>
 #include <memory>
 
 #include "../GL/VO.h"
-#include "../Core/Hyko.h"
 #include "../Scene/Scene.h"
 
 namespace Hyko {
@@ -19,7 +21,7 @@ namespace Hyko {
 	private:
 		Vertex vertex;
 		std::shared_ptr<Hyko::Scene> m_scene;
-	public:
+
 		VO vo;
 	private:
 		static std::vector<float> triangleVertices;

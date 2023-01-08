@@ -4,6 +4,7 @@
 #include "Engine/System/Time.h"
 #include "Engine/Scene/Scene.h"
 #include "Engine/Meshes/Entity.h"
+#include "Engine/Scene/Camera/EditorCamera.h"
 
 // UI panels
 #include "Editor/MainEditorUI/EditorToolbar.h"
@@ -25,12 +26,13 @@ namespace Hyko {
 		Hyko::EToolbar eToolbar{ m_scene, m_entity };
 		Hyko::EHierarchy eHierarchy{ m_scene };
 		Hyko::EComponentSettings eCompSettings{ m_scene };
+		std::shared_ptr<Hyko::ECamera> m_eCamera;
 	private:
 		float m_LastFrameTime = 0.0f;
 	public:
-		EUILayer() = default;
-		EUILayer(std::shared_ptr<Hyko::Scene> &scene)
-			: m_scene(scene) {};
+		EUILayer() = delete;
+		EUILayer(std::shared_ptr<Hyko::Scene> &scene, std::shared_ptr<Hyko::ECamera>& eCamera)
+			: m_scene(scene), m_eCamera(eCamera) {};
 		~EUILayer();
 
 		void createUILayer(GLFWwindow *window);
@@ -38,5 +40,7 @@ namespace Hyko {
 		void renderEnities();
 		void newFrame();
 		void Render();
+	public: // getters
+		float getCamSpeed() { return eToolbar.camSpeed; }
 	};
 }

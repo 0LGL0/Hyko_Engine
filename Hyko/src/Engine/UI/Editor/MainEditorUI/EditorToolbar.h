@@ -1,7 +1,7 @@
 #pragma once
 
-#include "../Engine/Scene/Scene.h"
-#include "../Engine/Meshes/Entity.h"
+#include "Engine/Scene/Scene.h"
+#include "Engine/Meshes/Entity.h"
 
 // imgui
 #include <imgui.h>
@@ -19,6 +19,7 @@ namespace Hyko {
 		friend class EUILayer;
 
 		std::shared_ptr<Hyko::Entity> m_entity{ new Hyko::Entity{ m_scene } };
+		std::shared_ptr<Hyko::Scene> m_scene;
 	private:
 		bool createIsOpen  = false;
 		bool debugIsOpen   = false;
@@ -27,13 +28,14 @@ namespace Hyko {
 		bool VSync		   = false;
 
 		float backgroundColor[3]{1.0f, 1.0f, 1.0f};
-
-		std::shared_ptr<Hyko::Scene> m_scene;
+		int camSpeed = 50.0f;
+		int projectionTypeIndx = 1;
 	private:
 		void scene_Menu();
 		void create_Menu();
 		void debug(int FPS, float dt);
-		void Christmas();		
+		void Christmas();
+		void settings_Menu();
 	public:
 		EToolbar() = default;
 		EToolbar(std::shared_ptr<Hyko::Scene> &scene, std::shared_ptr<Hyko::Entity> &entity)

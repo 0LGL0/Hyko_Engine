@@ -1,9 +1,15 @@
 #pragma once
 
-#include "GL/Window/window.h"
-#include "../Engine/Core/Hyko.h"
+// input
+#include "Engine/Core/KeyKodes.h"
+#include "Engine/Core/MouseButtons.h"
 
+#include "GL/Window/window.h"
+
+// GL
 #include <glfw3.h>
+
+// GL / Maths
 #include <glm/glm.hpp>
 
 namespace Hyko {
@@ -18,5 +24,6 @@ namespace Hyko {
 	bool isKeyReleased(int keyCode);
 	bool isMouseButtonReleased(int mouseButton);
 
+	// getters
 	glm::vec2 getMousePos();
 }

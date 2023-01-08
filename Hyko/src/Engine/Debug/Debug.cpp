@@ -1,19 +1,7 @@
 #include "Debug.h"
 
+// GL
 #include <glfw3.h>
-
-void Hyko::setVSync(bool is)
-{
-	switch (is)
-	{
-	case true:
-		glfwSwapInterval(1);
-		break;
-	case false:
-		glfwSwapInterval(0);
-		break;
-	}
-}
 
 void Hyko::edgeRenderingLineOnly(bool is)
 {

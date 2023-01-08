@@ -54,6 +54,10 @@ void Hyko::EUILayer::OnUpdate(Time dt)
 	if (!eToolbar.VSync)		Window::setVSync(false);
 
 	m_scene->setBackgroundColor(eToolbar.backgroundColor);
+
+	m_eCamera->swapProjection(eToolbar.projectionTypeIndx == 0 ? Hyko::projType::Perspective : Hyko::projType::Orthographic);
+
+	ImGui::ShowDemoWindow();
 }
 
 void Hyko::EUILayer::renderEnities()
