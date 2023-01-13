@@ -1,8 +1,7 @@
 #include "window.h"
 
-#include "../Engine/System/Time.h"
-
-#include <iostream>
+#include "Engine/System/Time.h"
+#include "Engine/Events/InputEvents.h"
 
 GLFWwindow* Window::m_window;
 
@@ -36,8 +35,24 @@ Window::Window(std::string title, int width, int height, const int GLMajorVersio
 
 	m_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr); // creating window
 	glfwMakeContextCurrent(m_window);
+	
+	// Lambdas
+	// Lambda for glfw window resize callback
+	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
+		glViewport(0, 0, width, height);
+	}); 
 
-	glfwSetWindowSizeCallback(m_window, viewportResizeCallback);
+	// Lambda for glfw scroll callback
+	glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset) {
+		Hyko::Input::setMouseXOffset((float)xOffset);
+		Hyko::Input::setMouseYOffset((float)yOffset);
+	});
+
+	// Lambda for glfw cursor position callback
+	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos) {
+		Hyko::Input::setMouseXPos(xPos);
+		Hyko::Input::setMouseYPos(yPos);
+	});
 
 	setupGLAD();
 }
@@ -46,11 +61,6 @@ Window::~Window()
 {
 	glfwTerminate();
 	glfwDestroyWindow(m_window);
-}
-
-void Window::updateViewportSizeCallback(GLFWwindow *window, int width, int height)
-{
-	viewportResizeCallback(window, width, height);
 }
 
 int Window::getWindowWidth(GLFWwindow* window)
@@ -73,17 +83,25 @@ int Window::getWindowHeight(GLFWwindow* window)
 
 void Window::setVSync(bool state)
 {
-	switch (state) {
-	case true:
-		glfwSwapInterval(1);
-		break;
-	case false:
-		glfwSwapInterval(0);
-		break;
-	}
+	glfwSwapInterval(state);
 }
 
-void viewportResizeCallback(GLFWwindow* window, int width, int height)
+void Window::setWindowWidth(int width)
 {
-	glViewport(0, 0, width, height);
+	m_WindowData.Width = width;
+}
+
+void Window::setWindowHeight(int height)
+{
+	m_WindowData.Height = height;
+}
+
+void Window::setWindowWidth(Window &window, int width)
+{
+	window.setWindowWidth(width);
+}
+
+void Window::setWindowHeight(Window &window, int height)
+{
+	window.setWindowHeight(height);
 }

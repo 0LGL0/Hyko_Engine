@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Engine/Meshes/Entity.h"
-#include "Engine/Projection/EditorProjection.h"
 #include "GL/Window/window.h"
 #include "Engine/System/Tools.h"
 #include "Engine/System/FileSystem/shader.h"
@@ -9,7 +8,7 @@
 // Editor camera
 #include "Engine/Scene/Camera/EditorCamera.h"
 
-// UI
+// Editor UI
 #include "Engine/UI/EngineUILayer.h"
 
 // std

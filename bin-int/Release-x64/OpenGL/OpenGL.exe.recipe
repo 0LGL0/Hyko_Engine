@@ -7,10 +7,10 @@
   </ProjectOutputs>
   <ContentFiles>
     <ContentFile>
-      <FullPath>D:\C++\Hyko_Engine\res\fragmentShader.glsl</FullPath>
+      <FullPath>D:\C++\Hyko_Engine\Hyko\res\fragmentShader.glsl</FullPath>
     </ContentFile>
     <ContentFile>
-      <FullPath>D:\C++\Hyko_Engine\res\vertexShader.glsl</FullPath>
+      <FullPath>D:\C++\Hyko_Engine\Hyko\res\vertexShader.glsl</FullPath>
     </ContentFile>
   </ContentFiles>
   <SatelliteDlls />

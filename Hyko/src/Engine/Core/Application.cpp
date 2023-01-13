@@ -4,15 +4,20 @@
 #include "Engine/Events/InputEvents.h"
 #include "Engine/Debug/Debug.h"
 
+//GL
 #include <glad/glad.h>
 #include <glfw3.h>
+
+// GL / Maths
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
+
+// std
+#include <iostream>
 
 void App::Init()
 {
 	Window window{ "Hyko", 1280, 720, 3, 3 };
-	window.updateViewportSizeCallback(window.getNativeWindow(), window.getWindowWidth(), window.getWindowHeight());
 
 	eUILayer.createUILayer(window.getNativeWindow());
 
@@ -31,6 +36,8 @@ void App::Init()
 		float time = (float)glfwGetTime();
 		Hyko::Time ts = time - m_LastFrameTime;
 		m_LastFrameTime = time;
+
+		glfwPollEvents();
 
 		glClearColor(m_scene->getBackgroundColor_Vec().r, m_scene->getBackgroundColor_Vec().g, m_scene->getBackgroundColor_Vec().b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
@@ -57,6 +64,7 @@ void App::Init()
 		eUILayer.Render();
 
 		glfwSwapBuffers(window.getNativeWindow());
-		glfwPollEvents();
+
+		Hyko::Input::resetInput();
 	}
 }

@@ -6,8 +6,9 @@
 
 // std
 #include <string>
+#include <functional>
 
-struct WindowData {
+static struct WindowData {
 	int Width = 0;
 	int Height = 0;
 
@@ -27,8 +28,6 @@ private:
 
 	WindowData m_WindowData;
 private:
-	using callbackF = void(*)(GLFWwindow* win, int width, int height);
-private:
 	void setupVariebles(int width, int height, std::string title, const int GLMajorVersion, const int GLMinorVersion);
 	void setupHints(const int GLMajorVersion, const int GLVersionMinor);
 	void setupGLAD();
@@ -36,8 +35,6 @@ public:
 	Window() = default;
 	Window(std::string title, int width, int height, const int GLMajorVersion, const int GLVersionMinor);
 	~Window();
-
-	void updateViewportSizeCallback(GLFWwindow *window, int width, int height);
 public: // getters
 	int getWindowWidth() { return m_WindowData.Width; }
 	int getWindowHeight() { return m_WindowData.Height; }
@@ -52,6 +49,10 @@ public: // getters
 	static GLFWwindow* getNativeWindow() { return m_window; }
 public: // setters
 	static void setVSync(bool state);
-};
 
-static void viewportResizeCallback(GLFWwindow* window, int width, int height);
+	void setWindowWidth(int width);
+	void setWindowHeight(int height);
+
+	static void setWindowWidth(Window &window, int width);
+	static void setWindowHeight(Window &window, int height);
+};

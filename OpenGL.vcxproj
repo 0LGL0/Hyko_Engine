@@ -130,7 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -152,7 +152,6 @@
     <ClCompile Include="Hyko\src\Engine\Events\InputEvents.cpp" />
     <ClCompile Include="Hyko\src\Engine\Meshes\Components.cpp" />
     <ClCompile Include="Hyko\src\Engine\Meshes\Entity.cpp" />
-    <ClCompile Include="Hyko\src\Engine\Projection\EditorProjection.cpp" />
     <ClCompile Include="Hyko\src\Engine\Scene\Camera\EditorCamera.cpp" />
     <ClCompile Include="Hyko\src\Engine\Scene\Scene.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\Tools.cpp" />
@@ -468,7 +467,6 @@
     <ClInclude Include="Hyko\src\Engine\Events\InputEvents.h" />
     <ClInclude Include="Hyko\src\Engine\Meshes\Components.h" />
     <ClInclude Include="Hyko\src\Engine\Meshes\Entity.h" />
-    <ClInclude Include="Hyko\src\Engine\Projection\EditorProjection.h" />
     <ClInclude Include="Hyko\src\Engine\Scene\Camera\EditorCamera.h" />
     <ClInclude Include="Hyko\src\Engine\Scene\Scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -48,9 +48,6 @@
     <ClCompile Include="Hyko\src\libSource\imgui_impl_opengl3.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Hyko\src\Engine\Projection\EditorProjection.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Hyko\src\Engine\Events\InputEvents.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -981,9 +978,6 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="libs\GLFW\include\glfw3native.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
-    <ClInclude Include="Hyko\src\Engine\Projection\EditorProjection.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Hyko\src\Engine\System\Time.h">
