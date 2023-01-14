@@ -91,7 +91,7 @@ void Hyko::ECamera::updateInput(float dt, float camSpeed)
 		switch (m_type) {
 		case projType::Perspective: // Perspective
 			if (m_perspData.m_fovY >= 1.0f && m_perspData.m_fovY <= 120.0f)
-				m_perspData.m_fovY -= (Hyko::Input::getMouseYOffset() * 500) * dt;
+				m_perspData.m_fovY -= ((Hyko::Input::getMouseYOffset() * 500) * dt);
 			if (m_perspData.m_fovY > 120.0f)
 				m_perspData.m_fovY = 120.0f;
 			if (m_perspData.m_fovY < 1.0f)
@@ -108,18 +108,10 @@ void Hyko::ECamera::updateInput(float dt, float camSpeed)
 			break;
 
 		case projType::Orthographic: //Orthographic
-			if (Hyko::Input::getMouseYOffset() <= -1) { // Zoom -
-				m_orthoData.m_bottom += Hyko::Input::getMouseYOffset() * 1000 * dt;
-				m_orthoData.m_left += Hyko::Input::getMouseYOffset() * 1000 * dt;
-				m_orthoData.m_top -= Hyko::Input::getMouseYOffset() * 1000 * dt;
-				m_orthoData.m_right -= Hyko::Input::getMouseYOffset() * 1000 * dt;
-			}
-			else if (Hyko::Input::getMouseYOffset() >= 1) { // Zoom +
-				m_orthoData.m_bottom += Hyko::Input::getMouseYOffset() * 1000 * dt;
-				m_orthoData.m_left += Hyko::Input::getMouseYOffset() * 1000 * dt;
-				m_orthoData.m_top -= Hyko::Input::getMouseYOffset() * 1000 * dt;
-				m_orthoData.m_right -= Hyko::Input::getMouseYOffset() * 1000 * dt;
-			}
+			m_orthoData.m_bottom += ((Hyko::Input::getMouseYOffset() * 500) * dt);
+			m_orthoData.m_left += ((Hyko::Input::getMouseYOffset() * 500) * dt);
+			m_orthoData.m_top -= ((Hyko::Input::getMouseYOffset() * 500) * dt);
+			m_orthoData.m_right -= ((Hyko::Input::getMouseYOffset() * 500) * dt);
 
 			if ((m_orthoData.m_bottom < -400.0f && m_orthoData.m_left < -400.0f) && (m_orthoData.m_right > 400.0f && m_orthoData.m_top > 400.0f)) {
 				m_orthoData.m_bottom = -400.0f;
