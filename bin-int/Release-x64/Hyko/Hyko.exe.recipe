@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project>
+  <ProjectOutputs>
+    <ProjectOutput>
+      <FullPath>D:\C++\Hyko_Engine\bin\Release-x64\Hyko\Hyko.exe</FullPath>
+    </ProjectOutput>
+  </ProjectOutputs>
+  <ContentFiles>
+    <ContentFile>
+      <FullPath>D:\C++\Hyko_Engine\Hyko\res\fragmentShader.glsl</FullPath>
+    </ContentFile>
+    <ContentFile>
+      <FullPath>D:\C++\Hyko_Engine\Hyko\res\vertexShader.glsl</FullPath>
+    </ContentFile>
+  </ContentFiles>
+  <SatelliteDlls />
+  <NonRecipeFileRefs />
+</Project>
