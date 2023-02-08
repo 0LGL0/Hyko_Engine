@@ -23,7 +23,16 @@ void App::Init()
 {
 	Window window{ "Hyko", 1280, 720, 4, 6 };
 
-	//Hyko::Renderer::Init();
+	/*******************************Get GPU and OpenGL information****************************/
+
+	HK_INFO("**************************************************************");
+	HK_INFO("GPU vendor: {0}", (char*)glGetString(GL_VENDOR));
+	HK_INFO("GPU name: {0}", (char*)glGetString(GL_RENDERER));
+	HK_INFO("OpenGL version: {0}", (char*)glGetString(GL_VERSION));
+	HK_INFO("OpenGL GLSL version: {0}", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
+	HK_INFO("**************************************************************");
+
+	/*****************************************************************************************/
 
 	fbo->init();
 
@@ -126,9 +135,6 @@ void App::Init()
 	m_scene->Reg().emplace<Hyko::TransformComponent>(entt3);
 	m_scene->Reg().emplace<Hyko::SpriteComponent>(entt3);*/
 
-	//render1.createTriangle(glm::vec2{ 0.0f, 0.0f }, {10.0f, 10.0f}, 90.0f, glm::vec4{1.0f, 0.0f, 1.0f, 1.0f});
-	//render1.createTriangle(glm::vec2{ 50.0f, 50.0f }, { 20.0f, 20.0f }, 0.0f, glm::vec4{ 0.0f, 0.0f, 1.0f, 1.0f });
-
 	glEnable(GL_DEPTH_TEST);
 
 	while (!glfwWindowShouldClose(window.getNativeWindow())) {
@@ -144,9 +150,8 @@ void App::Init()
 		glClearColor(m_scene->getBackgroundColor_Vec().r, m_scene->getBackgroundColor_Vec().g, m_scene->getBackgroundColor_Vec().b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		// input
+		// camera input
 		m_scene->editCamera.updateInput(ts.getDeltaSeconds(), eUILayer.getCamSpeed());
-		//Hyko::Renderer::Update();
 
 		view = m_scene->editCamera.updateView();
 		projection = m_scene->editCamera.updateProjection();
