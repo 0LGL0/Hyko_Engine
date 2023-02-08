@@ -105,3 +105,16 @@ void Window::setWindowHeight(Window &window, int height)
 {
 	window.setWindowHeight(height);
 }
+
+void Window::setRenderEdges(const bool value)
+{
+	switch (value)
+	{
+	case true:
+		glPolygonMode(GL_FRONT, GL_LINE);
+		break;
+	case false:
+		glPolygonMode(GL_FRONT, GL_FILL);
+		break;
+	}
+}

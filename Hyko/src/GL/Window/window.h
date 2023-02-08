@@ -55,4 +55,6 @@ public: // setters
 
 	static void setWindowWidth(Window &window, int width);
 	static void setWindowHeight(Window &window, int height);
+
+	static void setRenderEdges(const bool value);
 };

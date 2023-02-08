@@ -1,5 +1,5 @@
 #include "EditorHierarchy.h"
-#include "../Engine/Core/Macro.h"
+#include "Engine/Core/Macro.h"
 
 void Hyko::EHierarchy::createNewTree(int8_t type, int indx)
 {

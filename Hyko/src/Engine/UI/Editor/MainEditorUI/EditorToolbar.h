@@ -29,7 +29,7 @@ namespace Hyko {
 
 		float backgroundColor[3]{1.0f, 1.0f, 1.0f};
 		int camSpeed = 50.0f;
-		int projectionTypeIndx = 1;
+		int projectionTypeIndx = 0;
 	private:
 		void scene_Menu();
 		void create_Menu();

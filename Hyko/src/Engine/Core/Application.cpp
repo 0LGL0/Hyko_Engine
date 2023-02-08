@@ -2,7 +2,10 @@
 
 #include "Engine/Scene/Scene.h"
 #include "Engine/Events/InputEvents.h"
-#include "Engine/Debug/Debug.h"
+
+// Debug
+#include "Engine/System/Debug/Log.h"
+#include "Engine/System/Debug/Assert.h"
 
 //GL
 #include <glad/glad.h>
@@ -10,6 +13,7 @@
 
 // GL / Maths
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
 // std
@@ -17,18 +21,113 @@
 
 void App::Init()
 {
-	Window window{ "Hyko", 1280, 720, 3, 3 };
+	Window window{ "Hyko", 1280, 720, 4, 6 };
+
+	//Hyko::Renderer::Init();
+
+	fbo->init();
 
 	eUILayer.createUILayer(window.getNativeWindow());
 
-	eCamera->setData(Hyko::PerspectiveData{ 90.0f, 1280.0f / 720.0f, 0.1f, 100.0f });
-	eCamera->setData(Hyko::OrthographicData{ -100.0f, 100.0f, -100.0f, 100.0f });
+	m_scene->editCamera.setData(Hyko::PerspectiveData{ 90.0f, (float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow()), 0.1f, 100.0f });
+	/*m_scene->editCamera.setData(Hyko::OrthographicData{ -((float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow())),
+		(float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow()),
+		-((float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow())),
+		(float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow()) });*/
 
-	eCamera->initProjection();
-	projection = eCamera->getProjectionMat();
-	view = eCamera->getViewMat();
+	m_scene->editCamera.initProjection();
+	projection = m_scene->editCamera.getProjectionMat();
+	view = m_scene->editCamera.getViewMat();
 
-	shaderProgram = c_shader.createShaderProgram("Hyko//res//vertexShader.glsl", "Hyko//res//fragmentShader.glsl");
+	shaderProgram = c_shader->createShaderProgram("Hyko//res//shaders//VBasicShader.glsl", "Hyko//res//shaders//FBasicShader.glsl");
+
+	auto tr = m_scene->addToScene();
+	m_scene->Reg().emplace<Hyko::TransformComponent>(tr);
+	m_scene->Reg().emplace<Hyko::SpriteComponent>(tr);
+
+	m_scene->Reg().get<Hyko::SpriteComponent>(tr).type = Hyko::SpriteComponent::Triangle;
+
+	/*auto entity2 = m_scene->addToScene();
+	m_scene->Reg().emplace<Hyko::TransformComponent>(entity2);
+	m_scene->Reg().emplace<Hyko::CircleSpriteComponent>(entity2);*/
+
+	auto entity = m_scene->addToScene();
+	m_scene->Reg().emplace<Hyko::TransformComponent>(entity);
+	m_scene->Reg().emplace<Hyko::CircleSpriteComponent>(entity);
+
+	glm::mat4 trans = glm::translate(glm::mat4(1.0f), { 0.0f, 20.0f, 0.0f })
+		* glm::rotate(glm::mat4(1.0f), 0.0f, { 0.0f, 0.0f, 1.0f })
+		* glm::scale(glm::mat4(1.0f), { 2.0f, 2.0f, 1.0f });
+
+	m_scene->Reg().get<Hyko::TransformComponent>(entity).Transform = trans;
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity).Color = { 0.2f, 0.6f, 1.0f, 1.0f };
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity).segmentsCount = 10;
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity).radius = 1.0f;
+
+	auto entity2 = m_scene->addToScene();
+	m_scene->Reg().emplace<Hyko::TransformComponent>(entity2);
+	m_scene->Reg().emplace<Hyko::CircleSpriteComponent>(entity2);
+
+	glm::mat4 trans2 = glm::translate(glm::mat4(1.0f), { 30.0f, -20.0f, 0.0f })
+		* glm::rotate(glm::mat4(1.0f), 0.0f, { 0.0f, 0.0f, 1.0f })
+		* glm::scale(glm::mat4(1.0f), { 3.0f, 3.0f, 1.0f });
+
+	m_scene->Reg().get<Hyko::TransformComponent>(entity2).Transform = trans2;
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity2).Color = { 1.0f, 0.0f, 0.0f, 1.0f };
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity2).segmentsCount = 20;
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity2).radius = 1.0f;
+
+	/*auto entity3 = m_scene->addToScene();
+	m_scene->Reg().emplace<Hyko::TransformComponent>(entity3);
+	m_scene->Reg().emplace<Hyko::CircleSpriteComponent>(entity3);
+
+	glm::mat4 trans3 = glm::translate(glm::mat4(1.0f), { -50.0f, 20.0f, 0.0f })
+		* glm::rotate(glm::mat4(1.0f), 0.0f, { 0.0f, 0.0f, 1.0f })
+		* glm::scale(glm::mat4(1.0f), { 3.0f, 3.0f, 1.0f });
+
+	m_scene->Reg().get<Hyko::TransformComponent>(entity3).Transform = trans3;
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity3).Color = { 1.0f, 0.0f, 0.0f, 1.0f };
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity3).segmentsCount = 5;
+	m_scene->Reg().get<Hyko::CircleSpriteComponent>(entity3).radius = 5.0f;*/
+
+	//m_scene->Reg().get<Hyko::SpriteComponent>(entity2).type = Hyko::SpriteComponent::Triangle;
+
+	/*glm::mat4 trans = glm::translate(glm::mat4(1.0f), { 10.0f, 10.0f, 0.0f })
+		* glm::rotate(glm::mat4(1.0f), 0.0f, { 0.0f, 0.0f, 1.0f })
+		* glm::scale(glm::mat4(1.0f), { 2.0f, 2.0f, 1.0f });
+
+	m_scene->Reg().get<Hyko::TransformComponent>(entity2).Transform = trans;*/
+
+	//auto entity2 = m_scene->addToScene(HK_TRIANGLE, {10.0f, 20.0f}, {20.0f, 20.0f}, 0.0f, {1.0f, 0.0f, 0.0f, 1.0f});
+	//m_scene->Reg().emplace<Hyko::TransformComponent>(entity2);
+	//m_scene->Reg().emplace<Hyko::SpriteComponent>(entity2);
+
+	//auto entity3 = m_scene->addToScene(HK_TRIANGLE, { -30.0f, 20.0f }, { 50.0f, 40.0f }, 0.0f, { 0.0f, 0.0f, 1.0f, 1.0f });
+	//m_scene->Reg().emplace<Hyko::TransformComponent>(entity3);
+	//m_scene->Reg().emplace<Hyko::SpriteComponent>(entity3);
+
+	/*auto entt1 = m_scene->addToScene(HK_RECTANGLE, { 0.0f, 0.0f }, { 10.0f, 10.0f }, 0.0f, { 1.0f, 0.0f, 0.0f, 1.0f });
+	m_scene->Reg().emplace<Hyko::TransformComponent>(entt1);
+	m_scene->Reg().emplace<Hyko::SpriteComponent>(entt1);*/
+
+	auto entt2 = m_scene->addToScene();
+	m_scene->Reg().emplace<Hyko::TransformComponent>(entt2);
+	m_scene->Reg().emplace<Hyko::SpriteComponent>(entt2);
+
+	m_scene->Reg().get<Hyko::SpriteComponent>(entt2).type = Hyko::SpriteComponent::Rectangle;
+
+	glm::mat4 trans5 = glm::translate(glm::mat4(1.0f), { -30.0f, 10.0f, 0.0f })
+		* glm::rotate(glm::mat4(1.0f), 0.0f, { 0.0f, 0.0f, 1.0f })
+		* glm::scale(glm::mat4(1.0f), { 2.0f, 2.0f, 1.0f });
+
+	m_scene->Reg().get<Hyko::TransformComponent>(entt2).Transform = trans5;
+
+	/*auto entt3 = m_scene->addToScene(HK_RECTANGLE, {50.0f,60.0f}, {10.0f, 20.0f}, 0.0f, {0.0f, 0.0f, 1.0f, 1.0f});
+	m_scene->Reg().emplace<Hyko::TransformComponent>(entt3);
+	m_scene->Reg().emplace<Hyko::SpriteComponent>(entt3);*/
+
+	//render1.createTriangle(glm::vec2{ 0.0f, 0.0f }, {10.0f, 10.0f}, 90.0f, glm::vec4{1.0f, 0.0f, 1.0f, 1.0f});
+	//render1.createTriangle(glm::vec2{ 50.0f, 50.0f }, { 20.0f, 20.0f }, 0.0f, glm::vec4{ 0.0f, 0.0f, 1.0f, 1.0f });
 
 	glEnable(GL_DEPTH_TEST);
 
@@ -39,25 +138,32 @@ void App::Init()
 
 		glfwPollEvents();
 
+		fbo->bind();
+		eUILayer.newFrame();
+
 		glClearColor(m_scene->getBackgroundColor_Vec().r, m_scene->getBackgroundColor_Vec().g, m_scene->getBackgroundColor_Vec().b, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
-		eUILayer.newFrame();
-
 		// input
-		eCamera->updateInput(ts.getDeltaSeconds(), eUILayer.getCamSpeed());
-		view = eCamera->updateView();
-		projection = eCamera->updateProjection();
+		m_scene->editCamera.updateInput(ts.getDeltaSeconds(), eUILayer.getCamSpeed());
+		//Hyko::Renderer::Update();
 
-		c_shader.use();
+		view = m_scene->editCamera.updateView();
+		projection = m_scene->editCamera.updateProjection();
+
+		c_shader->use();
 
 		// set uniform variables for shaders
-		c_shader.setUniformMat4("view", view);
-		c_shader.setUniformMat4("projection", projection);
+		c_shader->setUniformMat4("view", view);
+		c_shader->setUniformMat4("projection", projection);
 
 		eUILayer.renderEnities();
 
-		c_shader.unUse();
+		m_scene->Update(ts.getDeltaSeconds());
+
+		c_shader->unUse();
+
+		fbo->unBind();
 
 		// UI
 		eUILayer.OnUpdate(ts);

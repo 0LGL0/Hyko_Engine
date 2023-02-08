@@ -32,7 +32,7 @@ private:
 	unsigned int createVShader(const char* vSrc);
 	unsigned int createFShader(const char* fSrc);
 
-	int isCompileShader(unsigned int shader);
+	int isCompileShader(unsigned int shader, const char* type);
 public:
 	unsigned int createShaderProgram(std::string vFilePath, std::string fFilePath);
 

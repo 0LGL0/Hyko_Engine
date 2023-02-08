@@ -112,7 +112,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\Hyko\src\libSource\entt;D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource\imgui;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;D:\C++\Hyko_Engine\libs\ImGui;D:\C++\Hyko_Engine\libs\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -130,7 +130,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\Hyko\src\libSource\entt;D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource\imgui;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;D:\C++\Hyko_Engine\libs\ImGui;D:\C++\Hyko_Engine\libs\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -145,10 +145,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Hyko\src\Engine\Renderer\Renderer.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Renderer\RendererTools.cpp" />
+    <ClCompile Include="Hyko\src\Engine\System\Debug\Log.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.cpp" />
+    <ClCompile Include="Hyko\src\GL\Framebuffer.cpp" />
     <ClCompile Include="libs\GLAD\src\glad.c" />
     <ClCompile Include="libs\GLM\detail\glm.cpp" />
     <ClCompile Include="Hyko\src\Engine\Core\Application.cpp" />
-    <ClCompile Include="Hyko\src\Engine\Debug\Debug.cpp" />
     <ClCompile Include="Hyko\src\Engine\Events\InputEvents.cpp" />
     <ClCompile Include="Hyko\src\Engine\Meshes\Components.cpp" />
     <ClCompile Include="Hyko\src\Engine\Meshes\Entity.cpp" />
@@ -161,17 +166,25 @@
     <ClCompile Include="Hyko\src\Engine\UI\EngineUILayer.cpp" />
     <ClCompile Include="Hyko\src\GL\VO.cpp" />
     <ClCompile Include="Hyko\src\GL\Window\window.cpp" />
-    <ClCompile Include="Hyko\src\libSource\imgui.cpp" />
-    <ClCompile Include="Hyko\src\libSource\imgui_demo.cpp" />
-    <ClCompile Include="Hyko\src\libSource\imgui_draw.cpp" />
-    <ClCompile Include="Hyko\src\libSource\imgui_impl_glfw.cpp" />
-    <ClCompile Include="Hyko\src\libSource\imgui_impl_opengl3.cpp" />
-    <ClCompile Include="Hyko\src\libSource\imgui_tables.cpp" />
-    <ClCompile Include="Hyko\src\libSource\imgui_widgets.cpp" />
     <ClCompile Include="Hyko\src\main.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\FileSystem\shader.cpp" />
+    <ClCompile Include="libs\ImGui\imgui.cpp" />
+    <ClCompile Include="libs\ImGui\imgui_demo.cpp" />
+    <ClCompile Include="libs\ImGui\imgui_draw.cpp" />
+    <ClCompile Include="libs\ImGui\imgui_impl_glfw.cpp" />
+    <ClCompile Include="libs\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="libs\ImGui\imgui_tables.cpp" />
+    <ClCompile Include="libs\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hyko\src\Engine\Renderer\Renderer.h" />
+    <ClInclude Include="Hyko\src\Engine\Renderer\RendererTools.h" />
+    <ClInclude Include="Hyko\src\Engine\System\Debug\Assert.h" />
+    <ClInclude Include="Hyko\src\Engine\System\Debug\Log.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.h" />
+    <ClInclude Include="Hyko\src\GL\Framebuffer.h" />
+    <ClInclude Include="Hyko\src\libSource\entt\entt.hpp" />
     <ClInclude Include="libs\GLAD\include\glad\glad.h" />
     <ClInclude Include="libs\GLAD\include\KHR\khrplatform.h" />
     <ClInclude Include="libs\GLFW\include\glfw3.h" />
@@ -463,7 +476,6 @@
     <ClInclude Include="Hyko\src\Engine\Core\KeyKodes.h" />
     <ClInclude Include="Hyko\src\Engine\Core\Macro.h" />
     <ClInclude Include="Hyko\src\Engine\Core\MouseButtons.h" />
-    <ClInclude Include="Hyko\src\Engine\Debug\Debug.h" />
     <ClInclude Include="Hyko\src\Engine\Events\InputEvents.h" />
     <ClInclude Include="Hyko\src\Engine\Meshes\Components.h" />
     <ClInclude Include="Hyko\src\Engine\Meshes\Entity.h" />
@@ -480,16 +492,25 @@
     <ClInclude Include="Hyko\src\Engine\UI\EngineUILayer.h" />
     <ClInclude Include="Hyko\src\GL\VO.h" />
     <ClInclude Include="Hyko\src\GL\Window\window.h" />
-    <ClInclude Include="Hyko\src\libSource\imconfig.h" />
-    <ClInclude Include="Hyko\src\libSource\imgui.h" />
-    <ClInclude Include="Hyko\src\libSource\imgui_impl_glfw.h" />
-    <ClInclude Include="Hyko\src\libSource\imgui_impl_opengl3.h" />
-    <ClInclude Include="Hyko\src\libSource\imgui_impl_opengl3_loader.h" />
-    <ClInclude Include="Hyko\src\libSource\imgui_internal.h" />
-    <ClInclude Include="Hyko\src\libSource\imstb_rectpack.h" />
-    <ClInclude Include="Hyko\src\libSource\imstb_textedit.h" />
-    <ClInclude Include="Hyko\src\libSource\imstb_truetype.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imconfig.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imgui.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imgui_impl_glfw.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imgui_impl_opengl3.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imgui_internal.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imstb_textedit.h" />
+    <ClInclude Include="Hyko\src\libSource\imgui\imstb_truetype.h" />
     <ClInclude Include="Hyko\src\Engine\System\FileSystem\shader.h" />
+    <ClInclude Include="libs\ImGui\imconfig.h" />
+    <ClInclude Include="libs\ImGui\imgui.h" />
+    <ClInclude Include="libs\ImGui\imgui_impl_glfw.h" />
+    <ClInclude Include="libs\ImGui\imgui_impl_opengl3.h" />
+    <ClInclude Include="libs\ImGui\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="libs\ImGui\imgui_internal.h" />
+    <ClInclude Include="libs\ImGui\imstb_rectpack.h" />
+    <ClInclude Include="libs\ImGui\imstb_textedit.h" />
+    <ClInclude Include="libs\ImGui\imstb_truetype.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include=".gitattributes" />
@@ -633,16 +654,17 @@
     <None Include="libs\GLM\gtx\vector_query.inl" />
     <None Include="libs\GLM\gtx\wrap.inl" />
     <None Include="LICENSE.md" />
-    <Text Include="Hyko\res\fragmentShader.glsl">
+    <Text Include="Hyko\res\shaders\FBasicShader.glsl">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </Text>
-    <Text Include="Hyko\res\vertexShader.glsl">
+    <Text Include="Hyko\res\shaders\VBasicShader.glsl">
       <FileType>Document</FileType>
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExcludedFromBuild>
       <DeploymentContent Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</DeploymentContent>
     </Text>
+    <Text Include="Hyko\src\libSource\entt\LICENSE.txt" />
   </ItemGroup>
   <ItemGroup>
     <Library Include="libs\GLFW\lib\glfw3.lib" />

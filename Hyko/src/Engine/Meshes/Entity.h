@@ -8,25 +8,25 @@
 #include <vector>
 #include <memory>
 
-#include "../GL/VO.h"
-#include "../Scene/Scene.h"
+#include "GL/VO.h"
+#include "Engine/Scene/Scene.h"
 
 namespace Hyko {
-	struct Vertex {
+	struct vertex {
 		glm::vec3 position;
 		glm::vec4 color;
 	};
 
 	class Entity{
 	private:
-		Vertex vertex;
+		vertex m_vertex;
 		std::shared_ptr<Hyko::Scene> m_scene;
 
 		VO vo;
 	private:
 		static std::vector<float> triangleVertices;
-		static std::vector<std::vector<Vertex>> vert;
-		std::vector<std::vector<Vertex>> constVert;
+		static std::vector<std::vector<vertex>> vert;
+		std::vector<std::vector<vertex>> constVert;
 		static std::vector<unsigned int> triangleIndices;
 	private:
 		void addTriangleVertexes(glm::vec3 position_one, glm::vec3 position_two, glm::vec4 color);
@@ -44,9 +44,9 @@ namespace Hyko {
 		void render(int8_t type);
 
 		void ConverteToVertPos(int8_t type, glm::vec2 pos, glm::vec2 meshScale);
-		glm::vec3 ConverteToObjectPos(std::vector<Vertex> vertexes);
+		glm::vec3 ConverteToObjectPos(std::vector<vertex> vertexes);
 
-		void ConvertVertexToVertices(std::vector<std::vector<Vertex>> vertexes);
+		void ConvertVertexToVertices(std::vector<std::vector<vertex>> vertexes);
 
 		template<typename T>
 		void setPosition(T comp, int8_t type, glm::vec2 newPos) {

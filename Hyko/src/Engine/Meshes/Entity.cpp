@@ -4,7 +4,7 @@
 
 // Hyko::Scene m_scene;
 
-std::vector<std::vector<Hyko::Vertex>> Hyko::Entity::vert;
+std::vector<std::vector<Hyko::vertex>> Hyko::Entity::vert;
 std::vector<float> Hyko::Entity::triangleVertices;
 std::vector<unsigned int> Hyko::Entity::triangleIndices;
 
@@ -113,7 +113,7 @@ void Hyko::Entity::ConverteToVertPos(int8_t type, glm::vec2 pos, glm::vec2 meshS
 		triangleVertices = std::vector<float>{ pos.x - meshScale.x, pos.x + meshScale.x, pos.x, pos.y - meshScale.y, pos.y - meshScale.y, pos.y + meshScale.y, 0.0f, 0.0f, 0.0f };
 }
 
-glm::vec3 Hyko::Entity::ConverteToObjectPos(std::vector<Vertex> vertexes)
+glm::vec3 Hyko::Entity::ConverteToObjectPos(std::vector<vertex> vertexes)
 {
 	glm::mat4 posMat = glm::mat4(1.0f);
 
@@ -123,7 +123,7 @@ glm::vec3 Hyko::Entity::ConverteToObjectPos(std::vector<Vertex> vertexes)
 	return posMat * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
 }
 
-void Hyko::Entity::ConvertVertexToVertices(std::vector<std::vector<Vertex>> vertexes)
+void Hyko::Entity::ConvertVertexToVertices(std::vector<std::vector<vertex>> vertexes)
 {
 	for (int i = 0; i < vertexes.size(); i++) {
 		for (int j = 0; j < vertexes[i].size(); j++) {
@@ -173,11 +173,11 @@ void Hyko::Entity::render(int8_t type)
 
 void Hyko::Entity::addTriangleVertexes(glm::vec3 position_one, glm::vec3 position_two, glm::vec4 color)
 {
-	Vertex vertex1{ {position_one.x, position_two.x, 0.0f}, color };
-	Vertex vertex2{ {position_one.y, position_two.y, 0.0f}, color };
-	Vertex vertex3{ {position_one.z, position_two.z, 0.0f}, color };
+	vertex vertex1{ {position_one.x, position_two.x, 0.0f}, color };
+	vertex vertex2{ {position_one.y, position_two.y, 0.0f}, color };
+	vertex vertex3{ {position_one.z, position_two.z, 0.0f}, color };
 
-	vert.push_back(std::vector<Vertex>{vertex1, vertex2, vertex3});
+	vert.push_back(std::vector<vertex>{vertex1, vertex2, vertex3});
 }
 
 void Hyko::Entity::addTriangleIndiceses()

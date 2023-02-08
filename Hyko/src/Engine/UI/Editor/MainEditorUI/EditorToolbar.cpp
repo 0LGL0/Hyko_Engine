@@ -1,7 +1,6 @@
 #include "EditorToolbar.h"
 
 #include "GL/Window/window.h"
-#include "Engine/Debug/Debug.h"
 
 void Hyko::EToolbar::scene_Menu()
 {

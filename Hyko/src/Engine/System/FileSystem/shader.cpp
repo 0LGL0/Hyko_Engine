@@ -1,8 +1,15 @@
 #include "shader.h"
+
+#include "Engine/System/Debug/Log.h"
+#include "Engine/System/Debug/Assert.h"
+
+// std
 #include <iostream>
+#include <sstream>
+
+// GL
 #include <glad/glad.h>
 #include <glfw3.h>
-#include <sstream>
 
 const char* Shader::loadVTextFile(std::string vFilePath)
 {
@@ -14,11 +21,6 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 	try {
 		vs.open(vFilePath);
 
-		if (!vs.is_open()) {
-			std::cout << "File of vertex shader not openned" << std::endl;
-			return nullptr;
-		}
-
 		std::stringstream vShaderStream;
 
 		vShaderStream << vs.rdbuf();
@@ -26,14 +28,9 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 		vs.close();
 
 		vShader = vShaderStream.str();
-
-		if (vShader.c_str() == NULL) {
-			std::cout << "Vertex shader file not readed" << std::endl;
-			return NULL;
-		}
 	}
 	catch (std::ifstream::failure e) {
-		std::cout << "ERROR::vSHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		HK_ERROR("ERROR::vSHADER::FILE_NOT_SUCCESFULLY_READ");
 	}
 
 	vShaderCode = vShader.c_str();
@@ -52,31 +49,17 @@ const char* Shader::loadFTextFile(std::string fFilePath)
 
 		fs.open(fFilePath);
 
-		if (!fs.is_open()) {
-			std::cout << "File of fragment shader not openned" << std::endl;
-			return NULL;
-		}
-
 		std::stringstream fShaderStream;
-
 
 		fShaderStream << fs.rdbuf();
 
-
 		fs.close();
 
-
 		fShader = fShaderStream.str();
-
-		if (fShader.c_str() == NULL) {
-			std::cout << "Fragment shader file not readed" << std::endl;
-			return NULL;
-		}
 	}
 	catch (std::ifstream::failure e) {
-		std::cout << "ERROR::SHADER::FILE_NOT_SUCCESFULLY_READ" << std::endl;
+		HK_ERROR("ERROR::fSHADER::FILE_NOT_SUCCESFULLY_READ");
 	}
-
 
 	fShaderCode = fShader.c_str();
 
@@ -91,7 +74,7 @@ unsigned int Shader::createVShader(const char* vSrc)
 
 	glCompileShader(vertexShader);
 
-	isCompileShader(vertexShader);
+	isCompileShader(vertexShader, "Vertex");
 
 	return vertexShader;
 }
@@ -104,12 +87,12 @@ unsigned int Shader::createFShader(const char* fSrc)
 
 	glCompileShader(fragShader);
 
-	isCompileShader(fragShader);
+	isCompileShader(fragShader, "Fragment");
 
 	return fragShader;
 }
 
-int Shader::isCompileShader(unsigned int shader)
+int Shader::isCompileShader(unsigned int shader, const char* type)
 {
 	int success;
 
@@ -119,10 +102,10 @@ int Shader::isCompileShader(unsigned int shader)
 
 	if (!success) {
 		glGetShaderInfoLog(shader, 512, NULL, infolog);
-		std::cout << shader << ": " << "shader not compilled " << infolog << std::endl;
+		HK_ERROR("shader({0}) not compilled {1}", type, infolog);
 		return -1;
 	}
-	else std::cout << shader << ": " << "shader compiled" << std::endl;
+	else HK_INFO("shader({0}) compiled", type);
 }
 
 unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFilePath)
@@ -136,7 +119,7 @@ unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFil
 	glAttachShader(m_shaderProgram, fShader);
 	glLinkProgram(m_shaderProgram);
 
-	isCompileShader(m_shaderProgram);
+	isCompileShader(m_shaderProgram, "Program");
 
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragShader);

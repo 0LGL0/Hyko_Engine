@@ -1,17 +1,17 @@
 #include "EngineUILayer.h"
 
-#include "Engine/Debug/Debug.h"
 #include "Engine/Core/Macro.h"
 
 #include "GL/Window/window.h"
 
 // imgui
-#include <imgui.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
 void Hyko::EUILayer::newFrame()
 {
+	ImGuiIO& io = ImGui::GetIO();	
+
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
@@ -22,18 +22,28 @@ Hyko::EUILayer::~EUILayer()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
-}
+} 
 
 void Hyko::EUILayer::createUILayer(GLFWwindow *window)
 {
 	IMGUI_CHECKVERSION();
 	ImGui::CreateContext();
-	ImGuiIO& io = ImGui::GetIO(); (void)io;
-	ImGui::StyleColorsDark();
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init("#version 330");
 
-	//newFrame(); // create new frame for imgui
+	ImGuiIO& io = ImGui::GetIO(); (void)io;
+	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	io.ConfigWindowsMoveFromTitleBarOnly = true;
+
+	ImGuiStyle& style = ImGui::GetStyle();
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+		style.WindowRounding = 0.0f;
+		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
+	}
+	
+	ImGui::StyleColorsDark();
+
+	ImGui_ImplGlfw_InitForOpenGL(window, true);
+	ImGui_ImplOpenGL3_Init("#version 460");
 }
 
 void Hyko::EUILayer::OnUpdate(Time dt)
@@ -42,20 +52,22 @@ void Hyko::EUILayer::OnUpdate(Time dt)
 	Hyko::Time ts = time - m_LastFrameTime;
 	m_LastFrameTime = time;
 
-	eToolbar.createEToolbar(Hyko::getFPS(ts.getDeltaMilliseconds()), ts.getDeltaMilliseconds());
+	mainPan.init();
+
+	/*eToolbar.createEToolbar(Hyko::getFPS(ts.getDeltaMilliseconds()), ts.getDeltaMilliseconds());
 	eHierarchy.createHierarchy();
-	eCompSettings.createComponentSettings();
+	eCompSettings.createComponentSettings();*/
 
 
-	if (eToolbar.meshLineMode) edgeRenderingLineOnly(true);
-	if (!eToolbar.meshLineMode) edgeRenderingLineOnly(false);
+	if (eToolbar.meshLineMode) Window::setRenderEdges(true);
+	if (!eToolbar.meshLineMode) Window::setRenderEdges(false);
 
 	if (eToolbar.VSync)			Window::setVSync(true);
 	if (!eToolbar.VSync)		Window::setVSync(false);
 
 	m_scene->setBackgroundColor(eToolbar.backgroundColor);
 
-	m_eCamera->swapProjection(eToolbar.projectionTypeIndx == 0 ? Hyko::projType::Perspective : Hyko::projType::Orthographic);
+	m_scene->editCamera.swapProjection(eToolbar.projectionTypeIndx == 0 ? Hyko::projType::Perspective : Hyko::projType::Orthographic);
 
 	ImGui::ShowDemoWindow();
 }
@@ -77,6 +89,16 @@ void Hyko::EUILayer::renderEnities()
 
 void Hyko::EUILayer::Render()
 {
+	ImGuiIO& io = ImGui::GetIO();
+	io.DisplaySize = { (float)Window::getWindowWidth(Window::getNativeWindow()), (float)Window::getWindowHeight(Window::getNativeWindow()) };
+
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+	
+	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+		GLFWwindow* current_context = glfwGetCurrentContext();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
+		glfwMakeContextCurrent(current_context);
+	}
 }
