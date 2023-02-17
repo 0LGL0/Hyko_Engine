@@ -3,6 +3,8 @@
 #include "Engine/System/Time.h"
 #include "Engine/Events/InputEvents.h"
 
+#include "Engine/System/FileSystem/LogFiles.h"
+
 GLFWwindow* Window::m_window;
 
 void Window::setupVariebles(int width, int height, std::string title, const int GLMajorVersion, const int GLMinorVersion)
@@ -30,37 +32,45 @@ Window::Window(std::string title, int width, int height, const int GLMajorVersio
 	setupVariebles(width, height, title, GLMajorVersion, GLMinorVersion);
 
 	glfwInit(); // init glfw
-	
+
 	setupHints(GLMajorVersion, GLMinorVersion);
 
 	m_window = glfwCreateWindow(width, height, title.c_str(), nullptr, nullptr); // creating window
 	glfwMakeContextCurrent(m_window);
-	
+
 	// Lambdas
 	// Lambda for glfw window resize callback
 	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
 		glViewport(0, 0, width, height);
-	}); 
+		});
 
 	// Lambda for glfw scroll callback
 	glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset) {
 		Hyko::Input::setMouseXOffset((float)xOffset);
-		Hyko::Input::setMouseYOffset((float)yOffset);
-	});
+	Hyko::Input::setMouseYOffset((float)yOffset);
+		});
 
 	// Lambda for glfw cursor position callback
 	glfwSetCursorPosCallback(m_window, [](GLFWwindow* window, double xPos, double yPos) {
 		Hyko::Input::setMouseXPos(xPos);
-		Hyko::Input::setMouseYPos(yPos);
-	});
+	Hyko::Input::setMouseYPos(yPos);
+		});
 
 	setupGLAD();
+
+	Hyko::LogF::init();
+	if (m_window) Hyko::LogF::addMsgToLog("Window has been created (" + std::to_string(getWindowWidth()) + std::to_string(getWindowHeight()));
+	else Hyko::LogF::addErrorMsgToLog("The window was not created");
+	if (gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) Hyko::LogF::addMsgToLog("GLAD has been initialized");
+	else Hyko::LogF::addErrorMsgToLog("GLAD was not initialized");
 }
 
 Window::~Window()
 {
 	glfwTerminate();
 	glfwDestroyWindow(m_window);
+
+	Hyko::LogF::addMsgToLog("The window is destroyed");
 }
 
 int Window::getWindowWidth(GLFWwindow* window)

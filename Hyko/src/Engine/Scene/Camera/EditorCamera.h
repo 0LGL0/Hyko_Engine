@@ -44,7 +44,7 @@ namespace Hyko {
 		ECamera() = default;
 		ECamera(Hyko::OrthographicData data, glm::vec2 position = glm::vec2(0.0f));
 		ECamera(Hyko::PerspectiveData data, glm::vec2 position = glm::vec2(0.0f));
-		~ECamera() = default;
+		~ECamera();
 
 		void initProjection();
 		void updateInput(float dt, float camSpeed);

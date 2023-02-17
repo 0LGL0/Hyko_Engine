@@ -105,6 +105,9 @@
     <ClCompile Include="Hyko\src\Engine\System\Debug\Log.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Hyko\src\Engine\System\FileSystem\LogFiles.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hyko\src\Engine\System\FileSystem\shader.h">
@@ -1098,6 +1101,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Hyko\src\Engine\System\Debug\Assert.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Hyko\src\Engine\System\FileSystem\LogFiles.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

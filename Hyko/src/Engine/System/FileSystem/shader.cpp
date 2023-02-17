@@ -1,6 +1,7 @@
 #include "shader.h"
 
 #include "Engine/System/Debug/Log.h"
+#include "Engine/System/FileSystem/LogFiles.h"
 #include "Engine/System/Debug/Assert.h"
 
 // std
@@ -28,9 +29,12 @@ const char* Shader::loadVTextFile(std::string vFilePath)
 		vs.close();
 
 		vShader = vShaderStream.str();
+
+		Hyko::LogF::addMsgToLog("Vertex shader file read successfully");
 	}
 	catch (std::ifstream::failure e) {
-		HK_ERROR("ERROR::vSHADER::FILE_NOT_SUCCESFULLY_READ");
+		HK_ERROR("ERROR::vSHADER::FILE_NOT_SUCCESSFULLY_READ");
+		Hyko::LogF::addErrorMsgToLog("Vertex shader file not read successfully");
 	}
 
 	vShaderCode = vShader.c_str();
@@ -56,9 +60,12 @@ const char* Shader::loadFTextFile(std::string fFilePath)
 		fs.close();
 
 		fShader = fShaderStream.str();
+
+		Hyko::LogF::addMsgToLog("Fragment shader file read successfully");
 	}
 	catch (std::ifstream::failure e) {
 		HK_ERROR("ERROR::fSHADER::FILE_NOT_SUCCESFULLY_READ");
+		Hyko::LogF::addErrorMsgToLog("Fragment shader file not read successfully");
 	}
 
 	fShaderCode = fShader.c_str();
@@ -103,15 +110,19 @@ int Shader::isCompileShader(unsigned int shader, const char* type)
 	if (!success) {
 		glGetShaderInfoLog(shader, 512, NULL, infolog);
 		HK_ERROR("shader({0}) not compilled {1}", type, infolog);
+		Hyko::LogF::addErrorMsgToLog(((std::string)type + " shader not compiled"));
 		return -1;
 	}
-	else HK_INFO("shader({0}) compiled", type);
+	else {
+		HK_INFO("shader({0}) compiled", type);
+		Hyko::LogF::addMsgToLog(((std::string)type + " shader compiled"));
+	}
 }
 
 unsigned int Shader::createShaderProgram(std::string vFilePath, std::string fFilePath)
 {
 	unsigned int vShader = createVShader(loadVTextFile(vFilePath));
-	unsigned int fShader = createFShader(loadVTextFile(fFilePath));
+	unsigned int fShader = createFShader(loadFTextFile(fFilePath));
 
 	m_shaderProgram = glCreateProgram();
 

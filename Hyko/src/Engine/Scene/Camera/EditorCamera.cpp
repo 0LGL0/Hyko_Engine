@@ -4,6 +4,8 @@
 #include "Engine/Core/MouseButtons.h"
 #include "Engine/Events/InputEvents.h"
 
+#include "Engine/System/FileSystem/LogFiles.h"
+
 // GL / Maths
 #include <glm/gtc/matrix_transform.hpp>
 
@@ -16,6 +18,8 @@ Hyko::ECamera::ECamera(Hyko::OrthographicData data, glm::vec2 position)
 	m_position = position;
 
 	m_type = projType::Orthographic;
+
+	Hyko::LogF::addMsgToLog("Editor ortho camera created");
 }
 
 Hyko::ECamera::ECamera(Hyko::PerspectiveData data, glm::vec2 position)
@@ -24,6 +28,13 @@ Hyko::ECamera::ECamera(Hyko::PerspectiveData data, glm::vec2 position)
 	m_position = position;
 
 	m_type = projType::Perspective;
+
+	Hyko::LogF::addMsgToLog("Editor perspective camera created");
+}
+
+Hyko::ECamera::~ECamera()
+{
+	Hyko::LogF::addMsgToLog("Editor camera destroyed");
 }
 
 void Hyko::ECamera::setPosition(glm::vec2 newPos)

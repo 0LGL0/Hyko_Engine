@@ -4,6 +4,8 @@
 
 #include "GL/Window/window.h"
 
+#include "Engine/System/FileSystem/LogFiles.h"
+
 // imgui
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
@@ -22,6 +24,8 @@ Hyko::EUILayer::~EUILayer()
 	ImGui_ImplOpenGL3_Shutdown();
 	ImGui_ImplGlfw_Shutdown();
 	ImGui::DestroyContext();
+
+	Hyko::LogF::addMsgToLog("Engine UI layer destroyed");
 } 
 
 void Hyko::EUILayer::createUILayer(GLFWwindow *window)
@@ -42,8 +46,11 @@ void Hyko::EUILayer::createUILayer(GLFWwindow *window)
 	
 	ImGui::StyleColorsDark();
 
-	ImGui_ImplGlfw_InitForOpenGL(window, true);
-	ImGui_ImplOpenGL3_Init("#version 460");
+	if (ImGui_ImplGlfw_InitForOpenGL(window, true)
+		&& ImGui_ImplOpenGL3_Init("#version 460")) {
+		Hyko::LogF::addMsgToLog("Engine UI layer created");
+	}
+	else Hyko::LogF::addErrorMsgToLog("Engine UI layer not created");
 }
 
 void Hyko::EUILayer::OnUpdate(Time dt)

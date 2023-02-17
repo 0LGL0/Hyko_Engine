@@ -1,9 +1,10 @@
 #include "Framebuffer.h"
 
+#include "Engine/System/Debug/Assert.h"
+#include "Engine/System/FileSystem/LogFiles.h"
+
 #include <GLAD/glad.h>
 #include <glfw3.h>
-
-#include "Engine/System/Debug/Assert.h"
 
 
 FBO::~FBO()
@@ -35,6 +36,8 @@ void FBO::init()
 	glFramebufferTexture2D(GL_FRAMEBUFFER, GL_DEPTH_STENCIL_ATTACHMENT, GL_TEXTURE_2D, m_depth, 0);
 
 	HK_ASSERT(glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE, "FRAMEBUFFER is not compile");
+	if (glCheckFramebufferStatus(GL_FRAMEBUFFER) == GL_FRAMEBUFFER_COMPLETE) Hyko::LogF::addMsgToLog("Framebuffer is compiled");
+	else Hyko::LogF::addErrorMsgToLog("Framebuffer is not compiled");
 
 	glBindFramebuffer(GL_FRAMEBUFFER, 0);
 }

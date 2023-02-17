@@ -2,7 +2,6 @@
 
 #include "Engine/Meshes/Entity.h"
 #include "GL/Window/window.h"
-#include "Engine/System/Tools.h"
 #include "Engine/System/FileSystem/shader.h"
 
 // Editor camera

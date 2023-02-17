@@ -2,10 +2,13 @@
 
 #include "Engine/Renderer/Renderer.h"
 
+#include "Engine/System/FileSystem/LogFiles.h"
+
 #include <iostream>
 
 entt::entity Hyko::Scene::addToScene()
 {
+    Hyko::LogF::addMsgToLog("A new entity has been added to the scene");
     return m_reg.create();
 }
 

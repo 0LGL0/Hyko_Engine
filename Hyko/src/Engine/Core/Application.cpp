@@ -2,6 +2,8 @@
 
 #include "Engine/Scene/Scene.h"
 #include "Engine/Events/InputEvents.h"
+#include "Engine/System/Tools.h"
+#include "Engine/System/FileSystem/LogFiles.h"
 
 // Debug
 #include "Engine/System/Debug/Log.h"
@@ -25,18 +27,15 @@ void App::Init()
 
 	/*******************************Get GPU and OpenGL information****************************/
 
-	HK_INFO("**************************************************************");
-	HK_INFO("GPU vendor: {0}", (char*)glGetString(GL_VENDOR));
-	HK_INFO("GPU name: {0}", (char*)glGetString(GL_RENDERER));
-	HK_INFO("OpenGL version: {0}", (char*)glGetString(GL_VERSION));
-	HK_INFO("OpenGL GLSL version: {0}", (char*)glGetString(GL_SHADING_LANGUAGE_VERSION));
-	HK_INFO("**************************************************************");
+	Hyko::Tools::printGPUAndGLInformations(true);
 
 	/*****************************************************************************************/
 
 	fbo->init();
 
 	eUILayer.createUILayer(window.getNativeWindow());
+
+	//Hyko::LogF::addAssertationMsgToLog("UI has been created");
 
 	m_scene->editCamera.setData(Hyko::PerspectiveData{ 90.0f, (float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow()), 0.1f, 100.0f });
 	/*m_scene->editCamera.setData(Hyko::OrthographicData{ -((float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow())),
@@ -178,4 +177,6 @@ void App::Init()
 
 		Hyko::Input::resetInput();
 	}
+
+	Hyko::LogF::shutdown();
 }
