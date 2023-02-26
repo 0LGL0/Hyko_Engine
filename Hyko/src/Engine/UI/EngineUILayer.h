@@ -4,7 +4,7 @@
 #include "GL/Framebuffer.h"
 #include "Engine/System/Time.h"
 #include "Engine/Scene/Scene.h"
-#include "Engine/Meshes/Entity.h"
+#include "Engine/Scene/Entity/Entity.h"
 #include "Engine/Scene/Camera/EditorCamera.h"
 
 // UI panels

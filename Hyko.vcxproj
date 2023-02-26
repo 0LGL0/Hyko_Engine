@@ -157,8 +157,8 @@
     <ClCompile Include="libs\GLM\detail\glm.cpp" />
     <ClCompile Include="Hyko\src\Engine\Core\Application.cpp" />
     <ClCompile Include="Hyko\src\Engine\Events\InputEvents.cpp" />
-    <ClCompile Include="Hyko\src\Engine\Meshes\Components.cpp" />
-    <ClCompile Include="Hyko\src\Engine\Meshes\Entity.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Scene\Entity\Components.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Scene\Entity\Entity.cpp" />
     <ClCompile Include="Hyko\src\Engine\Scene\Camera\EditorCamera.cpp" />
     <ClCompile Include="Hyko\src\Engine\Scene\Scene.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\Tools.cpp" />
@@ -482,8 +482,8 @@
     <ClInclude Include="Hyko\src\Engine\Core\Macro.h" />
     <ClInclude Include="Hyko\src\Engine\Core\MouseButtons.h" />
     <ClInclude Include="Hyko\src\Engine\Events\InputEvents.h" />
-    <ClInclude Include="Hyko\src\Engine\Meshes\Components.h" />
-    <ClInclude Include="Hyko\src\Engine\Meshes\Entity.h" />
+    <ClInclude Include="Hyko\src\Engine\Scene\Entity\Components.h" />
+    <ClInclude Include="Hyko\src\Engine\Scene\Entity\Entity.h" />
     <ClInclude Include="Hyko\src\Engine\Scene\Camera\EditorCamera.h" />
     <ClInclude Include="Hyko\src\Engine\Scene\Scene.h">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

@@ -3,7 +3,7 @@
 #include "Engine/Renderer/Renderer.h"
 
 #include "Engine/System/FileSystem/LogFiles.h"
-#include "Engine/Meshes/Entity.h"
+#include "Engine/Scene/Entity/Entity.h"
 
 #include <iostream>
 

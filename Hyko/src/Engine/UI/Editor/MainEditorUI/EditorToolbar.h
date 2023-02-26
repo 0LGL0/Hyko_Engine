@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/Scene/Scene.h"
-#include "Engine/Meshes/Entity.h"
+#include "Engine/Scene/Entity/Entity.h"
 
 // imgui
 #include <imgui.h>

@@ -1,7 +1,7 @@
 #include "EditorHierarchy.h"
 #include "Engine/Core/Macro.h"
 #include "Engine/System/Debug/Log.h"
-#include "Engine/Meshes/Components.h"
+#include "Engine/Scene/Entity/Components.h"
 #include "Engine/UI/UIFunctions.h"
 
 void Hyko::EHierarchy::createNewTree(Entity entity)

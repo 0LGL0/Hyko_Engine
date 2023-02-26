@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Engine/Core/Macro.h"
-#include "Engine/Meshes/Components.h"
+#include "Engine/Scene/Entity/Components.h"
 
 #include "Engine/System/FileSystem/shader.h"
 
