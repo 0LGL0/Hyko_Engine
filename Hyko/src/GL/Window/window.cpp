@@ -4,6 +4,7 @@
 #include "Engine/Events/InputEvents.h"
 
 #include "Engine/System/FileSystem/LogFiles.h"
+#include "Engine/System/Debug/Log.h"
 
 GLFWwindow* Window::m_window;
 
@@ -40,9 +41,14 @@ Window::Window(std::string title, int width, int height, const int GLMajorVersio
 
 	// Lambdas
 	// Lambda for glfw window resize callback
-	glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
+	/*glfwSetWindowSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
 		glViewport(0, 0, width, height);
-		});
+		});*/
+
+	/*glfwSetFramebufferSizeCallback(m_window, [](GLFWwindow* window, int width, int height) {
+		HK_WARN("{0}, {1}", width, height);
+		glViewport(0, 0, width, height);
+		});*/
 
 	// Lambda for glfw scroll callback
 	glfwSetScrollCallback(m_window, [](GLFWwindow* window, double xOffset, double yOffset) {

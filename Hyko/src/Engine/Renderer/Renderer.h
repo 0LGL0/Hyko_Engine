@@ -75,8 +75,8 @@ namespace Hyko {
 		static void createRectangle(glm::mat4 transform, glm::vec4 color);
 
 		static void createCircle();
-		static void createCircle(glm::vec2 pos, glm::vec2 scale, int segmentsCount, float angle, float radius, glm::vec4 color);
-		static void createCircle(glm::mat4 transform, glm::vec4 color, int segmentsCount, float radius);
+		static void createCircle(glm::vec2 pos, glm::vec2 scale, int segmentsCount, float angle, glm::vec4 color);
+		static void createCircle(glm::mat4 transform, glm::vec4 color, int segmentsCount);
 
 		static void Init();
 

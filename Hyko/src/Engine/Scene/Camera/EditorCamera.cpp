@@ -12,6 +12,16 @@
 // std
 #include <iostream>
 
+Hyko::OrthographicData Hyko::ECamera::m_orthoData;
+Hyko::PerspectiveData  Hyko::ECamera::m_perspData;
+Hyko::projType Hyko::ECamera::m_type;
+
+glm::mat4 Hyko::ECamera::m_projectionMat;
+glm::mat4 Hyko::ECamera::m_viewMat;
+glm::vec2 Hyko::ECamera::m_position;
+
+int Hyko::ECamera::zoomValue = 45;
+
 Hyko::ECamera::ECamera(Hyko::OrthographicData data, glm::vec2 position)
 {
 	setData(data);
@@ -101,17 +111,20 @@ void Hyko::ECamera::updateInput(float dt, float camSpeed)
 	if (Hyko::Input::getMouseYOffset() >= 1 || Hyko::Input::getMouseYOffset() <= -1) {
 		switch (m_type) {
 		case projType::Perspective: // Perspective
-			if (m_perspData.m_fovY >= 1.0f && m_perspData.m_fovY <= 120.0f)
-				m_perspData.m_fovY -= ((Hyko::Input::getMouseYOffset() * 1000) * dt);
-			if (m_perspData.m_fovY > 120.0f)
-				m_perspData.m_fovY = 120.0f;
-			if (m_perspData.m_fovY < 1.0f)
-				m_perspData.m_fovY = 1.0f;
+			if (m_perspData.m_fovY >= 1.0f && m_perspData.m_fovY <= 120.0f) {
+				zoomValue += -((Hyko::Input::getMouseYOffset() * 1000) * dt);
+				m_perspData.m_fovY = zoomValue;
+			}
 
-			m_orthoData.m_bottom = -(m_perspData.m_fovY * 3.33f);
+			if (m_perspData.m_fovY > 120.0f)
+				zoomValue = 120.0f;
+			if (m_perspData.m_fovY < 1.0f)
+				zoomValue = 1.0f;
+
+			/*m_orthoData.m_bottom = -(m_perspData.m_fovY * 3.33f);
 			m_orthoData.m_left = -(m_perspData.m_fovY * 3.33f);
 			m_orthoData.m_top = m_perspData.m_fovY * 3.33f;
-			m_orthoData.m_right = m_perspData.m_fovY * 3.33f;
+			m_orthoData.m_right = m_perspData.m_fovY * 3.33f;*/
 			// 3.33 is a constant for 400 / 120
 			// 400 is a max number for one side when ortho zoom
 			// 120 is a max fov angle for perspective zoom
@@ -174,4 +187,10 @@ void Hyko::ECamera::swapProjection(Hyko::projType type)
 	m_type = type;
 	updateProjection();
 	updateView();
+}
+
+void Hyko::ECamera::Resize(float width, float height)
+{
+	auto aspect = width / height;
+	setData(PerspectiveData{ (float)zoomValue, aspect, 0.1f, 100.0f });
 }

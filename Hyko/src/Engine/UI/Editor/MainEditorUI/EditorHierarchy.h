@@ -2,8 +2,12 @@
 
 #include "Engine/Scene/Scene.h"
 
+#include "Engine/Meshes/Entity.h"
+
 // imgui
 #include <imgui.h>
+
+#include <entt.hpp>
 
 // std
 #include <string>
@@ -13,14 +17,18 @@ namespace Hyko {
 	class EHierarchy{
 	private:
 		std::shared_ptr<Hyko::Scene> m_scene;
+		friend class Scene;
+		friend class EMainPanel;
+
+		Entity m_selectedEntity;
 	private:
-		void createNewTree(int8_t type, int indx);
+		void createNewTree(Entity entity);
 	public:
 		EHierarchy() = default;
-		EHierarchy(std::shared_ptr<Hyko::Scene> &scene)
+		EHierarchy(const std::shared_ptr<Hyko::Scene> &scene)
 			: m_scene(scene) {}
 		~EHierarchy() = default;
 
-		void createHierarchy();
+		void init();
 	};
 }

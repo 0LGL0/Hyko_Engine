@@ -79,7 +79,7 @@ void Hyko::EUILayer::OnUpdate(Time dt)
 
 void Hyko::EUILayer::renderEnities()
 {
-	for (int i = 0; i < m_scene->sceneTriangles.size(); i++) {
+	/*for (int i = 0; i < m_scene->sceneTriangles.size(); i++) {
 		m_entity->setPosition(i, HK_TRIANGLE, m_scene->sceneTriangles[i].m_position);
 		m_entity->setScale(i, HK_TRIANGLE, m_scene->sceneTriangles[i].m_scale);
 		m_entity->setRot(i, HK_TRIANGLE, glm::radians(m_scene->sceneTriangles[i].m_rotation));
@@ -89,7 +89,7 @@ void Hyko::EUILayer::renderEnities()
 	if (eToolbar.meshIsCreting) {
 		m_entity->render(HK_TRIANGLE);
 		m_entity->EndDraw();
-	}
+	}*/
 }
 
 void Hyko::EUILayer::Render()

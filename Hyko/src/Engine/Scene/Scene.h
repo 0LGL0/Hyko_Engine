@@ -24,6 +24,9 @@ namespace Hyko {
 		glm::vec3 backgroundColor{1.0f, 1.0f, 1.0f};
 
 		entt::registry m_reg;
+
+		friend class EHierarchy;
+		friend class Entity;
 	public:
 		std::vector<Hyko::Triangle> sceneTriangles;
 		size_t trianglesCount = 0;
@@ -39,6 +42,7 @@ namespace Hyko {
 		}
 
 		entt::entity addToScene();
+		bool deleteEntity(uint32_t entityID);
 
 		void Update(float dt);
 
@@ -50,6 +54,8 @@ namespace Hyko {
 		glm::vec3 getBackgroundColor_Vec() { return backgroundColor; }
 
 		entt::registry &Reg() { return m_reg; };
+
+		Scene& get() { return *this; }
 	public: // setters
 		void setBackgroundColor(float color[3]);
 		void setBackgroundColor(float r, float g, float b, float a);

@@ -18,7 +18,7 @@ namespace Hyko {
 	private:
 		friend class EUILayer;
 
-		std::shared_ptr<Hyko::Entity> m_entity{ new Hyko::Entity{ m_scene } };
+		//std::shared_ptr<Hyko::Entity> m_entity{ new Hyko::Entity{ m_scene } };
 		std::shared_ptr<Hyko::Scene> m_scene;
 	private:
 		bool createIsOpen  = false;
@@ -38,8 +38,8 @@ namespace Hyko {
 		void settings_Menu();
 	public:
 		EToolbar() = default;
-		EToolbar(std::shared_ptr<Hyko::Scene> &scene, std::shared_ptr<Hyko::Entity> &entity)
-			: m_scene(scene), m_entity(entity) {};
+		EToolbar(std::shared_ptr<Hyko::Scene> &scene)
+			: m_scene(scene) {};
 		~EToolbar() = default;
 
 		void createEToolbar(int FPS, float dt);

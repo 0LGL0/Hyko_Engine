@@ -3,13 +3,24 @@
 #include "Engine/Renderer/Renderer.h"
 
 #include "Engine/System/FileSystem/LogFiles.h"
+#include "Engine/Meshes/Entity.h"
 
 #include <iostream>
 
 entt::entity Hyko::Scene::addToScene()
 {
     Hyko::LogF::addMsgToLog("A new entity has been added to the scene");
-    return m_reg.create();
+    auto ent = m_reg.create();
+
+    return ent;
+}
+
+bool Hyko::Scene::deleteEntity(uint32_t entityID)
+{
+    if (m_reg.destroy(Hyko::Entity{ entt::entity(entityID) }.get()))
+        return true;
+    else
+        return false;
 }
 
 void Hyko::Scene::Update(float dt)
@@ -27,14 +38,10 @@ void Hyko::Scene::Update(float dt)
 
         if(sprite.type == Hyko::SpriteComponent::Triangle)
             Renderer::createTriangle(transform.Transform, sprite.Color);
-        
         if (sprite.type == Hyko::SpriteComponent::Rectangle)
             Renderer::createRectangle(transform.Transform, sprite.Color);
-    }
-    for (auto entity : circleGroup) {
-        auto [transform, sprite] = m_reg.get<TransformComponent, CircleSpriteComponent>(entity);
-
-        Renderer::createCircle(transform.Transform, sprite.Color, sprite.segmentsCount, sprite.radius);
+        if (sprite.type == Hyko::SpriteComponent::Circle)
+            Renderer::createCircle(transform.Transform, sprite.Color, m_reg.get<Hyko::SpriteComponent>(entity).circleSegmentCount);
     }
 
     // render entities

@@ -151,6 +151,7 @@
     <ClCompile Include="Hyko\src\Engine\System\FileSystem\LogFiles.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\UIFunctions.cpp" />
     <ClCompile Include="Hyko\src\GL\Framebuffer.cpp" />
     <ClCompile Include="libs\GLAD\src\glad.c" />
     <ClCompile Include="libs\GLM\detail\glm.cpp" />
@@ -174,6 +175,7 @@
     <ClCompile Include="libs\ImGui\imgui_draw.cpp" />
     <ClCompile Include="libs\ImGui\imgui_impl_glfw.cpp" />
     <ClCompile Include="libs\ImGui\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="libs\ImGui\imgui_stdlib.cpp" />
     <ClCompile Include="libs\ImGui\imgui_tables.cpp" />
     <ClCompile Include="libs\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
@@ -185,6 +187,7 @@
     <ClInclude Include="Hyko\src\Engine\System\FileSystem\LogFiles.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\UIFunctions.h" />
     <ClInclude Include="Hyko\src\GL\Framebuffer.h" />
     <ClInclude Include="Hyko\src\libSource\entt\entt.hpp" />
     <ClInclude Include="libs\GLAD\include\glad\glad.h" />
@@ -510,6 +513,7 @@
     <ClInclude Include="libs\ImGui\imgui_impl_opengl3.h" />
     <ClInclude Include="libs\ImGui\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="libs\ImGui\imgui_internal.h" />
+    <ClInclude Include="libs\ImGui\imgui_stdlib.h" />
     <ClInclude Include="libs\ImGui\imstb_rectpack.h" />
     <ClInclude Include="libs\ImGui\imstb_textedit.h" />
     <ClInclude Include="libs\ImGui\imstb_truetype.h" />

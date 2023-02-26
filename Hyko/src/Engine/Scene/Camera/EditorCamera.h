@@ -32,37 +32,40 @@ namespace Hyko {
 
 	class ECamera {
 	private:
-		OrthographicData m_orthoData;
-		PerspectiveData  m_perspData;
-		projType m_type;
+		static OrthographicData m_orthoData;
+		static PerspectiveData  m_perspData;
+		static projType m_type;
 	private:
-		glm::mat4 m_projectionMat = glm::mat4(1.0f);
-		glm::mat4 m_viewMat		  = glm::mat4(1.0f);
+		static glm::mat4 m_projectionMat;
+		static glm::mat4 m_viewMat;
+		static glm::vec2 m_position;
 
-		glm::vec2 m_position = glm::vec2(0.0f);
+		static int zoomValue;
 	public:
 		ECamera() = default;
 		ECamera(Hyko::OrthographicData data, glm::vec2 position = glm::vec2(0.0f));
 		ECamera(Hyko::PerspectiveData data, glm::vec2 position = glm::vec2(0.0f));
 		~ECamera();
 
-		void initProjection();
-		void updateInput(float dt, float camSpeed);
+		static void initProjection();
+		static void updateInput(float dt, float camSpeed);
 
-		glm::mat4 updateView();
-		glm::mat4 updateProjection();
+		static glm::mat4 updateView();
+		static glm::mat4 updateProjection();
 
-		void swapProjection(Hyko::projType type);
+		static void swapProjection(Hyko::projType type);
+
+		static void Resize(float width, float height);
 	public: // setters
-		void setPosition(glm::vec2 newPos);
-		void setPosition(float x, float y);
+		static void setPosition(glm::vec2 newPos);
+		static void setPosition(float x, float y);
 
-		void setData(Hyko::OrthographicData data);
-		void setData(Hyko::PerspectiveData data);
+		static void setData(Hyko::OrthographicData data);
+		static void setData(Hyko::PerspectiveData data);
 	public: // getters
-		glm::mat4 getProjectionMat() { return m_projectionMat; }
-		glm::mat4 getViewMat() { return m_viewMat; }
+		static glm::mat4 getProjectionMat() { return m_projectionMat; }
+		static glm::mat4 getViewMat() { return m_viewMat; }
 
-		glm::vec2 getPosition() { return m_position; }
+		static glm::vec2 getPosition() { return m_position; }
 	};
 }

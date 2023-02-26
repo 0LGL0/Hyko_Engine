@@ -2,8 +2,6 @@
 
 #include <imgui.h>
 
-#include "GL/Window/window.h"
-
 void Hyko::EMainPanel::init()
 {
 	const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -25,8 +23,9 @@ void Hyko::EMainPanel::init()
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockFlags);
 
-
-		UI_viewport.init();
+		m_viewport.init();
+		m_hierarchy.init();
+		m_componentsSettings.init(m_hierarchy.m_selectedEntity);
 
 		ImGui::End();
 	}

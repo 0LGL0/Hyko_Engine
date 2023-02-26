@@ -1,29 +1,54 @@
 #include "EditorHierarchy.h"
 #include "Engine/Core/Macro.h"
+#include "Engine/System/Debug/Log.h"
+#include "Engine/Meshes/Components.h"
+#include "Engine/UI/UIFunctions.h"
 
-void Hyko::EHierarchy::createNewTree(int8_t type, int indx)
+void Hyko::EHierarchy::createNewTree(Entity entity)
 {
-	std::string nameOfTree;
+	auto tag = entity.getComponent<Hyko::TagComponent>().Tag;
 
-	if (type == HK_TRIANGLE)
-		nameOfTree = "Triangle" + std::to_string(indx);
+	ImGuiTreeNodeFlags treeFlags = (entity == m_selectedEntity) ? ImGuiTreeNodeFlags_Selected : 0 | ImGuiTreeNodeFlags_OpenOnArrow;
+	bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeFlags, tag.c_str());
 
-	if (ImGui::TreeNode(nameOfTree.c_str())) {
-
+	if (ImGui::IsItemClicked())
+		m_selectedEntity = entity;
+	if (opened)
 		ImGui::TreePop();
+
+	if (ImGui::BeginPopupContextItem()) {
+		if (ImGui::Selectable("Delete entity")) {
+			m_scene->deleteEntity(entity);
+
+			if (m_selectedEntity == entity)
+				m_selectedEntity = {};
+		}
+
+		ImGui::EndPopup();
 	}
 }
 
-void Hyko::EHierarchy::createHierarchy()
+void Hyko::EHierarchy::init()
 {
-	//ImGuiWindowFlags winFlags = ImGuiWindowFlags_Modal;
+	const ImGuiPopupFlags popupFlags = ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight;
 
 	if (ImGui::Begin("Hierarchy")) {
-		if (!m_scene->sceneTriangles.empty()) {
-			for (int i = 0; i < m_scene->sceneTriangles.size(); i++) {
-				if(m_scene->sceneTriangles[i].type == HK_TRIANGLE)
-					createNewTree(HK_TRIANGLE, m_scene->sceneTriangles[i].indx);
+		m_scene->m_reg.each([&](auto entityID) {
+			Entity entity{ entityID };
+			createNewTree(entity);
+			});
+
+		if (ImGui::BeginPopupContextWindow(0, popupFlags)) {
+			if (ImGui::Selectable("Create entity")) {
+				Entity entity = m_scene->addToScene();
+
+				entity.addComponent<Hyko::TagComponent>().Tag = ("Entity" + std::to_string(entity));
+				entity.addComponent<Hyko::TransformComponent>().Transform = glm::mat4(1.0f);
+
+				ImGui::CloseCurrentPopup();
 			}
+
+			ImGui::EndPopup();
 		}
 
 		ImGui::End();

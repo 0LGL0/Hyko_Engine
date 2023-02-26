@@ -59,7 +59,7 @@ void Hyko::LogF::addErrorMsgToLog(const std::string msg, const char* filePath)
 
 void Hyko::LogF::shutdown()
 {
-	//if(hasError == false) std::filesystem::remove(filePath);
+	if(m_hasError == false) std::filesystem::remove(m_filePath);
 }
 
 /*

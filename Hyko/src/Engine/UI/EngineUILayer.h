@@ -30,14 +30,14 @@ namespace Hyko {
 	class EUILayer {
 	private:
 		std::shared_ptr<Hyko::Scene> m_scene;
-		std::shared_ptr<Hyko::Entity> m_entity{ new Hyko::Entity{m_scene} };
+		//std::shared_ptr<Hyko::Entity> m_entity{ new Hyko::Entity{m_scene} };
 		std::shared_ptr<FBO> m_fbo;
 
-		Hyko::EToolbar eToolbar{ m_scene, m_entity };
+		Hyko::EToolbar eToolbar{ m_scene };
 		Hyko::EHierarchy eHierarchy{ m_scene };
 		Hyko::EComponentSettings eCompSettings{ m_scene };
 
-		Hyko::EMainPanel mainPan{ m_fbo };
+		Hyko::EMainPanel mainPan{ m_fbo, m_scene };
 		//std::shared_ptr<Hyko::ECamera> m_eCamera;
 	private:
 		float m_LastFrameTime = 0.0f;

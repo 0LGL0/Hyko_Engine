@@ -85,19 +85,19 @@ void Hyko::Renderer::createRectangle(glm::mat4 transform, glm::vec4 color)
 
 void Hyko::Renderer::createCircle()
 {
-	createCircle({ 0.0f, 0.0f }, { 10.0f, 10.0f }, 30, 0.0f, 0.5f, { 1.0f, 0.0f, 0.0f, 1.0f });
+	createCircle({ 0.0f, 0.0f }, { 10.0f, 10.0f }, 16, 0.0f, { 1.0f, 0.0f, 0.0f, 1.0f });
 }
 
-void Hyko::Renderer::createCircle(glm::vec2 pos, glm::vec2 scale, int segmentsCount, float angle, float radius, glm::vec4 color)
+void Hyko::Renderer::createCircle(glm::vec2 pos, glm::vec2 scale, int segmentsCount, float angle, glm::vec4 color)
 {
 	glm::mat4 transform = glm::translate(glm::mat4(1.0f), { pos, 0.0f })
 		* glm::rotate(glm::mat4(1.0f), glm::radians(angle), { 0.0f,0.0f, 1.0f })
 		* glm::scale(glm::mat4(1.0f), { scale, 0.0f });
 
-	createCircle(transform, color, segmentsCount, radius);
+	createCircle(transform, color, segmentsCount);
 }
 
-void Hyko::Renderer::createCircle(glm::mat4 transform, glm::vec4 color, int segmentsCount, float radius)
+void Hyko::Renderer::createCircle(glm::mat4 transform, glm::vec4 color, int segmentsCount)
 {
 	float pos;
 	glm::vec3 ZPos = transform * glm::vec4(0.0f, 0.0f, 0.0f, 1.0f);
@@ -115,7 +115,7 @@ void Hyko::Renderer::createCircle(glm::mat4 transform, glm::vec4 color, int segm
 		pos = 3.141592f * 2.0f * (float)i / (float)segmentsCount;
 
 		Vertex* vertexPtr = new Vertex;
-		vertexPtr->position = transform * glm::vec4(radius * cosf(pos), radius * sinf(pos), 0.0f, 1.0f);
+		vertexPtr->position = transform * glm::vec4(cosf(pos), sinf(pos), 0.0f, 1.0f);
 		vertexPtr->color = color;
 
 		m_data.circleVertices.push_back(vertexPtr->position.x);
@@ -198,24 +198,17 @@ void Hyko::Renderer::render()
 	m_data.circleIndices.clear();
 }
 
-void Hyko::Renderer::addTriangleIndiceses()
+void Hyko::Renderer::addTriangleIndiceses() 
 {
-	if (m_data.rectanglesCount == 0) {
-		if (m_data.index.size() == 0) {
-			m_data.index.push_back(0);
+	if (m_data.index.size() == 0) {
+		m_data.index.push_back(0);
 
-			for (int i = 0; i < 2; i++)
-				m_data.index.push_back(m_data.index.back() + 1);
-		}
-		else {
-			for (int i = 0; i < 3; i++)
-				m_data.index.push_back(m_data.index.back() + 1);
-		}
-	}
-	else {
-		m_data.index.push_back(m_data.index[m_data.index.size() - 2] + 1);
 		for (int i = 0; i < 2; i++)
 			m_data.index.push_back(m_data.index.back() + 1);
+	}
+	else {
+		for (int i = 0; i < 3; i++)
+			m_data.index.push_back(*std::max_element(m_data.index.begin(), m_data.index.end()) + 1);
 	}
 }
 
@@ -230,7 +223,7 @@ void Hyko::Renderer::addRectangleIndiceses()
 		m_data.index.push_back(m_data.index[m_data.index.size() - 5]);
 	}		   
 	else {	   
-		m_data.index.push_back(m_data.index[m_data.index.size() - 2] + 1);
+		m_data.index.push_back(*std::max_element(m_data.index.begin(), m_data.index.end()) + 1);
 		m_data.index.push_back(m_data.index.back() + 1);
 		m_data.index.push_back(m_data.index.back() + 1);
 		m_data.index.push_back(m_data.index.back());

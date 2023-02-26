@@ -23,10 +23,10 @@ void Hyko::EToolbar::scene_Menu()
 
 void Hyko::EToolbar::create_Menu()
 {
-	if (ImGui::MenuItem("Triangle", nullptr, nullptr, &createIsOpen)) {
+	/*if (ImGui::MenuItem("Triangle", nullptr, nullptr, &createIsOpen)) {
 		m_entity->addToSceneTriangle();
 		meshIsCreting = true;
-	}
+	}*/
 }
 
 void Hyko::EToolbar::debug(int FPS, float dt)

@@ -1,4 +1,5 @@
 #include "Viewport.h"
+#include "Engine/Scene/Camera/EditorCamera.h"
 
 #include <imgui.h>
 
@@ -11,6 +12,7 @@ void Hyko::EViewport::init()
 	if (ImGui::Begin("Viewport", nullptr, winFlags)) {
 		m_fbo->setFramebufferWidth(ImGui::GetWindowSize().x);
 		m_fbo->setFramebufferHeight(ImGui::GetWindowSize().y);
+		ECamera::Resize(m_fbo->getFramebufferWidth(), m_fbo->getFramebufferHeight());
 
 		ImGui::Image((void*)m_fbo->getFBOTexture(), { (float)m_fbo->getFramebufferWidth(), (float)m_fbo->getFramebufferHeight() }, {0, 1}, {1, 0});
 
