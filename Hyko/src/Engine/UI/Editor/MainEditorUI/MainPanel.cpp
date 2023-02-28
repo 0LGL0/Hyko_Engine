@@ -26,16 +26,20 @@ void Hyko::EMainPanel::init()
 		if (ImGui::BeginMenuBar()){
 
 			if (ImGui::BeginMenu("File")) {
-				
+				// TODO: File options
+
 				ImGui::EndMenu();
 			}
 
 			if (ImGui::BeginMenu("Edit")) {
+				// TODO: Edit options
 
 				ImGui::EndMenu();
 			}
 
 			if (ImGui::BeginMenu("Help")) {
+				// TODO: Help options
+
 				if (ImGui::IsItemHovered())
 					ImGui::SetTooltip("Coming soon");
 
