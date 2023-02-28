@@ -114,6 +114,9 @@
     <ClCompile Include="Hyko\src\Engine\UI\UIFunctions.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Hyko\src\Engine\System\FileSystem\shader.h">
@@ -1116,6 +1119,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Hyko\src\Engine\UI\UIFunctions.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

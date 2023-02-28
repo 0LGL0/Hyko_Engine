@@ -52,6 +52,8 @@ void Hyko::EComponentSettings::TransformComponent(Entity entity, const ImGuiTree
 
 void Hyko::EComponentSettings::SpriteComponent(Entity entity, const ImGuiTreeNodeFlags flags)
 {
+	auto &style = ImGui::GetStyle();
+
 	if (ImGui::TreeNodeEx(entity.getComponent<Hyko::SpriteComponent>().compName.c_str(), flags)) {
 		if (ImGui::BeginCombo("Primitive type", Hyko::getSpriteTypeName(entity.getComponent<Hyko::SpriteComponent>().type).c_str())) {
 			if (ImGui::Selectable("Triangle"))
@@ -66,6 +68,8 @@ void Hyko::EComponentSettings::SpriteComponent(Entity entity, const ImGuiTreeNod
 
 		if (entity.getComponent<Hyko::SpriteComponent>().type == Hyko::SpriteComponent::Circle) 
 			ImGui::SliderInt("Circle segment count", &entity.getComponent<Hyko::SpriteComponent>().circleSegmentCount, 0, 50);
+
+		ImGui::ColorEdit4("Mesh color", glm::value_ptr(entity.getComponent<Hyko::SpriteComponent>().Color));
 
 		ImGui::TreePop();
 	}
@@ -115,7 +119,7 @@ void Hyko::EComponentSettings::ComponentsFilter(Entity entity)
 
 void Hyko::EComponentSettings::init(Entity entity)
 {
-	if (ImGui::Begin("Component settings")) {
+	ImGui::Begin("Component settings");
 		const ImGuiTreeNodeFlags categoryTreeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_DefaultOpen | ImGuiTreeNodeFlags_FramePadding
 			| ImGuiTreeNodeFlags_SpanAvailWidth;
 
@@ -129,5 +133,4 @@ void Hyko::EComponentSettings::init(Entity entity)
 		ComponentsFilter(entity);
 
 		ImGui::End();
-	}
 }

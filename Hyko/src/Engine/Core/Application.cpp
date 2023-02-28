@@ -181,8 +181,6 @@ void App::Init()
 		c_shader->setUniformMat4("view", view);
 		c_shader->setUniformMat4("projection", projection);
 
-		eUILayer.renderEnities();
-
 		m_scene->Update(ts.getDeltaSeconds());
 
 		c_shader->unUse();

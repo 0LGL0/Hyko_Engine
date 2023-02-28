@@ -9,7 +9,7 @@ void Hyko::EViewport::init()
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
-	if (ImGui::Begin("Viewport", nullptr, winFlags)) {
+	ImGui::Begin("Viewport", nullptr, winFlags);
 		m_fbo->setFramebufferWidth(ImGui::GetWindowSize().x);
 		m_fbo->setFramebufferHeight(ImGui::GetWindowSize().y);
 		ECamera::Resize(m_fbo->getFramebufferWidth(), m_fbo->getFramebufferHeight());
@@ -18,5 +18,4 @@ void Hyko::EViewport::init()
 
 		ImGui::End();
 		ImGui::PopStyleVar();
-	}
 }

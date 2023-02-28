@@ -32,7 +32,7 @@ void Hyko::EHierarchy::init()
 {
 	const ImGuiPopupFlags popupFlags = ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight;
 
-	if (ImGui::Begin("Hierarchy")) {
+	ImGui::Begin("Hierarchy");
 		m_scene->m_reg.each([&](auto entityID) {
 			Entity entity{ entityID };
 			createNewTree(entity);
@@ -52,5 +52,4 @@ void Hyko::EHierarchy::init()
 		}
 
 		ImGui::End();
-	}
 }

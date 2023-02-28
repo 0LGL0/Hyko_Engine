@@ -33,14 +33,14 @@ void Hyko::EUILayer::createUILayer(GLFWwindow *window)
 
 	ImGuiIO& io = ImGui::GetIO(); (void)io;
 	io.ConfigFlags |= ImGuiConfigFlags_DockingEnable;
-	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;
+	//io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable; // I'm giving up on this because it has a very big impact on performance.
 	io.ConfigWindowsMoveFromTitleBarOnly = true;
 
-	ImGuiStyle& style = ImGui::GetStyle();
+	/*ImGuiStyle& style = ImGui::GetStyle();
 	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 		style.WindowRounding = 0.0f;
 		style.Colors[ImGuiCol_WindowBg].w = 1.0f;
-	}
+	}*/  // Viewport
 	
 	ImGui::StyleColorsDark();
 
@@ -100,10 +100,10 @@ void Hyko::EUILayer::Render()
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
 	
-	if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+	/*if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
 		GLFWwindow* current_context = glfwGetCurrentContext();
 		ImGui::UpdatePlatformWindows();
 		ImGui::RenderPlatformWindowsDefault();
 		glfwMakeContextCurrent(current_context);
-	}
+	}*/ // Viewport
 }
