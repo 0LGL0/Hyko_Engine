@@ -19,6 +19,8 @@ void Hyko::EMainPanel::init()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
 	if (ImGui::Begin("Main", nullptr, winFlags)) {
+		ImGui::PopStyleVar();
+
 		ImGuiIO& io = ImGui::GetIO();
 		ImGuiID dockspace_id = ImGui::GetID("MyDockSpace");
 		ImGui::DockSpace(dockspace_id, ImVec2(0.0f, 0.0f), dockFlags);
@@ -40,11 +42,11 @@ void Hyko::EMainPanel::init()
 			if (ImGui::BeginMenu("Help")) {
 				// TODO: Help options
 
-				if (ImGui::IsItemHovered())
-					ImGui::SetTooltip("Coming soon");
-
 				ImGui::EndMenu();
 			}
+
+			if (ImGui::IsItemHovered())
+				ImGui::SetTooltip("Coming soon");
 
 			ImGui::EndMenuBar();
 		}
@@ -55,5 +57,4 @@ void Hyko::EMainPanel::init()
 
 		ImGui::End();
 	}
-	ImGui::PopStyleVar();
 }
