@@ -5,6 +5,7 @@
 #include "Viewport.h"
 #include "EditorHierarchy.h"
 #include "EditorComponentSettings.h"
+#include "EngineSettings.h"
 
 #include "Engine/Scene/Scene.h"
 
@@ -16,9 +17,12 @@ namespace Hyko {
 		std::shared_ptr<FBO> m_fbo;
 		std::shared_ptr<Scene> m_scene;
 
-		EViewport m_viewport{m_fbo};
-		EHierarchy m_hierarchy{m_scene};
-		EComponentSettings m_componentsSettings{m_scene};
+		EViewport m_viewport{ m_fbo };
+		EHierarchy m_hierarchy{ m_scene };
+		EComponentSettings m_componentsSettings{ m_scene };
+		ESettings m_engineSettings{ m_scene };
+	private:
+		bool m_engineSettingsEnabled = false;
 	public:
 		EMainPanel(const std::shared_ptr<FBO> fbo, const std::shared_ptr<Scene> scene)
 			: m_fbo(fbo), m_scene(scene){}

@@ -34,7 +34,7 @@ void Hyko::EMainPanel::init()
 			}
 
 			if (ImGui::BeginMenu("Edit")) {
-				// TODO: Edit options
+				ImGui::MenuItem("Settings", "Ctrl + O", &m_engineSettingsEnabled);
 
 				ImGui::EndMenu();
 			}
@@ -50,6 +50,9 @@ void Hyko::EMainPanel::init()
 
 			ImGui::EndMenuBar();
 		}
+
+		if (m_engineSettingsEnabled)
+			m_engineSettings.init();
 
 		m_viewport.init();
 		m_hierarchy.init();
