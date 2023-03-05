@@ -16,6 +16,7 @@ namespace Hyko {
 
 		static void addMsgToLog(const std::string msg, const char* filePath = __builtin_FILE());
 		static void addErrorMsgToLog(const std::string msg, const char* filePath = __builtin_FILE());
+		static void deleteAllLogs();
 
 		static void shutdown();
 	};

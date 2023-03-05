@@ -33,6 +33,12 @@ void Hyko::LogF::init()
 	}
 }
 
+void Hyko::LogF::deleteAllLogs()
+{
+	for (auto& i : std::filesystem::directory_iterator("Hyko/log/"))
+		std::filesystem::remove_all(i.path());
+}
+
 void Hyko::LogF::addMsgToLog(const std::string msg, const char* filePath)
 {
 	try {
