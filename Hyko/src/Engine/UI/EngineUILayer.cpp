@@ -1,4 +1,5 @@
 #include "EngineUILayer.h"
+#include "EngineFonts.h"
 
 #include "Engine/Core/Macro.h"
 
@@ -7,6 +8,7 @@
 #include "Engine/System/FileSystem/LogFiles.h"
 
 // imgui
+#include <imgui_internal.h>
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
@@ -49,6 +51,9 @@ void Hyko::EUILayer::createUILayer(GLFWwindow *window)
 		Hyko::LogF::addMsgToLog("Engine UI layer created");
 	}
 	else Hyko::LogF::addErrorMsgToLog("Engine UI layer not created");
+
+	Font::BaseFont = setUIFont("Hyko\\res\\fonts\\Familjen_Grotesk\\FamiljenGrotesk-Regular.ttf", 15);
+	Font::HeaderFont = setUIFont("Hyko\\res\\fonts\\Familjen_Grotesk\\FamiljenGrotesk-Regular.ttf", 17);
 }
 
 void Hyko::EUILayer::OnUpdate(Time dt)
@@ -106,4 +111,10 @@ void Hyko::EUILayer::Render()
 		ImGui::RenderPlatformWindowsDefault();
 		glfwMakeContextCurrent(current_context);
 	}*/ // Viewport
+}
+
+ImFont* Hyko::EUILayer::setUIFont(const char* filePath, const int fontSize)
+{
+	auto& io = ImGui::GetIO();
+	return io.Fonts->AddFontFromFileTTF(filePath, fontSize);
 }

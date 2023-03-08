@@ -110,9 +110,9 @@
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\Hyko\src\libSource\entt;D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource\imgui;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;D:\C++\Hyko_Engine\libs\ImGui;D:\C++\Hyko_Engine\libs\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\Hyko\src\libSource\entt;D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource\imgui;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;D:\C++\Hyko_Engine\libs\ImGui;D:\C++\Hyko_Engine\libs\spdlog\include;D:\C++\Hyko_Engine\libs\ImGuiFileDialog;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -128,9 +128,9 @@
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
-      <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\Hyko\src\libSource\entt;D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource\imgui;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;D:\C++\Hyko_Engine\libs\ImGui;D:\C++\Hyko_Engine\libs\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>D:\C++\Hyko_Engine\Hyko\src\libSource\entt;D:\C++\Hyko_Engine\libs\vld\include;D:\C++\Hyko_Engine\libs;D:\C++\Hyko_Engine\libs\GLFW\include;D:\C++\Hyko_Engine\Hyko\src\libSource\imgui;D:\C++\Hyko_Engine\libs\GLAD\include;D:\C++\Hyko_Engine\Hyko\src;D:\C++\Hyko_Engine\libs\ImGui;D:\C++\Hyko_Engine\libs\spdlog\include;D:\C++\Hyko_Engine\libs\ImGuiFileDialog;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp17</LanguageStandard>
     </ClCompile>
     <Link>
@@ -152,6 +152,7 @@
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\EngineFonts.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\UIFunctions.cpp" />
     <ClCompile Include="Hyko\src\GL\Framebuffer.cpp" />
     <ClCompile Include="libs\GLAD\src\glad.c" />
@@ -171,6 +172,7 @@
     <ClCompile Include="Hyko\src\GL\Window\window.cpp" />
     <ClCompile Include="Hyko\src\main.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\FileSystem\shader.cpp" />
+    <ClCompile Include="libs\ImGuiFileDialog\ImGuiFileDialog.cpp" />
     <ClCompile Include="libs\ImGui\imgui.cpp" />
     <ClCompile Include="libs\ImGui\imgui_demo.cpp" />
     <ClCompile Include="libs\ImGui\imgui_draw.cpp" />
@@ -189,6 +191,7 @@
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\EngineFonts.h" />
     <ClInclude Include="Hyko\src\Engine\UI\UIFunctions.h" />
     <ClInclude Include="Hyko\src\GL\Framebuffer.h" />
     <ClInclude Include="Hyko\src\libSource\entt\entt.hpp" />
@@ -509,6 +512,8 @@
     <ClInclude Include="Hyko\src\libSource\imgui\imstb_textedit.h" />
     <ClInclude Include="Hyko\src\libSource\imgui\imstb_truetype.h" />
     <ClInclude Include="Hyko\src\Engine\System\FileSystem\shader.h" />
+    <ClInclude Include="libs\ImGuiFileDialog\ImGuiFileDialog.h" />
+    <ClInclude Include="libs\ImGuiFileDialog\ImGuiFileDialogConfig.h" />
     <ClInclude Include="libs\ImGui\imconfig.h" />
     <ClInclude Include="libs\ImGui\imgui.h" />
     <ClInclude Include="libs\ImGui\imgui_impl_glfw.h" />

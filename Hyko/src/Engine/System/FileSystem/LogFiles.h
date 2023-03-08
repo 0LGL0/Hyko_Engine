@@ -9,8 +9,13 @@ namespace Hyko {
 		static std::ofstream m_file;
 		static std::string m_currTime;
 		static std::string m_filePath;
+		static std::string m_folderPath;
 
 		static bool m_hasError;
+
+		friend class ESettings;
+	private:
+		static void editFolderPath(std::string newPath);
 	public:
 		static void init();
 
@@ -19,5 +24,7 @@ namespace Hyko {
 		static void deleteAllLogs();
 
 		static void shutdown();
+	public: // setters
+		void setFolderPath(const std::string path) { m_folderPath = path; }
 	};
 }

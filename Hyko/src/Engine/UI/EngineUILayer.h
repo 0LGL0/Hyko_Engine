@@ -54,5 +54,9 @@ namespace Hyko {
 		void Render();
 	public: // getters
 		float getCamSpeed() { return eToolbar.camSpeed; }
+	public:
+		// FilePath - path to ttf/otf file
+		// FontSize - font size in pixels
+		static ImFont* setUIFont(const char* filePath, const int fontSize);
 	};
 }
