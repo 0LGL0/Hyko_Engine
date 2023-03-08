@@ -40,6 +40,9 @@ void Hyko::ESettings::Data()
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
 	std::string buff = LogF::m_folderPath;
 	static bool isPathNotExist = false;
+	ImGui::AlignTextToFramePadding();
+	ImGui::Text("The path to the logs folder");
+	ImGui::SameLine();
 	if (ImGui::InputText("##LogsPath", &buff, flags)) { // The path to the logs folder
 		if (!LogF::editFolderPath(buff)) {
 			isPathNotExist = true;
@@ -108,6 +111,7 @@ void Hyko::ESettings::init()
 
 	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (ImGui::GetWindowContentRegionWidth() - filterWidth));
 
+	ImGui::AlignTextToFramePadding();
 	ImGui::Text("Find");
 	ImGui::SameLine();
 	filterSettings.Draw("##EngineSettingsFilter", filterWidth);
