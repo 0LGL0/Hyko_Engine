@@ -15,7 +15,7 @@ namespace Hyko {
 
 		friend class ESettings;
 	private:
-		static void editFolderPath(std::string newPath);
+		static bool editFolderPath(std::string newPath);
 	public:
 		static void init();
 

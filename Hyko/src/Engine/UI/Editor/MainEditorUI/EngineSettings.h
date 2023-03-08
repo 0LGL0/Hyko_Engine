@@ -28,6 +28,8 @@ namespace Hyko {
 		//pointer m_SelectedFunc; // Selected function from hierarchy section
 
 		char* m_selectedSectionName;
+
+		float beginTime;
 	private:
 		//struct NameAndPointer {
 		//	NameAndPointer(std::string _name, pointer _pointer)

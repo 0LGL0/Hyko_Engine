@@ -25,7 +25,7 @@ void Hyko::ESettings::Data()
 	ImGui::PopStyleVar();
 
 	if (ImGui::BeginPopup("##DataMetods")) {
-		if (ImGui::Selectable("Clear only all logs")) 
+		if (ImGui::Selectable("Clear only all logs"))
 			Hyko::LogF::deleteAllLogs();
 
 		if (ImGui::Selectable("Clear cache")) {
@@ -38,7 +38,14 @@ void Hyko::ESettings::Data()
 	}
 
 	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
-	ImGui::InputText("##LogsPath", &LogF::m_folderPath, flags); // The path to the logs folder
+	std::string buff = LogF::m_folderPath;
+	static bool isPathNotExist = false;
+	if (ImGui::InputText("##LogsPath", &buff, flags)) { // The path to the logs folder
+		if (!LogF::editFolderPath(buff)) {
+			isPathNotExist = true;
+			beginTime = ImGui::GetTime();
+		}
+	}
 
 	ImGui::SameLine();
 
@@ -56,11 +63,25 @@ void Hyko::ESettings::Data()
 		{
 			std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
 
-			if (filePathName != "")
-				LogF::editFolderPath(filePathName);
+			if (filePathName != "") {
+				if (!LogF::editFolderPath(filePathName)) {
+					isPathNotExist = true;
+					beginTime = ImGui::GetTime();
+				}
+			}
 		}
 		
 		ImGuiFileDialog::Instance()->Close();
+	}
+
+	
+	if (isPathNotExist) {
+		if ((int)ImGui::GetTime() - (int)beginTime != 5) {
+			ImGui::SetNextWindowPos(ImGui::GetMousePos());
+			ImGui::SetTooltip("This path does not exist");
+		}
+		else
+			isPathNotExist = false;
 	}
 }
 

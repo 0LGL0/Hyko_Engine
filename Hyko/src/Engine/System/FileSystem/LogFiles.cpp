@@ -14,14 +14,23 @@ std::string Hyko::LogF::m_filePath;
 std::string Hyko::LogF::m_folderPath;
 bool Hyko::LogF::m_hasError = false;
 
-void Hyko::LogF::editFolderPath(std::string newPath)
+bool Hyko::LogF::editFolderPath(std::string newPath)
 {
 	size_t pos;
 	while ((pos = newPath.find("\\")) != std::string::npos)
 		newPath.replace(pos, 1, "/");
 
-	m_folderPath = newPath + "/";
-	m_filePath = m_folderPath + m_currTime + ".hklog";
+	if (std::filesystem::is_directory(newPath)) {
+		m_folderPath = newPath + "/";
+		m_filePath = m_folderPath + m_currTime + ".hklog";
+
+		return true;
+	}
+	else {
+		HK_WARN("{0}: this path does not exist", newPath);
+		addMsgToLog({ newPath + ": this path does not exist" });
+		return false;
+	}
 }
 
 void Hyko::LogF::init()
