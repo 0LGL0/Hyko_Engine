@@ -11,6 +11,9 @@ void Hyko::EComponentSettings::TagComponent(Entity entity, const ImGuiTreeNodeFl
 	const ImGuiInputTextFlags entityNameFlags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
 	if (ImGui::TreeNodeEx(entity.getComponent<Hyko::TagComponent>().compName.c_str(), flags)) {
+		if (componentDeleteMenu<Hyko::TagComponent>(entity))
+			return;
+
 		if (ImGui::InputText("Entity name", entityNameBuf, sizeof(entityNameBuf), entityNameFlags))
 			entity.getComponent<Hyko::TagComponent>().Tag = entityNameBuf;
 
@@ -25,6 +28,9 @@ void Hyko::EComponentSettings::TransformComponent(Entity entity, const ImGuiTree
 	HykoComponentsMenuConfig componentsMenuFlags = HykoComponentsMenuConfig_None;
 
 	if (ImGui::TreeNodeEx(entity.getComponent<Hyko::TransformComponent>().compName.c_str(), flags)) {
+		if (componentDeleteMenu<Hyko::TransformComponent>(entity))
+			return;
+
 		HykoUI::ComponentsMenu<Hyko::TransformComponent>(entity, componentsMenuFlags);
 
 		if (ImGui::DragFloat2("Position", glm::value_ptr(entity.getComponent<Hyko::TransformComponent>().translate), 0.1f, -FLT_MAX, FLT_MAX))
@@ -55,6 +61,9 @@ void Hyko::EComponentSettings::SpriteComponent(Entity entity, const ImGuiTreeNod
 	auto &style = ImGui::GetStyle();
 
 	if (ImGui::TreeNodeEx(entity.getComponent<Hyko::SpriteComponent>().compName.c_str(), flags)) {
+		if (componentDeleteMenu<Hyko::SpriteComponent>(entity))
+			return;
+
 		if (ImGui::BeginCombo("Primitive type", Hyko::getSpriteTypeName(entity.getComponent<Hyko::SpriteComponent>().type).c_str())) {
 			if (ImGui::Selectable("Triangle"))
 				entity.getComponent<Hyko::SpriteComponent>().type = Hyko::SpriteComponent::Triangle;
@@ -129,7 +138,7 @@ void Hyko::EComponentSettings::init(Entity entity)
 			TransformComponent(entity, categoryTreeFlags);
 		if (entity.hasAllComponent<Hyko::SpriteComponent>())
 			SpriteComponent(entity, categoryTreeFlags);
-		
+
 		ComponentsFilter(entity);
 
 		ImGui::End();

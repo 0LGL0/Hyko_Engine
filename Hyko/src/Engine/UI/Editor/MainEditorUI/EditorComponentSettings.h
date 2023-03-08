@@ -37,6 +37,23 @@ namespace Hyko {
 		void TransformComponent(Entity entity, const ImGuiTreeNodeFlags flags);
 		void SpriteComponent(Entity entity, const ImGuiTreeNodeFlags flags);
 		void ComponentsFilter(Entity entity);
+
+		template<typename T>
+		bool componentDeleteMenu(Entity entity) {
+			if (ImGui::BeginPopupContextItem(std::string{ "##Delete" + entity.getComponent<T>().compName + "Component"}.c_str())) {
+				if (ImGui::Selectable("Delete")) {
+					entity.deleteComponent<T>();
+
+					ImGui::EndPopup();
+					ImGui::TreePop();
+					return true;
+				}
+				else {
+					ImGui::EndPopup();
+					return false;
+				}
+			}
+		}
 	public:
 		EComponentSettings() = default;
 		EComponentSettings(std::shared_ptr<Hyko::Scene> &scene)
