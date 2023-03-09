@@ -10,81 +10,97 @@
 
 void Hyko::ESettings::Data()
 {
-	ImGuiInputTextFlags flags = ImGuiInputTextFlags_EnterReturnsTrue;
+	const ImGuiInputTextFlags flags = ImGuiInputTextFlags_EnterReturnsTrue;
+	ImGuiTextFilter filter;
 
-	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
-	if (ImGui::Button("Clear all data"))
-		Hyko::LogF::deleteAllLogs();
+	static const float filterWidth = 300.0f;
 
+	ImGui::SetCursorPosX(ImGui::GetWindowContentRegionWidth() - filterWidth);
+	ImGui::AlignTextToFramePadding();
+	ImGui::Text("Data search");
 	ImGui::SameLine();
+	filter.Draw("##DataFilter");
 
-	// TODO: In the future, replace the button with an ImageButton with arrow texture
-	if (ImGui::Button("##DataArrow", ImVec2(ImGui::GetItemRectSize().y, ImGui::GetItemRectSize().y))) { // Arrow to expand other methods to clear data
-		ImGui::OpenPopup("##DataMetods");
-	}
-	ImGui::PopStyleVar();
+	//ImGui::SetCursorPosX(ImGui::GetColumnWidth(0));
+	ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
-	if (ImGui::BeginPopup("##DataMetods")) {
-		if (ImGui::Selectable("Clear only all logs"))
+	if (filter.PassFilter("Clear all data")) {
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+		if (ImGui::Button("Clear all data"))
 			Hyko::LogF::deleteAllLogs();
 
-		if (ImGui::Selectable("Clear cache")) {
-			// Clear cache code...
+		ImGui::SameLine();
+
+		// TODO: In the future, replace the button with an ImageButton with arrow texture
+		if (ImGui::Button("##DataArrow", ImVec2(ImGui::GetItemRectSize().y, ImGui::GetItemRectSize().y))) { // Arrow to expand other methods to clear data
+			ImGui::OpenPopup("##DataMetods");
 		}
+		ImGui::PopStyleVar();
 
-		// And others methodes (maybe)
+		if (ImGui::BeginPopup("##DataMetods")) {
+			if (ImGui::Selectable("Clear only all logs"))
+				Hyko::LogF::deleteAllLogs();
 
-		ImGui::EndPopup();
+			if (ImGui::Selectable("Clear cache")) {
+				// Clear cache code...
+			}
+
+			// And others methodes (maybe)
+
+			ImGui::EndPopup();
+		}
 	}
 
-	ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
 	std::string buff = LogF::m_folderPath;
 	static bool isPathNotExist = false;
-	ImGui::AlignTextToFramePadding();
-	ImGui::Text("The path to the logs folder");
-	ImGui::SameLine();
-	if (ImGui::InputText("##LogsPath", &buff, flags)) { // The path to the logs folder
-		if (!LogF::editFolderPath(buff)) {
-			isPathNotExist = true;
-			beginTime = ImGui::GetTime();
-		}
-	}
-
-	ImGui::SameLine();
-
-	if (ImGui::Button("##OpenFolder", ImVec2(ImGui::GetItemRectSize().y, ImGui::GetItemRectSize().y))) {
-		ImGuiFileDialogFlags dialogFlags = ImGuiFileDialogFlags_DontShowHiddenFiles | ImGuiFileDialogFlags_DisableBookmarkMode;
-
-		ImGuiFileDialog::Instance()->OpenDialog("PathToLogsKey", "Path to logs", nullptr, ".");
-	}
-
-	ImGui::PopStyleVar();
-
-	if (ImGuiFileDialog::Instance()->Display("PathToLogsKey"))
-	{
-		if (ImGuiFileDialog::Instance()->IsOk())
-		{
-			std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
-
-			if (filePathName != "") {
-				if (!LogF::editFolderPath(filePathName)) {
-					isPathNotExist = true;
-					beginTime = ImGui::GetTime();
-				}
+	if (filter.PassFilter("Logs folder path")) {
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Logs folder path");
+		ImGui::SameLine();
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+		if (ImGui::InputText("##LogsPath", &buff, flags)) { // The path to the logs folder
+			if (!LogF::editFolderPath(buff)) {
+				isPathNotExist = true;
+				beginTime = ImGui::GetTime();
 			}
 		}
-		
-		ImGuiFileDialog::Instance()->Close();
-	}
 
-	
-	if (isPathNotExist) {
-		if ((int)ImGui::GetTime() - (int)beginTime != 5) {
-			ImGui::SetNextWindowPos(ImGui::GetMousePos());
-			ImGui::SetTooltip("This path does not exist");
+		ImGui::SameLine();
+
+		if (ImGui::Button("##OpenFolder", ImVec2(ImGui::GetItemRectSize().y, ImGui::GetItemRectSize().y))) {
+			ImGuiFileDialogFlags dialogFlags = ImGuiFileDialogFlags_DontShowHiddenFiles | ImGuiFileDialogFlags_DisableBookmarkMode;
+
+			ImGuiFileDialog::Instance()->OpenDialog("PathToLogsKey", "Path to logs", nullptr, ".");
 		}
-		else
-			isPathNotExist = false;
+
+		ImGui::PopStyleVar();
+
+		if (ImGuiFileDialog::Instance()->Display("PathToLogsKey"))
+		{
+			if (ImGuiFileDialog::Instance()->IsOk())
+			{
+				std::string filePathName = ImGuiFileDialog::Instance()->GetFilePathName();
+
+				if (filePathName != "") {
+					if (!LogF::editFolderPath(filePathName)) {
+						isPathNotExist = true;
+						beginTime = ImGui::GetTime();
+					}
+				}
+			}
+
+			ImGuiFileDialog::Instance()->Close();
+		}
+
+
+		if (isPathNotExist) {
+			if ((int)ImGui::GetTime() - (int)beginTime != 5) {
+				ImGui::SetNextWindowPos(ImGui::GetMousePos());
+				ImGui::SetTooltip("This path does not exist");
+			}
+			else
+				isPathNotExist = false;
+		}
 	}
 }
 
@@ -109,10 +125,10 @@ void Hyko::ESettings::init()
 	/*HierarchyWinWidth = ImGui::GetWindowContentRegionWidth() / 8.0f;
 	ElementSettingsWidth = ImGui::GetWindowContentRegionWidth() - HierarchyWinWidth;*/
 
-	ImGui::SetCursorPosX(ImGui::GetCursorPosX() + (ImGui::GetWindowContentRegionWidth() - filterWidth));
+	ImGui::SetCursorPosX(ImGui::GetWindowContentRegionWidth() - filterWidth);
 
 	ImGui::AlignTextToFramePadding();
-	ImGui::Text("Find");
+	ImGui::Text("Hierarchy search");
 	ImGui::SameLine();
 	filterSettings.Draw("##EngineSettingsFilter", filterWidth);
 
