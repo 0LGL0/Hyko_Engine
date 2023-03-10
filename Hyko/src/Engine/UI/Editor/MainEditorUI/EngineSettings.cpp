@@ -21,7 +21,6 @@ void Hyko::ESettings::Data()
 	ImGui::SameLine();
 	filter.Draw("##DataFilter");
 
-	//ImGui::SetCursorPosX(ImGui::GetColumnWidth(0));
 	ImGui::SeparatorEx(ImGuiSeparatorFlags_Horizontal);
 
 	if (filter.PassFilter("Clear all data")) {

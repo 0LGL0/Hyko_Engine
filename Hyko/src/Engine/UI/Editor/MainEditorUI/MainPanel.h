@@ -17,7 +17,7 @@ namespace Hyko {
 		std::shared_ptr<FBO> m_fbo;
 		std::shared_ptr<Scene> m_scene;
 
-		EViewport m_viewport{ m_fbo };
+		EViewport m_viewport{ m_fbo, m_scene };
 		EHierarchy m_hierarchy{ m_scene };
 		EComponentSettings m_componentsSettings{ m_scene };
 		ESettings m_engineSettings{ m_scene };

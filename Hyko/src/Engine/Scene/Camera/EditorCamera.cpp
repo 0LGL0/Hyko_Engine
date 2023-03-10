@@ -20,7 +20,8 @@ glm::mat4 Hyko::ECamera::m_projectionMat;
 glm::mat4 Hyko::ECamera::m_viewMat;
 glm::vec2 Hyko::ECamera::m_position;
 
-int Hyko::ECamera::zoomValue = 45;
+int Hyko::ECamera::m_zoomValue = 45;
+int Hyko::ECamera::m_camSpeed	 = 2;
 
 Hyko::ECamera::ECamera(Hyko::OrthographicData data, glm::vec2 position)
 {
@@ -77,6 +78,11 @@ void Hyko::ECamera::setData(Hyko::PerspectiveData data)
 	m_type = projType::Perspective;
 }
 
+void Hyko::ECamera::setCameraSpeed(const int value)
+{
+	m_camSpeed = value;
+}
+
 void Hyko::ECamera::initProjection()
 {
 	switch (m_type) {
@@ -91,18 +97,18 @@ void Hyko::ECamera::initProjection()
 	m_viewMat = glm::lookAt(glm::vec3(m_position, 0.0f), glm::vec3(m_position, -1.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 }
 
-void Hyko::ECamera::updateInput(float dt, float camSpeed)
+void Hyko::ECamera::updateInput(float dt)
 {
 	// Movement
 	if (Hyko::Input::isMouseButtonPressed(Hyko::Mouse::HK_MOUSE_BUTTON_RIGHT)) {
 		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_W))
-			setPosition(getPosition().x, getPosition().y + camSpeed * dt);
+			setPosition(getPosition().x, getPosition().y + m_camSpeed * dt);
 		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_S))
-			setPosition(getPosition().x, getPosition().y - camSpeed * dt);
+			setPosition(getPosition().x, getPosition().y - m_camSpeed * dt);
 		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_A))
-			setPosition(getPosition().x - camSpeed * dt, getPosition().y);
+			setPosition(getPosition().x - m_camSpeed * dt, getPosition().y);
 		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_D))
-			setPosition(getPosition().x + camSpeed * dt, getPosition().y);
+			setPosition(getPosition().x + m_camSpeed * dt, getPosition().y);
 		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_LEFT_CONTROL))
 			setPosition(0.0f, 0.0f);
 	}
@@ -112,14 +118,14 @@ void Hyko::ECamera::updateInput(float dt, float camSpeed)
 		switch (m_type) {
 		case projType::Perspective: // Perspective
 			if (m_perspData.m_fovY >= 1.0f && m_perspData.m_fovY <= 120.0f) {
-				zoomValue += -((Hyko::Input::getMouseYOffset() * 1000) * dt);
-				m_perspData.m_fovY = zoomValue;
+				m_zoomValue += -((Hyko::Input::getMouseYOffset() * 1000) * dt);
+				m_perspData.m_fovY = m_zoomValue;
 			}
 
 			if (m_perspData.m_fovY > 120.0f)
-				zoomValue = 120.0f;
+				m_zoomValue = 120.0f;
 			if (m_perspData.m_fovY < 1.0f)
-				zoomValue = 1.0f;
+				m_zoomValue = 1.0f;
 
 			/*m_orthoData.m_bottom = -(m_perspData.m_fovY * 3.33f);
 			m_orthoData.m_left = -(m_perspData.m_fovY * 3.33f);
@@ -192,5 +198,5 @@ void Hyko::ECamera::swapProjection(Hyko::projType type)
 void Hyko::ECamera::Resize(float width, float height)
 {
 	auto aspect = width / height;
-	setData(PerspectiveData{ (float)zoomValue, aspect, 0.1f, 100.0f });
+	setData(PerspectiveData{ (float)m_zoomValue, aspect, 0.1f, 100.0f });
 }

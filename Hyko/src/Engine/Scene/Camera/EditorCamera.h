@@ -40,7 +40,9 @@ namespace Hyko {
 		static glm::mat4 m_viewMat;
 		static glm::vec2 m_position;
 
-		static int zoomValue;
+		static int m_zoomValue;
+
+		static int m_camSpeed;
 	public:
 		ECamera() = default;
 		ECamera(Hyko::OrthographicData data, glm::vec2 position = glm::vec2(0.0f));
@@ -48,7 +50,7 @@ namespace Hyko {
 		~ECamera();
 
 		static void initProjection();
-		static void updateInput(float dt, float camSpeed);
+		static void updateInput(float dt);
 
 		static glm::mat4 updateView();
 		static glm::mat4 updateProjection();
@@ -62,10 +64,13 @@ namespace Hyko {
 
 		static void setData(Hyko::OrthographicData data);
 		static void setData(Hyko::PerspectiveData data);
+
+		static void setCameraSpeed(const int value);
 	public: // getters
 		static glm::mat4 getProjectionMat() { return m_projectionMat; }
 		static glm::mat4 getViewMat() { return m_viewMat; }
 
 		static glm::vec2 getPosition() { return m_position; }
+		static int getCameraSpeed() { return m_camSpeed; };
 	};
 }

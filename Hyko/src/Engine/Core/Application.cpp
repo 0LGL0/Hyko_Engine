@@ -170,7 +170,7 @@ void App::Init()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// camera input
-		m_scene->editCamera.updateInput(ts.getDeltaSeconds(), eUILayer.getCamSpeed());
+		m_scene->editCamera.updateInput(ts.getDeltaSeconds());
 
 		view = m_scene->editCamera.updateView();
 		projection = m_scene->editCamera.updateProjection();
