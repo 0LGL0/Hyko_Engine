@@ -10,8 +10,7 @@ void Hyko::EViewport::secondUILayer()
 
 	auto& style = ImGui::GetStyle();
 
-	//ImGui::SetNextWindowBgAlpha(0.0f);
-	ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowPos().x, ImGui::GetItemRectMin().y));
+	ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowPos().x + 5.0f, ImGui::GetItemRectMin().y + 5.0f)); // 5.0f - it's a indent
 
 	if (ImGui::Begin("##SecondViewportUI", nullptr, flags)) {
 		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 100.0f);
