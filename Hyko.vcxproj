@@ -151,6 +151,7 @@
     <ClCompile Include="Hyko\src\Engine\System\FileSystem\LogFiles.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MenuBar\Windows.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\EngineFonts.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\UIFunctions.cpp" />
@@ -190,6 +191,7 @@
     <ClInclude Include="Hyko\src\Engine\System\FileSystem\LogFiles.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MenuBar\Windows.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.h" />
     <ClInclude Include="Hyko\src\Engine\UI\EngineFonts.h" />
     <ClInclude Include="Hyko\src\Engine\UI\UIFunctions.h" />

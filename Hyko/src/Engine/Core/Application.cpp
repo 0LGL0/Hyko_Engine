@@ -158,7 +158,7 @@ void App::Init()
 
 	while (!glfwWindowShouldClose(window.getNativeWindow())) {
 		float time = (float)glfwGetTime();
-		Hyko::Time ts = time - m_LastFrameTime;
+		Hyko::Scene::getTime() = time - m_LastFrameTime;
 		m_LastFrameTime = time;
 
 		glfwPollEvents();
@@ -170,7 +170,7 @@ void App::Init()
 		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		// camera input
-		m_scene->editCamera.updateInput(ts.getDeltaSeconds());
+		m_scene->editCamera.updateInput(Hyko::Scene::getTime().getDeltaSeconds());
 
 		view = m_scene->editCamera.updateView();
 		projection = m_scene->editCamera.updateProjection();
@@ -181,14 +181,14 @@ void App::Init()
 		c_shader->setUniformMat4("view", view);
 		c_shader->setUniformMat4("projection", projection);
 
-		m_scene->Update(ts.getDeltaSeconds());
+		m_scene->Update(Hyko::Scene::getTime().getDeltaSeconds());
 
 		c_shader->unUse();
 
 		fbo->unBind();
 
 		// UI
-		eUILayer.OnUpdate(ts);
+		eUILayer.OnUpdate(Hyko::Scene::getTime());
 		eUILayer.Render();
 
 		glfwSwapBuffers(window.getNativeWindow());

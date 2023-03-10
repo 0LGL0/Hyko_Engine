@@ -3,38 +3,34 @@
 
 #include <imgui.h>
 
-void Hyko::EViewport::secondUILayer()
+void Hyko::EViewport::viewportMenuBar()
 {
-	const ImGuiWindowFlags flags = ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoScrollWithMouse
-		| ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoDocking;
+	const ImGuiWindowFlags flags = ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoMove;
 
-	auto& style = ImGui::GetStyle();
+	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 100);
+	if (ImGui::Button("##ViewportArrow", ImVec2(20.0f, 20.0f))) 
+		ImGui::OpenPopup("##ViewportArrowMenu");
+	ImGui::PopStyleVar();
 
-	ImGui::SetNextWindowPos(ImVec2(ImGui::GetWindowPos().x + 5.0f, ImGui::GetItemRectMin().y + 5.0f)); // 5.0f - it's a indent
-
-	if (ImGui::Begin("##SecondViewportUI", nullptr, flags)) {
-		ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 100.0f);
-		if (ImGui::Button("##ViewportArrow", ImVec2(20.0f, 20.0f)))
-			ImGui::OpenPopup("##ViewportArrowMenu");
+	if (ImGui::BeginPopup("##ViewportArrowMenu", flags)) {
 		ImGui::PopStyleVar();
-
-		if (ImGui::BeginPopup("##ViewportArrowMenu")) {
-			static int camSpeed = 20;
-			if (ImGui::SliderInt("##CamSpeed", &camSpeed, 20, 300)) {
-				camSpeed = (camSpeed / 20) * 20;
-				m_scene->editCamera.setCameraSpeed(camSpeed);
-			}
-
-			ImGui::EndPopup();
+		static int camSpeed = 20;
+		ImGui::AlignTextToFramePadding();
+		ImGui::Text("Camera speed");
+		ImGui::SameLine();
+		if (ImGui::SliderInt("##CamSpeed", &camSpeed, 20, 300)) {
+			camSpeed = (camSpeed / 20) * 20;
+			m_scene->editCamera.setCameraSpeed(camSpeed);
 		}
 
-		ImGui::End();
+		ImGui::EndPopup();
 	}
 }
 
 void Hyko::EViewport::init()
 {
-	const ImGuiWindowFlags winFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar;
+	const ImGuiWindowFlags winFlags = ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoScrollbar | ImGuiWindowFlags_NoScrollWithMouse | ImGuiWindowFlags_NoTitleBar
+		| ImGuiWindowFlags_MenuBar;
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
@@ -45,7 +41,11 @@ void Hyko::EViewport::init()
 
 	ImGui::Image((void*)m_fbo->getFBOTexture(), { (float)m_fbo->getFramebufferWidth(), (float)m_fbo->getFramebufferHeight() }, {0, 1}, {1, 0});
 
-	secondUILayer();
+	if (ImGui::BeginMenuBar()) {
+		viewportMenuBar();
+
+		ImGui::EndMenuBar();
+	}
 
 	ImGui::End();
 	ImGui::PopStyleVar();

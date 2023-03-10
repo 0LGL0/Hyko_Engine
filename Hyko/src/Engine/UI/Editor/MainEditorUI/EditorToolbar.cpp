@@ -7,8 +7,8 @@ void Hyko::EToolbar::scene_Menu()
 	const ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow | ImGuiTreeNodeFlags_OpenOnDoubleClick | ImGuiTreeNodeFlags_SpanAvailWidth;
 
 	if (ImGui::TreeNodeEx("Data", treeFlags)) {
-		std::string triangleCount = "Triangles in scene: " + std::to_string(m_scene->getComponentCount(HK_TRIANGLE));
-		ImGui::Text(triangleCount.c_str());
+		//std::string triangleCount = "Triangles in scene: " + std::to_string(m_scene->getComponentCount(HK_TRIANGLE));
+	//	ImGui::Text(triangleCount.c_str());
 
 		ImGui::TreePop();
 	}

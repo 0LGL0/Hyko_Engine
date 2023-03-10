@@ -40,7 +40,7 @@ namespace Hyko {
 		int circleSegmentCount = 16;
 
 		enum Type {
-			Triangle, Rectangle, Circle
+			Triangle, Rectangle, Circle, Entity
 		};
 
 		Type type;

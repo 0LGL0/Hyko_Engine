@@ -39,6 +39,12 @@ void Hyko::EMainPanel::init()
 				ImGui::EndMenu();
 			}
 
+			if (ImGui::BeginMenu("Windows")) {
+				ImGui::MenuItem("Debug", "Ctrl + Shift + D", &m_engineDebugEnabled);
+
+				ImGui::EndMenu();
+			}
+
 			if (ImGui::BeginMenu("Help")) {
 				// TODO: Help options
 
@@ -53,6 +59,8 @@ void Hyko::EMainPanel::init()
 
 		if (m_engineSettingsEnabled)
 			m_engineSettings.init();
+		if (m_engineDebugEnabled)
+			m_engineWindows.DebugMenu();
 
 		m_viewport.init();
 		m_hierarchy.init();

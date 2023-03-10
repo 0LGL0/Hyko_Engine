@@ -3,7 +3,7 @@
 #include "Engine/Core/Macro.h"
 #include "Engine/Scene/Entity/Components.h"
 
-#include "Engine/System/FileSystem/shader.h"
+#include "Engine/System/Time.h"
 
 #include "Camera/EditorCamera.h"
 
@@ -17,7 +17,7 @@
 #include "entt.hpp"
 
 namespace Hyko {
-	struct Scene {
+	class Scene {
 	public:
 		ECamera editCamera;
 	private:
@@ -27,33 +27,24 @@ namespace Hyko {
 
 		friend class EHierarchy;
 		friend class Entity;
+	private:
+		static Time m_tm;
 	public:
-		std::vector<Hyko::Triangle> sceneTriangles;
-		size_t trianglesCount = 0;
-		size_t rectangleCount = 0;
-
-		template<typename T>
-		T getSceneComponent(int indx, int8_t type) {
-			if (type == HK_TRIANGLE) {
-				for (int i = 0; i < sceneTriangles.size(); i++) {
-					if (sceneTriangles[i].indx == indx) return sceneTriangles[i];
-				}
-			}
-		}
-
 		entt::entity addToScene();
 		bool deleteEntity(uint32_t entityID);
 
 		void Update(float dt);
 
 	public: // getters
-		int getComponentCount(int8_t type);
+		int getEntityCount();
 
 		float* getBackgroundColor_Arr() { return glm::value_ptr(backgroundColor); }
 
 		glm::vec3 getBackgroundColor_Vec() { return backgroundColor; }
 
 		entt::registry &Reg() { return m_reg; };
+
+		static Time& getTime() { return m_tm; }
 
 		Scene& get() { return *this; }
 	public: // setters

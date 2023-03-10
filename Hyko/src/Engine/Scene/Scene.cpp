@@ -3,9 +3,12 @@
 #include "Engine/Renderer/Renderer.h"
 
 #include "Engine/System/FileSystem/LogFiles.h"
+#include "Engine/System/Debug/Log.h"
 #include "Engine/Scene/Entity/Entity.h"
 
 #include <iostream>
+
+Hyko::Time Hyko::Scene::m_tm;
 
 entt::entity Hyko::Scene::addToScene()
 {
@@ -36,11 +39,11 @@ void Hyko::Scene::Update(float dt)
     for (auto entity : group) {
         auto [transform, sprite] = m_reg.get<TransformComponent, SpriteComponent>(entity);
 
-        if(sprite.type == Hyko::SpriteComponent::Triangle)
+        if (sprite.type == Hyko::SpriteComponent::Triangle) 
             Renderer::createTriangle(transform.Transform, sprite.Color);
-        if (sprite.type == Hyko::SpriteComponent::Rectangle)
+        if (sprite.type == Hyko::SpriteComponent::Rectangle) 
             Renderer::createRectangle(transform.Transform, sprite.Color);
-        if (sprite.type == Hyko::SpriteComponent::Circle)
+        if (sprite.type == Hyko::SpriteComponent::Circle) 
             Renderer::createCircle(transform.Transform, sprite.Color, m_reg.get<Hyko::SpriteComponent>(entity).circleSegmentCount);
     }
 
@@ -48,12 +51,9 @@ void Hyko::Scene::Update(float dt)
     Renderer::render();
 }
 
-int Hyko::Scene::getComponentCount(int8_t type)
+int Hyko::Scene::getEntityCount()
 {
-    if (type == HK_TRIANGLE)
-        return sceneTriangles.size();
-
-    return 0;
+    return m_reg.view<Hyko::TransformComponent>().size();
 }
 
 void Hyko::Scene::setBackgroundColor(float color[3])

@@ -47,6 +47,8 @@ public: // getters
 	int getGLMinorVersion() const { return m_WindowData.GLMinorVersion; }
 
 	static GLFWwindow* getNativeWindow() { return m_window; }
+
+	static int getFPS(float dt); // dt - milliseconds
 public: // setters
 	static void setVSync(bool state);
 

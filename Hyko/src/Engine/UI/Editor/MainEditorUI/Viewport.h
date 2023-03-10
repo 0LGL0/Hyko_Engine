@@ -11,7 +11,7 @@ namespace Hyko {
 		std::shared_ptr<FBO> m_fbo;
 		std::shared_ptr<Scene> m_scene;
 	private:
-		void secondUILayer();
+		void viewportMenuBar();
 	public:
 		EViewport(std::shared_ptr<FBO> fbo, std::shared_ptr<Scene> scene)
 			: m_fbo(fbo), m_scene(scene) {}

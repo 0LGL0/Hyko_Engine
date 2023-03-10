@@ -97,6 +97,11 @@ int Window::getWindowHeight(GLFWwindow* window)
 	return h;
 }
 
+int Window::getFPS(float dt)
+{
+	return static_cast<int>(1000.0f / dt);
+}
+
 void Window::setVSync(bool state)
 {
 	glfwSwapInterval(state);

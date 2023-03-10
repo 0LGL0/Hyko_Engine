@@ -2,8 +2,10 @@
 
 #include "Engine/System/Debug/Log.h"
 
+// std
 #include <string>
 
+// GL
 #include <glad/glad.h>
 
 #define HK_GET_GPU_VENDOR		glGetString(GL_VENDOR)
@@ -19,7 +21,7 @@ namespace Hyko {
 	class Tools {
 	public:
 		static void printGPUAndGLInformations(const bool transfer);
-	public:
+	public: // getters
 		static std::string getGPUAndGLInformations(const bool transfer = false);
 		static std::string getCurrentTime();
 	};
