@@ -56,7 +56,7 @@ namespace Hyko {
 		}
 	public:
 		EComponentSettings() = default;
-		EComponentSettings(std::shared_ptr<Hyko::Scene> &scene)
+		EComponentSettings(std::shared_ptr<Scene> &scene)
 			: m_scene(scene) {};
 
 		void init(Entity entity);

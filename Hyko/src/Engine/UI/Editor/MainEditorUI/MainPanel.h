@@ -7,6 +7,7 @@
 #include "EditorComponentSettings.h"
 #include "EngineSettings.h"
 #include "Engine/UI/Editor/MainEditorUI/MenuBar/Windows.h"
+#include "ContentBrowser.h"
 
 #include "Engine/Scene/Scene.h"
 
@@ -23,6 +24,7 @@ namespace Hyko {
 		EComponentSettings m_componentsSettings{ m_scene };
 		ESettings m_engineSettings{ m_scene };
 		EWindows m_engineWindows{ m_scene };
+		EContentBrowser m_engineContentBrowser;
 	private:
 		bool m_engineSettingsEnabled = false;
 		bool m_engineDebugEnabled	 = false;

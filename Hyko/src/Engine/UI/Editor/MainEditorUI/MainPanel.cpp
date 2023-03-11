@@ -65,6 +65,7 @@ void Hyko::EMainPanel::init()
 		m_viewport.init();
 		m_hierarchy.init();
 		m_componentsSettings.init(m_hierarchy.m_selectedEntity);
+		m_engineContentBrowser.init();
 
 		ImGui::End();
 	}

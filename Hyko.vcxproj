@@ -149,6 +149,7 @@
     <ClCompile Include="Hyko\src\Engine\Renderer\RendererTools.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\Debug\Log.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\FileSystem\LogFiles.cpp" />
+    <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\ContentBrowser.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MenuBar\Windows.cpp" />
@@ -189,6 +190,7 @@
     <ClInclude Include="Hyko\src\Engine\System\Debug\Assert.h" />
     <ClInclude Include="Hyko\src\Engine\System\Debug\Log.h" />
     <ClInclude Include="Hyko\src\Engine\System\FileSystem\LogFiles.h" />
+    <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\ContentBrowser.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MainPanel.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\MenuBar\Windows.h" />
