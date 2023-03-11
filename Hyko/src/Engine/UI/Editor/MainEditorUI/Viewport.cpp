@@ -13,7 +13,6 @@ void Hyko::EViewport::viewportMenuBar()
 	ImGui::PopStyleVar();
 
 	if (ImGui::BeginPopup("##ViewportArrowMenu", flags)) {
-		ImGui::PopStyleVar();
 		static int camSpeed = 20;
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Camera speed");
