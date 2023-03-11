@@ -110,8 +110,8 @@ void Hyko::EContentBrowser::init()
 
 		//-----------------------------------------------------------------------------------------
 
-		if (ImGui::GetColumnWidth(0) <= 160.0f)
-			ImGui::SetColumnWidth(0, 160.0f);
+		if (ImGui::GetColumnWidth(0) <= ImGui::GetWindowContentRegionWidth() / 8.0f)
+			ImGui::SetColumnWidth(0, ImGui::GetWindowContentRegionWidth() / 8.0f);
 
 		ImGui::NextColumn();
 
