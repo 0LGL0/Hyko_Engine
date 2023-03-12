@@ -1,5 +1,7 @@
 #include "MainPanel.h"
 
+#include "Engine/Events/InputEvents.h"
+
 #include <imgui.h>
 
 void Hyko::EMainPanel::init()
@@ -15,6 +17,8 @@ void Hyko::EMainPanel::init()
 		| ImGuiWindowFlags_NoBringToFrontOnFocus | ImGuiWindowFlags_MenuBar;
 
 	const ImGuiDockNodeFlags dockFlags = ImGuiDockNodeFlags_None;
+
+	static bool isKeysPressed = false;
 
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
@@ -56,6 +60,17 @@ void Hyko::EMainPanel::init()
 
 			ImGui::EndMenuBar();
 		}
+
+		// Keyboard shortcuts ---------------------------
+		if (((Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL))
+			&& Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_O)))
+				m_engineSettingsEnabled = true;
+
+		else if (((Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL))
+			&& (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_SHIFT) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_SHIFT)) 
+			&& Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_D)))
+				m_engineDebugEnabled = true;
+		// ----------------------------------------------
 
 		if (m_engineSettingsEnabled)
 			m_engineSettings.init();

@@ -101,15 +101,15 @@ void Hyko::ECamera::updateInput(float dt)
 {
 	// Movement
 	if (Hyko::Input::isMouseButtonPressed(Hyko::Mouse::HK_MOUSE_BUTTON_RIGHT)) {
-		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_W))
+		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_W))
 			setPosition(getPosition().x, getPosition().y + m_camSpeed * dt);
-		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_S))
+		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_S))
 			setPosition(getPosition().x, getPosition().y - m_camSpeed * dt);
-		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_A))
+		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_A))
 			setPosition(getPosition().x - m_camSpeed * dt, getPosition().y);
-		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_D))
+		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_D))
 			setPosition(getPosition().x + m_camSpeed * dt, getPosition().y);
-		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBORD_LEFT_CONTROL))
+		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL))
 			setPosition(0.0f, 0.0f);
 	}
 
