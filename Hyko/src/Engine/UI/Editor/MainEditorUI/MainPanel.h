@@ -26,8 +26,10 @@ namespace Hyko {
 		EWindows m_engineWindows{ m_scene };
 		EContentBrowser m_engineContentBrowser;
 	private:
-		bool m_engineSettingsEnabled = false;
-		bool m_engineDebugEnabled	 = false;
+		void fileMenu();
+		void editMenu();
+		void windowsMenu();
+		void helpMenu();
 	public:
 		EMainPanel(const std::shared_ptr<FBO> fbo, const std::shared_ptr<Scene> scene)
 			: m_fbo(fbo), m_scene(scene){}
