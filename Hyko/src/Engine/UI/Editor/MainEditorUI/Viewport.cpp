@@ -9,10 +9,10 @@ void Hyko::EViewport::viewportMenuBar()
 
 	ImGui::PushStyleVar(ImGuiStyleVar_FrameRounding, 100);
 	if (ImGui::Button("##ViewportArrow", ImVec2(20.0f, 20.0f))) 
-		ImGui::OpenPopup("##ViewportArrowMenu");
+		ImGui::OpenPopup("ViewportArrowMenu");
 	ImGui::PopStyleVar();
 
-	if (ImGui::BeginPopup("##ViewportArrowMenu", flags)) {
+	if (ImGui::BeginPopup("ViewportArrowMenu", flags)) {
 		static int camSpeed = 20;
 		ImGui::AlignTextToFramePadding();
 		ImGui::Text("Camera speed");
@@ -34,6 +34,7 @@ void Hyko::EViewport::init()
 	ImGui::PushStyleVar(ImGuiStyleVar_WindowPadding, ImVec2(0.0f, 0.0f));
 
 	ImGui::Begin("Viewport", nullptr, winFlags);
+	ImGui::PopStyleVar();
 	m_fbo->setFramebufferWidth(ImGui::GetWindowSize().x);
 	m_fbo->setFramebufferHeight(ImGui::GetWindowSize().y);
 	ECamera::Resize(m_fbo->getFramebufferWidth(), m_fbo->getFramebufferHeight());
@@ -47,5 +48,4 @@ void Hyko::EViewport::init()
 	}
 
 	ImGui::End();
-	ImGui::PopStyleVar();
 }
