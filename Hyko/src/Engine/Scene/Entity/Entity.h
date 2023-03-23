@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Engine/Scene/Scene.h"
+//#include "Engine/System/Debug/Assert.h"
 
 #include <entt.hpp>
 
@@ -43,8 +44,26 @@ namespace Hyko {
 			return m_scene->m_reg.any_of<T>(m_entity);
 		}
 
+		template<typename Func>
+		void visit(Func func) {
+			if (this->hasAllComponent<Hyko::TagComponent>())
+				func(this->getComponent<Hyko::TagComponent>());
+			if (this->hasAllComponent<Hyko::TransformComponent>())
+				func(this->getComponent<Hyko::TransformComponent>());
+			if (this->hasAllComponent<Hyko::SpriteComponent>())
+				func(this->getComponent<Hyko::SpriteComponent>());
+			if (this->hasAllComponent<Hyko::IDComponent>())
+				func(this->getComponent<Hyko::IDComponent>());
+		}
+
+		template<typename T>
+		void copyComponent(Entity from, Entity& to) {
+			if(from.hasAllComponent<T>() && to.hasAllComponent<T>())
+				from.getComponent<T>().clone(to.getComponent<T>());
+		}
+
 		// return entt entity from my "Entity" class
-		entt::entity get() { return m_entity; };
+		entt::entity get() { return m_entity; }
 
 		// converting an entity id into an entity
 		static Entity toEntity(const uint32_t id) { return Entity{ entt::entity(id) }; }

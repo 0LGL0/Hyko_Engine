@@ -23,6 +23,7 @@ namespace Hyko {
 		Entity m_selectedEntity;
 	private:
 		void createNewTree(Entity entity);
+		void copingEntity();
 	public:
 		EHierarchy() = default;
 		EHierarchy(const std::shared_ptr<Hyko::Scene> &scene)

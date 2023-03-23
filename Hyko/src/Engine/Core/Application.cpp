@@ -57,18 +57,18 @@ void App::Init()
 	m_scene->Reg().get<Hyko::SpriteComponent>(tr).type = Hyko::SpriteComponent::Triangle;*/
 
 	Hyko::Entity ent = m_scene->addToScene();
-	ent.addComponent<Hyko::TransformComponent>();
+	/*ent.addComponent<Hyko::TransformComponent>();*/
 	ent.addComponent<Hyko::SpriteComponent>().type = Hyko::SpriteComponent::Rectangle;
-	ent.addComponent<Hyko::TagComponent>().Tag = "Rectangle";
+	/*ent.addComponent<Hyko::TagComponent>().Tag = "Rectangle";*/
 
 	Hyko::Entity ent2 = m_scene->addToScene();
 	auto transform = glm::translate(glm::mat4(1.0f), { 0.0f, 20.0f, 0.0f })
 		* glm::rotate(glm::mat4(1.0f), 0.0f, { 0.0f, 0.0f, 1.0f })
 		* glm::scale(glm::mat4(1.0f), { 2.0f, 2.0f, 1.0f });
 
-	ent2.addComponent<Hyko::TransformComponent>().Transform = transform;
+	/*ent2.addComponent<Hyko::TransformComponent>().Transform = transform;*/
 	ent2.addComponent<Hyko::SpriteComponent>().type = Hyko::SpriteComponent::Triangle;
-	ent2.addComponent<Hyko::TagComponent>().Tag = "Triangle";
+	/*ent2.addComponent<Hyko::TagComponent>().Tag = "Triangle";*/
 
 	/*auto entity2 = m_scene->addToScene();
 	m_scene->Reg().emplace<Hyko::TransformComponent>(entity2);

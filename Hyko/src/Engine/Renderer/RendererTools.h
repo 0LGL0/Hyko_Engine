@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GL/VO.h"
+#include "Engine/Buffers/OpenGL/VO.h"
 
 #include <vector>
 

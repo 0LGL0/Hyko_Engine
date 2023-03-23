@@ -27,11 +27,18 @@ namespace Hyko {
 
 		friend class EHierarchy;
 		friend class Entity;
+		friend class EComponentSettings;
 	private:
 		static Time m_tm;
+	private:
+		void setIndividualEntityName(Entity checkedEntity);
 	public:
-		entt::entity addToScene();
+		Hyko::Entity addToScene();
+		Hyko::Entity addToScene(Hyko::Entity copyEntity);
+
 		bool deleteEntity(uint32_t entityID);
+
+		Hyko::Entity copyEntity(const Entity from);
 
 		void Update(float dt);
 

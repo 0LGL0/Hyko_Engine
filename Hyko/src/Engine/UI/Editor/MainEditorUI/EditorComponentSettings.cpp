@@ -14,8 +14,10 @@ void Hyko::EComponentSettings::TagComponent(Entity entity, const ImGuiTreeNodeFl
 		if (componentDeleteMenu<Hyko::TagComponent>(entity))
 			return;
 
-		if (ImGui::InputText("Entity name", entityNameBuf, sizeof(entityNameBuf), entityNameFlags))
+		if (ImGui::InputText("Entity name", entityNameBuf, sizeof(entityNameBuf), entityNameFlags)) {
 			entity.getComponent<Hyko::TagComponent>().Tag = entityNameBuf;
+			m_scene->setIndividualEntityName(entity);
+		}
 
 		ImGui::TreePop();
 	}

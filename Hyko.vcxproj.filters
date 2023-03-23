@@ -30,7 +30,7 @@
     <ClCompile Include="Hyko\src\Engine\Events\InputEvents.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Hyko\src\GL\VO.cpp">
+    <ClCompile Include="Hyko\src\Engine\Buffers\OpenGL\VO.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Hyko\src\Engine\Scene\Entity\Entity.cpp">
@@ -72,7 +72,7 @@
     <ClCompile Include="Hyko\src\Engine\Renderer\RendererTools.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Hyko\src\GL\Framebuffer.cpp">
+    <ClCompile Include="Hyko\src\Engine\Buffers\OpenGL\Framebuffer.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="libs\ImGui\imgui.cpp">
@@ -127,6 +127,9 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\ContentBrowser.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Hyko\src\Engine\Buffers\Windows\Clipboard.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1034,7 +1037,7 @@
     <ClInclude Include="Hyko\src\Engine\Core\Hyko.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Hyko\src\GL\VO.h">
+    <ClInclude Include="Hyko\src\Engine\Buffers\OpenGL\VO.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Hyko\src\Engine\Scene\Entity\Entity.h">
@@ -1082,7 +1085,7 @@
     <ClInclude Include="Hyko\src\Engine\Renderer\RendererTools.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Hyko\src\GL\Framebuffer.h">
+    <ClInclude Include="Hyko\src\Engine\Buffers\OpenGL\Framebuffer.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="libs\ImGui\imconfig.h">
@@ -1149,6 +1152,9 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\ContentBrowser.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Hyko\src\Engine\Buffers\Windows\Clipboard.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

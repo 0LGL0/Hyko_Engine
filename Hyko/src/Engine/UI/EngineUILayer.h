@@ -1,7 +1,7 @@
 #pragma once
 
 #include "GL/Window/window.h"
-#include "GL/Framebuffer.h"
+#include "Engine/Buffers/OpenGL/Framebuffer.h"
 #include "Engine/System/Time.h"
 #include "Engine/Scene/Scene.h"
 #include "Engine/Scene/Entity/Entity.h"

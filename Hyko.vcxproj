@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Hyko\src\Engine\Buffers\Windows\Clipboard.cpp" />
     <ClCompile Include="Hyko\src\Engine\Renderer\Renderer.cpp" />
     <ClCompile Include="Hyko\src\Engine\Renderer\RendererTools.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\Debug\Log.cpp" />
@@ -156,7 +157,7 @@
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\EngineFonts.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\UIFunctions.cpp" />
-    <ClCompile Include="Hyko\src\GL\Framebuffer.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Buffers\OpenGL\Framebuffer.cpp" />
     <ClCompile Include="libs\GLAD\src\glad.c" />
     <ClCompile Include="libs\GLM\detail\glm.cpp" />
     <ClCompile Include="Hyko\src\Engine\Core\Application.cpp" />
@@ -170,7 +171,7 @@
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorToolbar.cpp" />
     <ClCompile Include="Hyko\src\Engine\UI\EngineUILayer.cpp" />
-    <ClCompile Include="Hyko\src\GL\VO.cpp" />
+    <ClCompile Include="Hyko\src\Engine\Buffers\OpenGL\VO.cpp" />
     <ClCompile Include="Hyko\src\GL\Window\window.cpp" />
     <ClCompile Include="Hyko\src\main.cpp" />
     <ClCompile Include="Hyko\src\Engine\System\FileSystem\shader.cpp" />
@@ -185,6 +186,7 @@
     <ClCompile Include="libs\ImGui\imgui_widgets.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Hyko\src\Engine\Buffers\Windows\Clipboard.h" />
     <ClInclude Include="Hyko\src\Engine\Renderer\Renderer.h" />
     <ClInclude Include="Hyko\src\Engine\Renderer\RendererTools.h" />
     <ClInclude Include="Hyko\src\Engine\System\Debug\Assert.h" />
@@ -197,7 +199,7 @@
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\Viewport.h" />
     <ClInclude Include="Hyko\src\Engine\UI\EngineFonts.h" />
     <ClInclude Include="Hyko\src\Engine\UI\UIFunctions.h" />
-    <ClInclude Include="Hyko\src\GL\Framebuffer.h" />
+    <ClInclude Include="Hyko\src\Engine\Buffers\OpenGL\Framebuffer.h" />
     <ClInclude Include="Hyko\src\libSource\entt\entt.hpp" />
     <ClInclude Include="libs\GLAD\include\glad\glad.h" />
     <ClInclude Include="libs\GLAD\include\KHR\khrplatform.h" />
@@ -504,7 +506,7 @@
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorToolbar.h" />
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EditorHierarchy.h" />
     <ClInclude Include="Hyko\src\Engine\UI\EngineUILayer.h" />
-    <ClInclude Include="Hyko\src\GL\VO.h" />
+    <ClInclude Include="Hyko\src\Engine\Buffers\OpenGL\VO.h" />
     <ClInclude Include="Hyko\src\GL\Window\window.h" />
     <ClInclude Include="Hyko\src\libSource\imgui\imconfig.h" />
     <ClInclude Include="Hyko\src\libSource\imgui\imgui.h" />

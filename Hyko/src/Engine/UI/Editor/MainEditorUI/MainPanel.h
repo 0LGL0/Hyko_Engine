@@ -1,6 +1,6 @@
 #pragma once
 
-#include "GL/Framebuffer.h"
+#include "Engine/Buffers/OpenGL/Framebuffer.h"
 
 #include "Viewport.h"
 #include "EditorHierarchy.h"
