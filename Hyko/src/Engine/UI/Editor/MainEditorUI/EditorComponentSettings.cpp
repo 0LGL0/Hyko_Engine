@@ -3,21 +3,33 @@
 #include "Engine/UI/UIFunctions.h"
 
 #include "Engine/System/Debug/Log.h"
+#include "Engine/Buffers/Windows/Clipboard.h"
 
 void Hyko::EComponentSettings::TagComponent(Entity entity, const ImGuiTreeNodeFlags flags)
 {
 	char entityNameBuf[20];
 	strcpy_s(entityNameBuf, entity.getComponent<Hyko::TagComponent>().Tag.c_str());
+	auto entityID = std::to_string((uint32_t)entity);
 	const ImGuiInputTextFlags entityNameFlags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
 	if (ImGui::TreeNodeEx(entity.getComponent<Hyko::TagComponent>().compName.c_str(), flags)) {
 		if (componentDeleteMenu<Hyko::TagComponent>(entity))
 			return;
 
+		// Entity ID
+		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
+		if (ImGui::Button(entityID.c_str(), ImVec2(ImGui::GetFrameHeight(), ImGui::GetFrameHeight()))) {
+			HK_INFO("ID coped");
+			Clipboard::inClipboard(entityID);
+		}
+		ImGui::SameLine();
+
+		// Entity name
 		if (ImGui::InputText("Entity name", entityNameBuf, sizeof(entityNameBuf), entityNameFlags)) {
 			entity.getComponent<Hyko::TagComponent>().Tag = entityNameBuf;
 			m_scene->setIndividualEntityName(entity);
 		}
+		ImGui::PopStyleVar();
 
 		ImGui::TreePop();
 	}
