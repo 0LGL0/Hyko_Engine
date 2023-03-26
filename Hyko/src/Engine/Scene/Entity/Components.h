@@ -55,7 +55,7 @@ namespace Hyko {
 			return *this;
 		}
 
-		TransformComponent& operator=(TransformComponent&& other) {
+		TransformComponent& operator=(TransformComponent&& other) noexcept {
 			if (this != &other) {
 				Transform = other.Transform;
 				translate = other.translate;
@@ -171,7 +171,7 @@ namespace Hyko {
 			return *this;
 		}
 
-		IDComponent& operator=(IDComponent&& other) {
+		IDComponent& operator=(IDComponent&& other) noexcept {
 			if (this != &other) {
 				ID = other.ID;
 
@@ -200,10 +200,10 @@ namespace Hyko {
 			: Tag(copy.Tag){}
 
 		TagComponent(TagComponent&& other) noexcept
-			: Tag(nullptr) {
+			: Tag("") {
 			Tag = other.Tag;
 
-			other.Tag = nullptr;
+			other.Tag = "";
 		}
 
 		TagComponent& operator=(const TagComponent& copy) {
@@ -212,11 +212,11 @@ namespace Hyko {
 			return *this;
 		}
 
-		TagComponent& operator=(TagComponent&& other) {
+		TagComponent& operator=(TagComponent&& other) noexcept {
 			if (this != &other) {
 				Tag = other.Tag;
 
-				other.Tag = nullptr;
+				other.Tag = "";
 			}
 
 			return *this;

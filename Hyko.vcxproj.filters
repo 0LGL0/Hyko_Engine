@@ -1157,6 +1157,9 @@
     <ClInclude Include="Hyko\src\Engine\Buffers\Windows\Clipboard.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
+    <ClInclude Include="Hyko\src\Engine\Utility\Utitlity.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="libs\GLM\detail\func_common.inl">

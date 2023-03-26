@@ -200,6 +200,7 @@
     <ClInclude Include="Hyko\src\Engine\UI\EngineFonts.h" />
     <ClInclude Include="Hyko\src\Engine\UI\UIFunctions.h" />
     <ClInclude Include="Hyko\src\Engine\Buffers\OpenGL\Framebuffer.h" />
+    <ClInclude Include="Hyko\src\Engine\Utility\Utitlity.h" />
     <ClInclude Include="Hyko\src\libSource\entt\entt.hpp" />
     <ClInclude Include="libs\GLAD\include\glad\glad.h" />
     <ClInclude Include="libs\GLAD\include\KHR\khrplatform.h" />

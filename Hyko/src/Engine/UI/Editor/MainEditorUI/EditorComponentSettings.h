@@ -34,9 +34,9 @@ namespace Hyko {
 		bool circleIsSelected = false;
 	private:
 		void TagComponent(Entity entity, const ImGuiTreeNodeFlags flags);
-		void TransformComponent(Entity entity, const ImGuiTreeNodeFlags flags);
-		void SpriteComponent(Entity entity, const ImGuiTreeNodeFlags flags);
-		void ComponentsFilter(Entity entity);
+		void TransformComponent(const ImGuiTreeNodeFlags flags, std::set<uint32_t> entities);
+		void SpriteComponent(const ImGuiTreeNodeFlags flags, std::set<uint32_t> entities);
+		void ComponentsFilter(std::set<uint32_t> entities);
 
 		template<typename T>
 		bool componentDeleteMenu(Entity entity) {
@@ -59,6 +59,6 @@ namespace Hyko {
 		EComponentSettings(std::shared_ptr<Scene> &scene)
 			: m_scene(scene) {};
 
-		void init(Entity entity);
+		void init(std::set<uint32_t> entities);
 	};
 }

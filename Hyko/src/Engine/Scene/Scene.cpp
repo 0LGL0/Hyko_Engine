@@ -65,7 +65,7 @@ Hyko::Entity Hyko::Scene::copyEntity(Entity from)
     from.visit([&](const auto component) {
         using comp = std::decay_t<decltype(component)>;
         copy.addComponent<comp>();
-        copy.copyComponent<comp>(from, copy);
+        Entity::copyComponent<comp>(from, &copy);
         });
 
     setIndividualEntityName(copy);

@@ -6,6 +6,7 @@ namespace Hyko {
 
 	namespace Key {
 		enum : keyCode {
+			HK_KEYBOARD_NONE		   = -1,
 			HK_KEYBOARD_SPACE		   = 32,	/* SPACE */
 			HK_KEYBOARD_APOSTROPHE      = 39,	/* ` */
 			HK_KEYBOARD_COMMA		   = 44,	/* , */

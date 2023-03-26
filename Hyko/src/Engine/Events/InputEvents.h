@@ -24,13 +24,19 @@ namespace Hyko {
 
 		static bool m_scrollCallbackIs = false;
 
+		static Hyko::keyCode m_pressedKey = Hyko::Key::HK_KEYBOARD_NONE;
+
+		static long int m_pressTime = 0;
+
 		void resetInput();
 
 		bool isKeyPressed(const Hyko::keyCode keyCode);
-		bool isMouseButtonPressed(int mouseButton);
+		bool isMouseButtonPressed(const Hyko::mouseButtons mouseButton);
 
-		bool isKeyReleased(int keyCode);
-		bool isMouseButtonReleased(int mouseButton);
+		bool isKeyReleased(const Hyko::keyCode keyCode);
+		bool isMouseButtonReleased(const Hyko::mouseButtons mouseButton);
+
+		bool isKeyReleasedAfterPress(const Hyko::keyCode keyCode, const bool repeat = true);
 
 		// getters
 		glm::vec2 getMousePos();

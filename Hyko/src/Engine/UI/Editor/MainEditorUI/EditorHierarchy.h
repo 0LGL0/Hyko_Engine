@@ -20,7 +20,7 @@ namespace Hyko {
 		friend class Scene;
 		friend class EMainPanel;
 
-		Entity m_selectedEntity;
+		std::set<uint32_t> m_selectedEntities;
 	private:
 		void createNewTree(Entity entity);
 		void copingEntity();
