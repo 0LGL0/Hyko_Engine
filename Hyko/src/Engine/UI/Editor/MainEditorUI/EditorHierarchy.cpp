@@ -23,7 +23,6 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 	if (ImGui::IsItemClicked()) {
 		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL))
 			m_selectedEntities.insert((uint32_t)entity);
-			
 		else {
 			if (m_selectedEntities.size() <= 1) {
 				m_selectedEntities.clear();
@@ -116,6 +115,10 @@ void Hyko::EHierarchy::init()
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
 				m_selectedEntities.clear();
 			}
+		}
+		else {
+			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+				m_scene->editCamera.setPosition(Entity::toEntity(*m_selectedEntities.begin()).getComponent<Hyko::TransformComponent>().translate);
 		}
 
 		ImGui::End();
