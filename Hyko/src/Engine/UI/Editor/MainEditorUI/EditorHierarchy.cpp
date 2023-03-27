@@ -112,5 +112,11 @@ void Hyko::EHierarchy::init()
 
 		copingEntity();
 
+		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered()) {
+			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+				m_selectedEntities.clear();
+			}
+		}
+
 		ImGui::End();
 }
