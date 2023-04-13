@@ -7,14 +7,17 @@ int Hyko::IDComponent::IDCount = 0;
 std::string Hyko::getSpriteTypeName(SpriteComponent::Type type)
 {
 	switch (type) {
-	case 0: 
+	case Hyko::SpriteComponent::Triangle: 
 		return "Triangle";
 		break;
-	case 1:
+	case Hyko::SpriteComponent::Rectangle:
 		return "Rectangle";
 		break;
-	case 2:
+	case Hyko::SpriteComponent::Circle:
 		return "Circle";
+		break;
+	case Hyko::SpriteComponent::Entity:
+		return "Entity";
 		break;
 	default:
 		HK_ERROR("This type does not exist");

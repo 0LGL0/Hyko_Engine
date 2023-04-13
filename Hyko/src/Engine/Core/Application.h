@@ -24,11 +24,11 @@ class App {
 private:
 	std::shared_ptr<Hyko::Scene> m_scene{ std::make_shared<Hyko::Scene>() };
 	std::shared_ptr<Shader> c_shader{new Shader};
-	std::shared_ptr<Hyko::ECamera> eCamera{ new Hyko::ECamera };
-	std::shared_ptr<FBO> fbo{std::make_shared<FBO>(1280.0f, 720.0f)};
+	//std::shared_ptr<Hyko::ECamera> eCamera{ new Hyko::ECamera };
+	std::shared_ptr<FBO> m_fbo{std::make_shared<FBO>(1280.0f, 720.0f)};
 
 	// UI
-	Hyko::EUILayer eUILayer{ m_scene, fbo };
+	Hyko::EUILayer eUILayer{ m_scene, m_fbo };
 private:
 	glm::mat4 projection;
 	glm::mat4 view;

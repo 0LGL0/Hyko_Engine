@@ -19,7 +19,8 @@
 namespace Hyko {
 	class Scene {
 	public:
-		ECamera editCamera;
+		//ECamera editCamera;
+		std::shared_ptr<Camera> editCamera = std::make_shared<Camera>();
 	private:
 		glm::vec3 backgroundColor{1.0f, 1.0f, 1.0f};
 
@@ -28,10 +29,13 @@ namespace Hyko {
 		friend class EHierarchy;
 		friend class Entity;
 		friend class EComponentSettings;
+		friend class EMainPanel;
 	private:
 		static Time m_tm;
 	private:
 		void setIndividualEntityName(Entity checkedEntity);
+	public:
+		std::set<uint32_t> m_selectedEntities;
 	public:
 		Hyko::Entity addToScene();
 		Hyko::Entity addToScene(Hyko::Entity copyEntity);
@@ -54,6 +58,8 @@ namespace Hyko {
 		static Time& getTime() { return m_tm; }
 
 		Scene& get() { return *this; }
+
+		const bool hasInSelectedEntities(const uint32_t entity) const; // Is the transferred entity contained in the selected
 	public: // setters
 		void setBackgroundColor(float color[3]);
 		void setBackgroundColor(float r, float g, float b, float a);

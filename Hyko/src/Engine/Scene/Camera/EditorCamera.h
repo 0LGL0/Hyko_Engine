@@ -1,76 +1,46 @@
 #pragma once
 
+#include "GL/Window/window.h"
+#include "Engine/Buffers/OpenGL/Framebuffer.h"
+
 // GL / Maths
 #include <glm/glm.hpp>
 
-namespace Hyko {
-	struct OrthographicData {
-		float m_left	= 0;
-		float m_right	= 0;
-		float m_bottom	= 0;
-		float m_top		= 0;
+// std
+#include <memory>
 
-		OrthographicData() = default;
-		OrthographicData(float left ,float right, float bottom, float top)
-			: m_left(left), m_right(right), m_bottom(bottom), m_top(top){}
-	};
-
-	struct PerspectiveData {
-		float m_fovY	= 0;
-		float m_aspect	= 0;
-		float m_zNear	= 0;
-		float m_zFar	= 0;
-
-		PerspectiveData() = default;
-		PerspectiveData(float fovY, float aspect, float zNear, float zFar)
-			: m_fovY(fovY), m_aspect(aspect), m_zNear(zNear), m_zFar(zFar){}
-	};
-
-	enum projType {
-		Orthographic, Perspective
-	};
-
-	class ECamera {
+namespace Hyko{
+	class Camera {
 	private:
-		static OrthographicData m_orthoData;
-		static PerspectiveData  m_perspData;
-		static projType m_type;
-	private:
-		static glm::mat4 m_projectionMat;
-		static glm::mat4 m_viewMat;
-		static glm::vec2 m_position;
+		float m_left      = -100.0f;
+		float m_right     =  100.0f;
+		float m_top       =  100.0f;
+		float m_bottom    = -100.0f;
+		float m_zoomValue = 0.2f;
 
-		static int m_zoomValue;
+		int m_camSpeed = 40;
 
-		static int m_camSpeed;
+		glm::vec2 m_pos = glm::vec2(0.0f);
+
+		glm::mat4 m_viewMat = glm::mat4(1.0f);
+		glm::mat4 m_projMat = glm::mat4(1.0f);
 	public:
-		ECamera() = default;
-		ECamera(Hyko::OrthographicData data, glm::vec2 position = glm::vec2(0.0f));
-		ECamera(Hyko::PerspectiveData data, glm::vec2 position = glm::vec2(0.0f));
-		~ECamera();
+		Camera(const float _left = -100.0f, const float _right = 100.0f, const float _top = 100.0f, const float _bottom = -100.0f)
+			: m_left(_left), m_right(_right), m_top(_top), m_bottom(_bottom) {}
 
-		static void initProjection();
-		static void updateInput(float dt);
-
-		static glm::mat4 updateView();
-		static glm::mat4 updateProjection();
-
-		static void swapProjection(Hyko::projType type);
-
-		static void Resize(float width, float height);
 	public: // setters
-		static void setPosition(glm::vec2 newPos);
-		static void setPosition(float x, float y);
-
-		static void setData(Hyko::OrthographicData data);
-		static void setData(Hyko::PerspectiveData data);
-
-		static void setCameraSpeed(const int value);
+		void setPos(const glm::vec2 newPos) { setPos(newPos.x, newPos.y); }
+		void setPos(const float x, const float y) { m_pos = {x, y}; }
+		void setCamSpeed(const int value) { m_camSpeed = value; };
 	public: // getters
-		static glm::mat4 getProjectionMat() { return m_projectionMat; }
-		static glm::mat4 getViewMat() { return m_viewMat; }
+		const glm::vec2 getPos() const { return m_pos; }
+		const glm::mat4 getViewMat() const { glm::inverse(m_viewMat); return m_viewMat; }
+		const glm::mat4 getProjMat() const { return m_projMat; }
 
-		static glm::vec2 getPosition() { return m_position; }
-		static int getCameraSpeed() { return m_camSpeed; };
+		const int getCamSpeed() const { return m_camSpeed; }
+	public:
+		void updateInput(const float dt);
+		void updateView();
+		void updateProjection(std::shared_ptr<FBO> fbo);
 	};
 }

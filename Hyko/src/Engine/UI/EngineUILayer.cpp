@@ -12,11 +12,15 @@
 #include <imgui_impl_glfw.h>
 #include <imgui_impl_opengl3.h>
 
+// imguizmo
+#include <imguizmo.h>
+
 void Hyko::EUILayer::newFrame()
 {
 	ImGui_ImplOpenGL3_NewFrame();
 	ImGui_ImplGlfw_NewFrame();
 	ImGui::NewFrame();
+	ImGuizmo::BeginFrame();
 }
 
 Hyko::EUILayer::~EUILayer()
@@ -76,8 +80,6 @@ void Hyko::EUILayer::OnUpdate(Time dt)
 	if (!eToolbar.VSync)		Window::setVSync(false);
 
 	m_scene->setBackgroundColor(eToolbar.backgroundColor);
-
-	m_scene->editCamera.swapProjection(eToolbar.projectionTypeIndx == 0 ? Hyko::projType::Perspective : Hyko::projType::Orthographic);
 
 	ImGui::ShowDemoWindow();
 }

@@ -3,7 +3,6 @@
 #include "Engine/Core/Macro.h"
 #include "Engine/System/Debug/Log.h"
 #include "Engine/Scene/Entity/Components.h"
-#include "Engine/UI/UIFunctions.h"
 #include "Engine/Events/InputEvents.h"
 #include "Engine/Buffers/Windows/Clipboard.h"
 
@@ -13,24 +12,24 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 {
 	auto &tag = entity.getComponent<Hyko::TagComponent>().Tag;
 	ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow;
-	if(m_selectedEntities.size() == 1)
-		treeFlags |= (*m_selectedEntities.begin() == (uint32_t)entity) ? ImGuiTreeNodeFlags_Selected : 0;
+	if(m_scene->m_selectedEntities.size() == 1)
+		treeFlags |= (*m_scene->m_selectedEntities.begin() == (uint32_t)entity) ? ImGuiTreeNodeFlags_Selected : 0;
 	else
-		treeFlags |= (std::binary_search(m_selectedEntities.begin(), m_selectedEntities.end(), (uint32_t)entity)) ? ImGuiTreeNodeFlags_Selected : 0;
+		treeFlags |= (std::binary_search(m_scene->m_selectedEntities.begin(), m_scene->m_selectedEntities.end(), (uint32_t)entity)) ? ImGuiTreeNodeFlags_Selected : 0;
 
 	bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeFlags, tag.c_str());
 
 	if (ImGui::IsItemClicked()) {
 		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL))
-			m_selectedEntities.insert((uint32_t)entity);
+			m_scene->m_selectedEntities.insert((uint32_t)entity);
 		else {
-			if (m_selectedEntities.size() <= 1) {
-				m_selectedEntities.clear();
-				m_selectedEntities.insert(m_selectedEntities.begin(), (uint32_t)entity);
+			if (m_scene->m_selectedEntities.size() <= 1) {
+				m_scene->m_selectedEntities.clear();
+				m_scene->m_selectedEntities.insert(m_scene->m_selectedEntities.begin(), (uint32_t)entity);
 			}
 			else {
-				m_selectedEntities.clear();
-				m_selectedEntities.insert((uint32_t)entity);
+				m_scene->m_selectedEntities.clear();
+				m_scene->m_selectedEntities.insert((uint32_t)entity);
 			}
 		}
 	}
@@ -43,13 +42,13 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 
 	if (ImGui::BeginPopupContextItem()) {
 		if (ImGui::Selectable("Delete entity")) {
-			if(m_selectedEntities.size() == 1)
+			if(m_scene->m_selectedEntities.size() == 1)
 				m_scene->deleteEntity(entity);
 			else {
-				for(auto i: m_selectedEntities)
+				for(auto i: m_scene->m_selectedEntities)
 					m_scene->deleteEntity(i);
 			}
-			m_selectedEntities.clear();
+			m_scene->m_selectedEntities.clear();
 		}
 
 		ImGui::EndPopup();
@@ -63,7 +62,7 @@ void Hyko::EHierarchy::copingEntity()
 	if (((Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL))
 		&& Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_C))) {
 		std::string copingEntity;
-		for (auto i : m_selectedEntities)
+		for (auto i : m_scene->m_selectedEntities)
 			copingEntity += (std::to_string((uint32_t)i) + "hce");
 		Clipboard::inClipboard(copingEntity);
 		entityCoped = true;
@@ -113,12 +112,12 @@ void Hyko::EHierarchy::init()
 
 		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered()) {
 			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-				m_selectedEntities.clear();
+				m_scene->m_selectedEntities.clear();
 			}
 		}
 		else {
 			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-				m_scene->editCamera.setPosition(Entity::toEntity(*m_selectedEntities.begin()).getComponent<Hyko::TransformComponent>().translate);
+				m_scene->editCamera->setPos(Entity::toEntity(*m_scene->m_selectedEntities.begin()).getComponent<Hyko::TransformComponent>().translate);
 		}
 
 		ImGui::End();

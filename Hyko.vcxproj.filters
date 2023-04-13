@@ -111,9 +111,6 @@
     <ClCompile Include="libs\ImGui\imgui_stdlib.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
-    <ClCompile Include="Hyko\src\Engine\UI\UIFunctions.cpp">
-      <Filter>Исходные файлы</Filter>
-    </ClCompile>
     <ClCompile Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
@@ -130,6 +127,24 @@
       <Filter>Исходные файлы</Filter>
     </ClCompile>
     <ClCompile Include="Hyko\src\Engine\Buffers\Windows\Clipboard.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\ImGuizmo\GraphEditor.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\ImGuizmo\ImCurveEdit.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\ImGuizmo\ImGradient.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\ImGuizmo\ImGuizmo.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="libs\ImGuizmo\ImSequencer.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
+    <ClCompile Include="Hyko\src\Engine\Math\Math.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
   </ItemGroup>
@@ -1133,9 +1148,6 @@
     <ClInclude Include="libs\ImGui\imgui_stdlib.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="Hyko\src\Engine\UI\UIFunctions.h">
-      <Filter>Файлы заголовков</Filter>
-    </ClInclude>
     <ClInclude Include="Hyko\src\Engine\UI\Editor\MainEditorUI\EngineSettings.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
@@ -1158,6 +1170,27 @@
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
     <ClInclude Include="Hyko\src\Engine\Utility\Utitlity.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ImGuizmo\GraphEditor.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ImGuizmo\ImCurveEdit.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ImGuizmo\ImGradient.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ImGuizmo\ImGuizmo.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ImGuizmo\ImSequencer.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="libs\ImGuizmo\ImZoomSlider.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="Hyko\src\Engine\Math\Math.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

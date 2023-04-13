@@ -1,7 +1,5 @@
 #include "EditorComponentSettings.h"
 
-#include "Engine/UI/UIFunctions.h"
-
 #include "Engine/System/Debug/Log.h"
 #include "Engine/Buffers/Windows/Clipboard.h"
 
@@ -36,11 +34,9 @@ void Hyko::EComponentSettings::TransformComponent(const ImGuiTreeNodeFlags flags
 {
 	bool isSliderClicked = false;
 	auto firstEntity = Entity::toEntity(*entities.begin());
-	auto translateRatio = firstEntity.getComponent<Hyko::TransformComponent>().translate;
-	auto scaleRatio		= firstEntity.getComponent<Hyko::TransformComponent>().scale;
-	auto rotRatio		= firstEntity.getComponent<Hyko::TransformComponent>().rotAngle;
-
-	HykoComponentsMenuConfig componentsMenuFlags = HykoComponentsMenuConfig_None;
+	auto translateOffset = firstEntity.getComponent<Hyko::TransformComponent>().translate;
+	auto scaleOffset = firstEntity.getComponent<Hyko::TransformComponent>().scale;
+	auto rotOffset	= firstEntity.getComponent<Hyko::TransformComponent>().rotAngle;
 
 	if (ImGui::TreeNodeEx(firstEntity.getComponent<Hyko::TransformComponent>().compName.c_str(), flags)) {
 		if (ImGui::DragFloat2("Position", glm::value_ptr(firstEntity.getComponent<Hyko::TransformComponent>().translate), 0.1f, -FLT_MAX, FLT_MAX))
@@ -51,9 +47,9 @@ void Hyko::EComponentSettings::TransformComponent(const ImGuiTreeNodeFlags flags
 			isSliderClicked = true;
 
 		if (entities.size() > 1) {
-			translateRatio -= firstEntity.getComponent<Hyko::TransformComponent>().translate;
-			scaleRatio	   -= firstEntity.getComponent<Hyko::TransformComponent>().scale;
-			rotRatio	   -= firstEntity.getComponent<Hyko::TransformComponent>().rotAngle;
+			translateOffset -= firstEntity.getComponent<Hyko::TransformComponent>().translate;
+			scaleOffset -= firstEntity.getComponent<Hyko::TransformComponent>().scale;
+			rotOffset -= firstEntity.getComponent<Hyko::TransformComponent>().rotAngle;
 		}
 
 		if (isSliderClicked) {
@@ -62,24 +58,24 @@ void Hyko::EComponentSettings::TransformComponent(const ImGuiTreeNodeFlags flags
 
 				if (entities.size() > 1) {
 					if (iterationEntity != firstEntity) {
-						iterationEntity.getComponent<Hyko::TransformComponent>().translate = glm::vec2(iterationEntity.getComponent<Hyko::TransformComponent>().translate.x - translateRatio.x, 
-							iterationEntity.getComponent<Hyko::TransformComponent>().translate.y - translateRatio.y);
-						iterationEntity.getComponent<Hyko::TransformComponent>().scale = glm::vec2(iterationEntity.getComponent<Hyko::TransformComponent>().scale.x - scaleRatio.x,
-							iterationEntity.getComponent<Hyko::TransformComponent>().scale.y - scaleRatio.y);
-						iterationEntity.getComponent<Hyko::TransformComponent>().rotAngle = iterationEntity.getComponent<Hyko::TransformComponent>().rotAngle - rotRatio;
+						iterationEntity.getComponent<Hyko::TransformComponent>().translate = glm::vec2(iterationEntity.getComponent<Hyko::TransformComponent>().translate.x - translateOffset.x,
+							iterationEntity.getComponent<Hyko::TransformComponent>().translate.y - translateOffset.y);
+						iterationEntity.getComponent<Hyko::TransformComponent>().scale = glm::vec2(iterationEntity.getComponent<Hyko::TransformComponent>().scale.x - scaleOffset.x,
+							iterationEntity.getComponent<Hyko::TransformComponent>().scale.y - scaleOffset.y);
+						iterationEntity.getComponent<Hyko::TransformComponent>().rotAngle = iterationEntity.getComponent<Hyko::TransformComponent>().rotAngle - rotOffset;
 					}
 				}
 
-				glm::mat4 transform = glm::translate(glm::mat4(1.0f), { iterationEntity.getComponent<Hyko::TransformComponent>().translate, 0.0f })
+				/*glm::mat4 transform = glm::translate(glm::mat4(1.0f), { iterationEntity.getComponent<Hyko::TransformComponent>().translate, 0.0f })
 					* glm::rotate(glm::mat4(1.0f), glm::radians(iterationEntity.getComponent<Hyko::TransformComponent>().rotAngle), { 0.0f, 0.0f, 1.0f })
-					* glm::scale(glm::mat4(1.0f), { iterationEntity.getComponent<Hyko::TransformComponent>().scale, 0.0f });
+					* glm::scale(glm::mat4(1.0f), { iterationEntity.getComponent<Hyko::TransformComponent>().scale, 0.0f });*/
 
 				// TMP: this code will be updated in the future
 				/*glm::mat4 transform = glm::rotate(glm::mat4(1.0f), glm::radians(entity.getComponent<Hyko::TransformComponent>().rotAngle), { 0.0f, 0.0f, 1.0f })
 					* glm::translate(glm::mat4(1.0f), { entity.getComponent<Hyko::TransformComponent>().translate, 0.0f })
 					* glm::scale(glm::mat4(1.0f), { entity.getComponent<Hyko::TransformComponent>().scale, 0.0f });*/
 
-				iterationEntity.getComponent<Hyko::TransformComponent>().Transform = transform;
+				//iterationEntity.getComponent<Hyko::TransformComponent>().Transform = transform;
 			}
 		}
 		ImGui::TreePop();

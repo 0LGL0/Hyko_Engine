@@ -2,6 +2,7 @@
 
 // GL / Maths
 #include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 #include <string>
 #include <typeindex>
@@ -22,32 +23,29 @@ namespace Hyko {
 	};
 
 	struct TransformComponent {
-		glm::mat4 Transform{ 1.0f };
+		//glm::mat4 Transform{ 1.0f };
 
 		glm::vec2 translate{0.0f};
-		glm::vec2 scale{1.0f};
+		glm::vec2 scale{10.0f};
 		float rotAngle = 0.0f;
 
 		TransformComponent() = default;
-		TransformComponent(glm::mat4 transform)
-			: Transform(transform){}
+		TransformComponent(const glm::vec2 _translate, const glm::vec2 _scale, const float _rotAngle)
+			: translate(_translate), scale(_scale), rotAngle(_rotAngle) {}
 		TransformComponent(const TransformComponent& copy)
-			: Transform(copy.Transform), translate(copy.translate), scale(copy.scale), rotAngle(copy.rotAngle) {}
+			: translate(copy.translate), scale(copy.scale), rotAngle(copy.rotAngle) {}
 		TransformComponent(TransformComponent&& other) noexcept
-		: Transform(0), translate(0), scale(0), rotAngle(0) {
-			Transform = other.Transform;
+		: translate(0), scale(0), rotAngle(0) {
 			translate = other.translate;
 			scale = other.scale;
 			rotAngle = other.rotAngle;
 
-			other.Transform = glm::mat4(0);
 			other.translate = glm::vec2(0);
 			other.scale		= glm::vec2(0);
 			other.rotAngle	= 0.0f;
 		}
 
 		TransformComponent& operator=(const TransformComponent& copy) {
-			Transform = copy.Transform;
 			translate = copy.translate;
 			scale	  = copy.scale;
 			rotAngle  = copy.rotAngle;
@@ -57,12 +55,10 @@ namespace Hyko {
 
 		TransformComponent& operator=(TransformComponent&& other) noexcept {
 			if (this != &other) {
-				Transform = other.Transform;
 				translate = other.translate;
 				scale = other.scale;
 				rotAngle = other.rotAngle;
 
-				other.Transform = glm::mat4(0);
 				other.translate = glm::vec2(0);
 				other.scale = glm::vec2(0);
 				other.rotAngle = 0.0f;
@@ -72,10 +68,15 @@ namespace Hyko {
 		}
 
 		void clone(TransformComponent& component) {
-			component.Transform = this->Transform;
 			component.translate = this->translate;
 			component.scale		= this->scale;
 			component.rotAngle  = this->rotAngle;
+		}
+
+		glm::mat4 getTransform() {
+			return glm::translate(glm::mat4(1.0f), glm::vec3(translate, 0.0f))
+				* glm::rotate(glm::mat4(1.0f), glm::radians(rotAngle), { 0.0f, 0.0f, 1.0f })
+				* glm::scale(glm::mat4(1.0f), glm::vec3(scale, 1.0f));
 		}
 
 	private:
