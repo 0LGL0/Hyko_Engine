@@ -38,6 +38,8 @@ Hyko::Entity Hyko::Scene::addToScene()
 
     ent.addComponent<Hyko::TagComponent>().Tag = ("Entity" + std::to_string((uint32_t)ent));;
     ent.addComponent<Hyko::TransformComponent>();
+    ent.addComponent<Hyko::RelativeTransformComponent>();
+    ent.addComponent<Hyko::GroupComponent>();
 
     return ent;
 }
@@ -75,22 +77,36 @@ Hyko::Entity Hyko::Scene::copyEntity(Entity from)
 
 void Hyko::Scene::Update(float dt)
 {
-    // create group in entt::registry with SpriteComponent, TransformComponent and IDComponent
-    // SpriteComponent - for rendering entity
-    // TransformComponent - for transformation entity
     auto group = m_reg.group<SpriteComponent>(entt::get<TransformComponent>);
 
-    // check if the entity has SpriteComponent for rendering
+    // iterate if the entity has SpriteComponent for rendering
     for (auto entity : group) {
-        auto [transform, sprite] = m_reg.get<TransformComponent, SpriteComponent>(entity);
+        auto& groupComp = Entity{ entity }.getComponent<Hyko::GroupComponent>();
+        const auto [transform, sprite] = m_reg.get<TransformComponent, SpriteComponent>(entity);
 
+        if (groupComp.isChild) {
+            auto parentTransform = Entity::toEntity(groupComp.parent).getComponent<Hyko::TransformComponent>();
+            if (m_selectedEntities.find((uint32_t)entity) == m_selectedEntities.end()) {
+                if (parentTransform.isMoving())
+                    transform.translate = parentTransform.translate + groupComp.translateOffset;
+                else if (parentTransform.isScaling())
+                    transform.scale = parentTransform.scale + groupComp.scaleOffset;
+                else if (parentTransform.isRotated())
+                    transform.rotAngle = parentTransform.rotAngle + groupComp.rotAngleOffset;
+            }
+            else {
+                groupComp.translateOffset = transform.translate - parentTransform.translate;
+                groupComp.scaleOffset = transform.scale - parentTransform.scale;
+                groupComp.rotAngleOffset = transform.rotAngle - parentTransform.rotAngle;
+            }
+        }
         if (sprite.type == Hyko::SpriteComponent::Triangle)
             Renderer::createTriangle(transform.getTransform(), sprite.Color);
-        if (sprite.type == Hyko::SpriteComponent::Rectangle)
+        else if (sprite.type == Hyko::SpriteComponent::Rectangle)
             Renderer::createRectangle(transform.getTransform(), sprite.Color);
-        if (sprite.type == Hyko::SpriteComponent::Circle)
-            Renderer::createCircle(transform.getTransform(), sprite.Color, m_reg.get<Hyko::SpriteComponent>(entity).circleSegmentCount);
-    }
+        else if (sprite.type == Hyko::SpriteComponent::Circle)
+            Renderer::createCircle(transform.getTransform(), sprite.Color, sprite.circleSegmentCount);
+    }                                                                                                                                                                                                                   
 
     // render entities
     Renderer::render();

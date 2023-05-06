@@ -21,6 +21,18 @@
 // std
 #include <iostream>
 
+void App::lastUpdate()
+{
+	const auto view = m_scene->Reg().view<Hyko::TransformComponent>();
+	for (const auto entityID : view) {
+		auto& entityTransform = Hyko::Entity{ entityID }.getComponent<Hyko::TransformComponent>();
+
+		entityTransform.lastTranslate = entityTransform.translate;
+		entityTransform.lastScale = entityTransform.scale;
+		entityTransform.lastRotAngle = entityTransform.rotAngle;
+	}
+}
+
 void App::Init()
 {
 	Window window{ "Hyko", 1280, 720, 4, 6 };
@@ -35,12 +47,6 @@ void App::Init()
 
 	eUILayer.createUILayer(window.getNativeWindow());
 	Hyko::Entity::setScene(m_scene);
-
-	//m_scene->editCamera.setData(Hyko::PerspectiveData{ 45.0f, (float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow()), 0.1f, 100.0f });
-	/*m_scene->editCamera.setData(Hyko::OrthographicData{ -((float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow())),
-		(float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow()),
-		-((float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow())),
-		(float)Window::getWindowWidth(Window::getNativeWindow()) / (float)Window::getWindowHeight(Window::getNativeWindow()) });*/
 
 	shaderProgram = c_shader->createShaderProgram("Hyko//res//shaders//VBasicShader.glsl", "Hyko//res//shaders//FBasicShader.glsl");
 
@@ -89,6 +95,8 @@ void App::Init()
 		c_shader->unUse();
 
 		m_fbo->unBind();
+
+		lastUpdate(); // update previous frame variables
 
 		// UI
 		eUILayer.OnUpdate(Hyko::Scene::getTime());

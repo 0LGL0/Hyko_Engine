@@ -1,4 +1,4 @@
-// dear imgui, v1.89.3 WIP
+// dear imgui, v1.89.6 WIP
 // (drawing and font code)
 
 /*
@@ -26,13 +26,12 @@ Index of this file:
 #define _CRT_SECURE_NO_WARNINGS
 #endif
 
-#include "imgui.h"
-#ifndef IMGUI_DISABLE
-
 #ifndef IMGUI_DEFINE_MATH_OPERATORS
 #define IMGUI_DEFINE_MATH_OPERATORS
 #endif
 
+#include "imgui.h"
+#ifndef IMGUI_DISABLE
 #include "imgui_internal.h"
 #ifdef IMGUI_ENABLE_FREETYPE
 #include "misc/freetype/imgui_freetype.h"
@@ -2390,7 +2389,12 @@ static bool ImFontAtlasBuildWithStbTruetype(ImFontAtlas* atlas)
         ImFontBuildDstData& dst_tmp = dst_tmp_array[src_tmp.DstIndex];
         src_tmp.SrcRanges = cfg.GlyphRanges ? cfg.GlyphRanges : atlas->GetGlyphRangesDefault();
         for (const ImWchar* src_range = src_tmp.SrcRanges; src_range[0] && src_range[1]; src_range += 2)
+        {
+            // Check for valid range. This may also help detect *some* dangling pointers, because a common
+            // user error is to setup ImFontConfig::GlyphRanges with a pointer to data that isn't persistent.
+            IM_ASSERT(src_range[0] <= src_range[1]);
             src_tmp.GlyphsHighest = ImMax(src_tmp.GlyphsHighest, (int)src_range[1]);
+        }
         dst_tmp.SrcCount++;
         dst_tmp.GlyphsHighest = ImMax(dst_tmp.GlyphsHighest, src_tmp.GlyphsHighest);
     }
@@ -3793,6 +3797,7 @@ void ImGui::RenderArrow(ImDrawList* draw_list, ImVec2 pos, ImU32 col, ImGuiDir d
 
 void ImGui::RenderBullet(ImDrawList* draw_list, ImVec2 pos, ImU32 col)
 {
+    // FIXME-OPT: This should be baked in font.
     draw_list->AddCircleFilled(pos, draw_list->_Data->FontSize * 0.20f, col, 8);
 }
 

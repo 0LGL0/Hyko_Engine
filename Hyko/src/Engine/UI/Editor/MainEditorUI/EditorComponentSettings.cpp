@@ -10,6 +10,7 @@ void Hyko::EComponentSettings::TagComponent(Entity entity, const ImGuiTreeNodeFl
 	auto entityID = std::to_string((uint32_t)entity);
 	const ImGuiInputTextFlags entityNameFlags = ImGuiInputTextFlags_CharsNoBlank | ImGuiInputTextFlags_EnterReturnsTrue;
 
+	ImGui::PushID("TagComponentTreeID");
 	if (ImGui::TreeNodeEx(entity.getComponent<Hyko::TagComponent>().compName.c_str(), flags)) {
 		// Entity ID
 		ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(0.0f, 0.0f));
@@ -28,6 +29,7 @@ void Hyko::EComponentSettings::TagComponent(Entity entity, const ImGuiTreeNodeFl
 
 		ImGui::TreePop();
 	}
+	ImGui::PopID();
 }
 
 void Hyko::EComponentSettings::TransformComponent(const ImGuiTreeNodeFlags flags, std::set<uint32_t> entities)
@@ -38,6 +40,7 @@ void Hyko::EComponentSettings::TransformComponent(const ImGuiTreeNodeFlags flags
 	auto scaleOffset = firstEntity.getComponent<Hyko::TransformComponent>().scale;
 	auto rotOffset	= firstEntity.getComponent<Hyko::TransformComponent>().rotAngle;
 
+	ImGui::PushID("TransformComponentTreeID");
 	if (ImGui::TreeNodeEx(firstEntity.getComponent<Hyko::TransformComponent>().compName.c_str(), flags)) {
 		if (ImGui::DragFloat2("Position", glm::value_ptr(firstEntity.getComponent<Hyko::TransformComponent>().translate), 0.1f, -FLT_MAX, FLT_MAX))
 			isSliderClicked = true;
@@ -80,6 +83,7 @@ void Hyko::EComponentSettings::TransformComponent(const ImGuiTreeNodeFlags flags
 		}
 		ImGui::TreePop();
 	}
+	ImGui::PopID();
 }
 
 void Hyko::EComponentSettings::SpriteComponent(const ImGuiTreeNodeFlags flags, std::set<uint32_t> entities)
@@ -88,6 +92,7 @@ void Hyko::EComponentSettings::SpriteComponent(const ImGuiTreeNodeFlags flags, s
 
 	auto firstEntity = Entity::toEntity(*entities.begin());
 
+	ImGui::PushID("SpriteComponentTreeID");
 	if (ImGui::TreeNodeEx(firstEntity.getComponent<Hyko::SpriteComponent>().compName.c_str(), flags)) {
 		if (componentDeleteMenu<Hyko::SpriteComponent>(firstEntity)) {
 			for (auto i : entities) {
@@ -144,6 +149,7 @@ void Hyko::EComponentSettings::SpriteComponent(const ImGuiTreeNodeFlags flags, s
 		}
 		ImGui::TreePop();
 	}
+	ImGui::PopID();
 }
 
 void Hyko::EComponentSettings::ComponentsFilter(std::set<uint32_t> entities)

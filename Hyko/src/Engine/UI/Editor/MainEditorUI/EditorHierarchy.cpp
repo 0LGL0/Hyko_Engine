@@ -11,17 +11,57 @@
 void Hyko::EHierarchy::createNewTree(Entity entity)
 {
 	auto &tag = entity.getComponent<Hyko::TagComponent>().Tag;
+	auto& groupComp = entity.getComponent<Hyko::GroupComponent>();
+	bool opened = false;
+	static bool isDragging = false;
+	static uint32_t draggedEntity = -1;
 	ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow;
-	if(m_scene->m_selectedEntities.size() == 1)
-		treeFlags |= (*m_scene->m_selectedEntities.begin() == (uint32_t)entity) ? ImGuiTreeNodeFlags_Selected : 0;
-	else
-		treeFlags |= (std::binary_search(m_scene->m_selectedEntities.begin(), m_scene->m_selectedEntities.end(), (uint32_t)entity)) ? ImGuiTreeNodeFlags_Selected : 0;
 
-	bool opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeFlags, tag.c_str());
+	if (groupComp.group.empty())
+		ImGui::Selectable(tag.c_str(), (std::binary_search(m_scene->m_selectedEntities.begin(), m_scene->m_selectedEntities.end(), (uint32_t)entity)) ? true : false, ImGuiSelectableFlags_SpanAllColumns);
+	else {
+		if (m_scene->m_selectedEntities.size() == 1)
+			treeFlags |= (*m_scene->m_selectedEntities.begin() == (uint32_t)entity) ? ImGuiTreeNodeFlags_Selected : 0;
+		else
+			treeFlags |= (std::binary_search(m_scene->m_selectedEntities.begin(), m_scene->m_selectedEntities.end(), (uint32_t)entity)) ? ImGuiTreeNodeFlags_Selected : 0;
+
+		opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeFlags, tag.c_str());
+	}
+	
+	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_AcceptNoDrawDefaultRect)) {
+		ImGui::SetDragDropPayload("Entity", &entity, sizeof(Entity));
+		draggedEntity = (uint32_t)entity;
+		ImGui::Text(tag.c_str());
+		ImGui::EndDragDropSource();
+	}
+	else
+		isDragging = false;
+
+	if (ImGui::BeginDragDropTarget()) {
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity")) {
+			HK_ASSERT(payload->DataSize == sizeof(Entity));
+
+			auto payloadData = *(const Entity*)payload->Data;
+			if ((uint32_t)entity != (uint32_t)payloadData) {
+				groupComp.addEntityToGroup((uint32_t)payloadData);
+				auto& draggedGroup = Entity::toEntity(draggedEntity).getComponent<Hyko::GroupComponent>();
+				groupComp.isParent = true;
+				draggedGroup.parent = (uint32_t)entity;
+				draggedGroup.isChild = true;
+
+				HK_INFO(groupComp.group.size());
+			}
+		} 
+
+		ImGui::EndDragDropTarget();
+	}
 
 	if (ImGui::IsItemClicked()) {
-		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL))
+		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL)) {
 			m_scene->m_selectedEntities.insert((uint32_t)entity);
+			if (Entity::toEntity(draggedEntity).getComponent<Hyko::GroupComponent>().isChild)						
+				Entity::toEntity(draggedEntity).getComponent<Hyko::GroupComponent>().moveToMainBranch(Entity::toEntity(draggedEntity));		// <-- TODO: Replace with when dragged tree hovering with only window (This is not what I wanted)
+		}
 		else {
 			if (m_scene->m_selectedEntities.size() <= 1) {
 				m_scene->m_selectedEntities.clear();
@@ -37,8 +77,12 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 	if (tag.size() >= 20) // 20 is the maximum number of symbols in the entity name buffer
 		entity.getComponent<Hyko::TagComponent>().Tag.pop_back();
 
-	if (opened)
+	if (opened) {
+		for (const auto& entityID : groupComp.group)
+			createNewTree(Entity::toEntity(entityID));
+
 		ImGui::TreePop();
+	}
 
 	if (ImGui::BeginPopupContextItem()) {
 		if (ImGui::Selectable("Delete entity")) {
@@ -94,31 +138,33 @@ void Hyko::EHierarchy::init()
 
 	ImGui::Begin("Hierarchy");
 	m_scene->m_reg.each([&](auto entityID) {
-			Entity entity{ entityID };
+		Entity entity{ entityID };
+		auto& group = entity.getComponent<Hyko::GroupComponent>();
+		if (!group.isChild)
 			createNewTree(entity);
-			});
+		});
 
-		if (ImGui::BeginPopupContextWindow(0, popupFlags)) {
-			if (ImGui::Selectable("Create entity")) {
-				Entity entity = m_scene->addToScene();
+	if (ImGui::BeginPopupContextWindow(0, popupFlags)) {
+		if (ImGui::Selectable("Create entity")) {
+			Entity entity = m_scene->addToScene();
 
-				ImGui::CloseCurrentPopup();
-			}
-
-			ImGui::EndPopup();
+			ImGui::CloseCurrentPopup();
 		}
 
-		copingEntity();
+		ImGui::EndPopup();
+	}
 
-		if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered()) {
-			if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
-				m_scene->m_selectedEntities.clear();
-			}
-		}
-		else {
-			if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
-				m_scene->editCamera->setPos(Entity::toEntity(*m_scene->m_selectedEntities.begin()).getComponent<Hyko::TransformComponent>().translate);
-		}
+	copingEntity();
 
-		ImGui::End();
+	if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered()) {
+		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {
+			m_scene->m_selectedEntities.clear();
+		}
+	}
+	else {
+		if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left))
+			m_scene->editCamera->setPos(Entity::toEntity(*m_scene->m_selectedEntities.begin()).getComponent<Hyko::TransformComponent>().translate);
+	}
+
+	ImGui::End();
 }

@@ -6,6 +6,7 @@
 
 // imgui
 #include <imgui.h>
+#include <imgui_internal.h>
 
 #include <entt.hpp>
 
@@ -19,8 +20,6 @@ namespace Hyko {
 		std::shared_ptr<Hyko::Scene> m_scene;
 		friend class Scene;
 		friend class EMainPanel;
-
-		
 	private:
 		void createNewTree(Entity entity);
 		void copingEntity();

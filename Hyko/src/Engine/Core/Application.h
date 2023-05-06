@@ -36,6 +36,8 @@ private:
 	unsigned int shaderProgram;
 
 	float m_LastFrameTime = 0.0f;
+private:
+	void lastUpdate();
 public:
 	App() = default;
 

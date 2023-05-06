@@ -1,10 +1,12 @@
 #pragma once
 
 #include "Engine/Scene/Scene.h"
-//#include "Engine/System/Debug/Assert.h"
+#include "Engine/System/Debug/Assert.h"
 #include "Engine/Utility/Utitlity.h"
 
 #include <entt.hpp>
+#include <vector>
+#include <typeinfo>
 
 namespace Hyko {
 	class Entity {
@@ -22,17 +24,28 @@ namespace Hyko {
 
 		template<typename T, typename... Args>
 		T& addComponent(Args&&... args) {
-			return m_scene->m_reg.emplace<T>(m_entity, std::forward<Args>(args)...);
+			if (hasAllComponent<T>())
+				HK_WARN("Entity({0}) already has {1}", (uint32_t)m_entity, typeid(T).name());
+			else
+				return m_scene->m_reg.emplace<T>(m_entity, std::forward<Args>(args)...);
 		}
 
 		template<typename T>
 		T& getComponent() {
-			return m_scene->m_reg.get<T>(m_entity);
+			if (hasAllComponent<T>())
+				return m_scene->m_reg.get<T>(m_entity);
+			else {
+				HK_WARN("The entity({0}) does not have a {1} to get this component", (uint32_t)m_entity, typeid(T).name());
+				abort();
+			}
 		}
 
 		template<typename T>
 		void deleteComponent() {
-			m_scene->m_reg.erase<T>(m_entity);
+			if (hasAllComponent<T>())
+				m_scene->m_reg.erase<T>(m_entity);
+			else
+				HK_WARN("The entity({0}) does not have a {1} to delete", (uint32_t)m_entity, typeid(T).name());
 		}
 
 		template<typename T>
@@ -53,20 +66,34 @@ namespace Hyko {
 			if (!HKUtility::has_type_v<Hyko::TransformComponent, Ignore...>)
 				if (this->hasAllComponent<Hyko::TransformComponent>())
 					func(this->getComponent<Hyko::TransformComponent>());
+			if (!HKUtility::has_type_v<Hyko::RelativeTransformComponent, Ignore...>)
+				if (this->hasAllComponent<Hyko::RelativeTransformComponent>())
+					func(this->getComponent<Hyko::RelativeTransformComponent>());
 			if (!HKUtility::has_type_v<Hyko::SpriteComponent, Ignore...>)
 				if (this->hasAllComponent<Hyko::SpriteComponent>())
 					func(this->getComponent<Hyko::SpriteComponent>());
 			if (!HKUtility::has_type_v<Hyko::IDComponent, Ignore...>)
 				if (this->hasAllComponent<Hyko::IDComponent>())
 					func(this->getComponent<Hyko::IDComponent>());
+			if (!HKUtility::has_type_v<Hyko::GroupComponent, Ignore...>)
+				if (this->hasAllComponent<Hyko::GroupComponent>())
+					func(this->getComponent<Hyko::GroupComponent>());
 
 			// I haven't tested this new code with ignored components, so I can't vouch for it
 		}
 
 		template<typename T>
 		static void copyComponent(Hyko::Entity& from, Hyko::Entity* to) {
-			if(from.hasAllComponent<T>() && to->hasAllComponent<T>())
+			const bool comparison = (from.m_entity == to->m_entity && from.m_scene == to->m_scene);
+			const bool has = (from.hasAllComponent<T>() && to->hasAllComponent<T>());
+			if (has && !comparison)
 				from.getComponent<T>().clone(to->getComponent<T>());
+			else if (comparison)
+				HK_WARN("Why copy a {0} from one entity({1}) to the same one({2})?", typeid(T).name(), (uint32_t)from, (uint32_t)to);
+			else if(!has){
+				HK_WARN("One or two entities({0} and {1}) do not have a {2} to copy", (uint32_t)from, (uint32_t)to, typeid(T).name());
+				abort();
+			}
 		}
 
 		// return entt entity from my "Entity" class
