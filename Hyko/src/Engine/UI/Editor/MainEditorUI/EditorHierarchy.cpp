@@ -77,25 +77,13 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 	if (tag.size() >= 20) // 20 is the maximum number of symbols in the entity name buffer
 		entity.getComponent<Hyko::TagComponent>().Tag.pop_back();
 
+	rightClickItemMenu(entity);
+
 	if (opened) {
 		for (const auto& entityID : groupComp.group)
 			createNewTree(Entity::toEntity(entityID));
 
 		ImGui::TreePop();
-	}
-
-	if (ImGui::BeginPopupContextItem()) {
-		if (ImGui::Selectable("Delete entity")) {
-			if(m_scene->m_selectedEntities.size() == 1)
-				m_scene->deleteEntity(entity);
-			else {
-				for(auto i: m_scene->m_selectedEntities)
-					m_scene->deleteEntity(i);
-			}
-			m_scene->m_selectedEntities.clear();
-		}
-
-		ImGui::EndPopup();
 	}
 }
 
@@ -131,6 +119,59 @@ void Hyko::EHierarchy::copingEntity()
 	}
 }
 
+void Hyko::EHierarchy::rightClickItemMenu(Hyko::Entity entity)
+{
+	if (ImGui::BeginPopupContextItem()) {
+		auto& groupComp = entity.getComponent<Hyko::GroupComponent>();
+		if (ImGui::MenuItem("Delete entity", "Del")) {
+			for (const auto id : m_scene->m_selectedEntities) {
+				if (groupComp.isChild) {
+					auto &parentGroupComp = Entity::toEntity(groupComp.parent).getComponent<Hyko::GroupComponent>();
+					parentGroupComp.group.erase(std::find(parentGroupComp.group.begin(), parentGroupComp.group.end(), id));
+				}
+				if (groupComp.isParent) {
+					for (const auto childID : groupComp.group)
+						Entity::toEntity(childID).getComponent<Hyko::GroupComponent>().isChild = false;
+					groupComp.group.clear();
+				}
+
+				m_scene->deleteEntity(id);
+			}
+			m_scene->m_selectedEntities.clear();
+		}
+		else {
+			if (groupComp.isChild) {
+				if (ImGui::MenuItem("Move to main branch", "Ctrl + RMB"))
+					groupComp.moveToMainBranch((uint32_t)entity);
+			}
+		}
+
+		if (ImGui::MenuItem("Create child entity")) {
+			Entity newEntity = m_scene->addToScene();
+			auto &newEntityGroup = newEntity.getComponent<Hyko::GroupComponent>();
+			groupComp.addEntityToGroup((uint32_t)newEntity);
+			newEntityGroup.isChild = true;
+			newEntityGroup.parent = (uint32_t)entity;
+			groupComp.isParent = true;
+		}
+
+		ImGui::EndPopup();
+	}
+}
+
+void Hyko::EHierarchy::rightClickWindowMenu(const ImGuiPopupFlags popupFlags)
+{
+	if (ImGui::BeginPopupContextWindow(0, popupFlags)) {
+		if (ImGui::MenuItem("Create entity")) {
+			Entity entity = m_scene->addToScene();
+
+			ImGui::CloseCurrentPopup();
+		}
+
+		ImGui::EndPopup();
+	}
+}
+
 void Hyko::EHierarchy::init()
 {
 	static const ImGuiPopupFlags popupFlags = ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight;
@@ -139,22 +180,20 @@ void Hyko::EHierarchy::init()
 	ImGui::Begin("Hierarchy");
 	m_scene->m_reg.each([&](auto entityID) {
 		Entity entity{ entityID };
-		auto& group = entity.getComponent<Hyko::GroupComponent>();
-		if (!group.isChild)
-			createNewTree(entity);
+		if (entity.alive()) {
+			if (!entity.getComponent<Hyko::GroupComponent>().isChild)
+				createNewTree(entity);
+		}
 		});
 
-	if (ImGui::BeginPopupContextWindow(0, popupFlags)) {
-		if (ImGui::Selectable("Create entity")) {
-			Entity entity = m_scene->addToScene();
-
-			ImGui::CloseCurrentPopup();
-		}
-
-		ImGui::EndPopup();
-	}
-
+	rightClickWindowMenu(popupFlags);
 	copingEntity();
+
+	if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_DELETE)) {
+		for (const auto id : m_scene->m_selectedEntities) 
+			m_scene->deleteEntity(id);
+		m_scene->m_selectedEntities.clear();
+	}
 
 	if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered()) {
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {

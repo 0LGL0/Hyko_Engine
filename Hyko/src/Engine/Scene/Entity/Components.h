@@ -22,10 +22,6 @@ namespace Hyko {
 		glm::vec2 lastScale = scale;
 		float lastRotAngle = rotAngle;
 
-		/*bool isMoving  = false;
-		bool isScaling = false;
-		bool isRotated = false;*/
-
 		TransformComponent() = default;
 		TransformComponent(const glm::vec2 _translate, const glm::vec2 _scale, const float _rotAngle)
 			: translate(_translate), scale(_scale), rotAngle(_rotAngle) {}

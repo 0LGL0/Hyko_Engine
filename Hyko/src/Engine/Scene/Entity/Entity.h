@@ -49,12 +49,12 @@ namespace Hyko {
 		}
 
 		template<typename T>
-		bool hasAllComponent() {
+		bool hasAllComponent() const {
 			return m_scene->m_reg.all_of<T>(m_entity);
 		}
 
 		template<typename T>
-		bool hasAnyComponent() {
+		bool hasAnyComponent() const {
 			return m_scene->m_reg.any_of<T>(m_entity);
 		}
 
@@ -96,20 +96,16 @@ namespace Hyko {
 			}
 		}
 
+		const bool alive() const { return m_scene->Reg().valid(m_entity); }
+
 		// return entt entity from my "Entity" class
 		entt::entity get() { return m_entity; }
 
 		// converting an entity id into an entity
 		static Entity toEntity(const uint32_t id) { return Entity{ entt::entity(id) }; }
 
-		bool operator==(Entity& second) const {
-			return (m_scene == second.m_scene && m_entity == second.m_entity);
-		}
-		bool operator!=(Entity& second) const {
-			return !(*this == second);
-		}
-		operator uint32_t() const {
-			return (uint32_t)m_entity;
-		}
+		bool operator==(Entity& second) const { return (m_scene == second.m_scene && m_entity == second.m_entity); }
+		bool operator!=(Entity& second) const { return !(*this == second); }
+		operator uint32_t() const { return (uint32_t)m_entity; }
 	};
 }

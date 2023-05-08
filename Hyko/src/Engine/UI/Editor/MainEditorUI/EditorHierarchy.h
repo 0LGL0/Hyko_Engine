@@ -23,6 +23,8 @@ namespace Hyko {
 	private:
 		void createNewTree(Entity entity);
 		void copingEntity();
+		void rightClickItemMenu(const Hyko::Entity entity);
+		void rightClickWindowMenu(const ImGuiPopupFlags popupFlags);
 	public:
 		EHierarchy() = default;
 		EHierarchy(const std::shared_ptr<Hyko::Scene> &scene)
