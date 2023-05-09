@@ -6,15 +6,12 @@
 #include "Engine/Events/InputEvents.h"
 #include "Engine/Buffers/Windows/Clipboard.h"
 
-#include <algorithm>
 
 void Hyko::EHierarchy::createNewTree(Entity entity)
 {
 	auto &tag = entity.getComponent<Hyko::TagComponent>().Tag;
 	auto& groupComp = entity.getComponent<Hyko::GroupComponent>();
 	bool opened = false;
-	static bool isDragging = false;
-	static uint32_t draggedEntity = -1;
 	ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow;
 
 	if (groupComp.group.empty())
@@ -30,12 +27,15 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 	
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_AcceptNoDrawDefaultRect)) {
 		ImGui::SetDragDropPayload("Entity", &entity, sizeof(Entity));
-		draggedEntity = (uint32_t)entity;
+		m_draggedEntity = (uint32_t)entity;
 		ImGui::Text(tag.c_str());
 		ImGui::EndDragDropSource();
 	}
-	else
-		isDragging = false;
+
+	if (ImGui::IsDragDropActive() && ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) && !ImGui::IsAnyItemHovered()) {
+		if (Entity::toEntity(m_draggedEntity).getComponent<Hyko::GroupComponent>().isChild && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
+			Entity::toEntity(m_draggedEntity).getComponent<Hyko::GroupComponent>().moveToMainBranch(Entity::toEntity(m_draggedEntity));
+	}
 
 	if (ImGui::BeginDragDropTarget()) {
 		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity")) {
@@ -43,13 +43,12 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 
 			auto payloadData = *(const Entity*)payload->Data;
 			if ((uint32_t)entity != (uint32_t)payloadData) {
-				groupComp.addEntityToGroup((uint32_t)payloadData);
-				auto& draggedGroup = Entity::toEntity(draggedEntity).getComponent<Hyko::GroupComponent>();
-				groupComp.isParent = true;
-				draggedGroup.parent = (uint32_t)entity;
-				draggedGroup.isChild = true;
-
-				HK_INFO(groupComp.group.size());
+				if (groupComp.addEntityToGroup((uint32_t)payloadData, (uint32_t)entity)) {
+					auto& draggedGroup = Entity::toEntity(m_draggedEntity).getComponent<Hyko::GroupComponent>();
+					groupComp.isParent = true;
+					draggedGroup.parent = (uint32_t)entity;
+					draggedGroup.isChild = true;
+				}
 			}
 		} 
 
@@ -57,11 +56,8 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 	}
 
 	if (ImGui::IsItemClicked()) {
-		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL)) {
+		if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_LEFT_CONTROL) || Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_RIGHT_CONTROL))
 			m_scene->m_selectedEntities.insert((uint32_t)entity);
-			if (Entity::toEntity(draggedEntity).getComponent<Hyko::GroupComponent>().isChild)						
-				Entity::toEntity(draggedEntity).getComponent<Hyko::GroupComponent>().moveToMainBranch(Entity::toEntity(draggedEntity));		// <-- TODO: Replace with when dragged tree hovering with only window (This is not what I wanted)
-		}
 		else {
 			if (m_scene->m_selectedEntities.size() <= 1) {
 				m_scene->m_selectedEntities.clear();
@@ -123,22 +119,8 @@ void Hyko::EHierarchy::rightClickItemMenu(Hyko::Entity entity)
 {
 	if (ImGui::BeginPopupContextItem()) {
 		auto& groupComp = entity.getComponent<Hyko::GroupComponent>();
-		if (ImGui::MenuItem("Delete entity", "Del")) {
-			for (const auto id : m_scene->m_selectedEntities) {
-				if (groupComp.isChild) {
-					auto &parentGroupComp = Entity::toEntity(groupComp.parent).getComponent<Hyko::GroupComponent>();
-					parentGroupComp.group.erase(std::find(parentGroupComp.group.begin(), parentGroupComp.group.end(), id));
-				}
-				if (groupComp.isParent) {
-					for (const auto childID : groupComp.group)
-						Entity::toEntity(childID).getComponent<Hyko::GroupComponent>().isChild = false;
-					groupComp.group.clear();
-				}
-
-				m_scene->deleteEntity(id);
-			}
-			m_scene->m_selectedEntities.clear();
-		}
+		if (ImGui::MenuItem("Delete entity", "Del"))
+			deleteEntity();
 		else {
 			if (groupComp.isChild) {
 				if (ImGui::MenuItem("Move to main branch", "Ctrl + RMB"))
@@ -149,7 +131,7 @@ void Hyko::EHierarchy::rightClickItemMenu(Hyko::Entity entity)
 		if (ImGui::MenuItem("Create child entity")) {
 			Entity newEntity = m_scene->addToScene();
 			auto &newEntityGroup = newEntity.getComponent<Hyko::GroupComponent>();
-			groupComp.addEntityToGroup((uint32_t)newEntity);
+			groupComp.addEntityToGroup((uint32_t)newEntity, (uint32_t)entity);
 			newEntityGroup.isChild = true;
 			newEntityGroup.parent = (uint32_t)entity;
 			groupComp.isParent = true;
@@ -172,6 +154,25 @@ void Hyko::EHierarchy::rightClickWindowMenu(const ImGuiPopupFlags popupFlags)
 	}
 }
 
+void Hyko::EHierarchy::deleteEntity()
+{
+	for (const auto id : m_scene->m_selectedEntities) {
+		auto& iterationGroupComp = Entity::toEntity(id).getComponent<Hyko::GroupComponent>();
+		if (iterationGroupComp.isChild) {
+			auto& iterationParentGroupComp = Entity::toEntity(iterationGroupComp.parent).getComponent<Hyko::GroupComponent>();
+			iterationParentGroupComp.group.erase(std::find(iterationParentGroupComp.group.begin(), iterationParentGroupComp.group.end(), id));
+		}
+		if (iterationGroupComp.isParent) {
+			for (const auto childID : iterationGroupComp.group)
+				Entity::toEntity(childID).getComponent<Hyko::GroupComponent>().isChild = false;
+			iterationGroupComp.group.clear();
+		}
+
+		m_scene->deleteEntity(id);
+	}
+	m_scene->m_selectedEntities.clear();
+}
+
 void Hyko::EHierarchy::init()
 {
 	static const ImGuiPopupFlags popupFlags = ImGuiPopupFlags_NoOpenOverItems | ImGuiPopupFlags_MouseButtonRight;
@@ -189,11 +190,8 @@ void Hyko::EHierarchy::init()
 	rightClickWindowMenu(popupFlags);
 	copingEntity();
 
-	if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_DELETE)) {
-		for (const auto id : m_scene->m_selectedEntities) 
-			m_scene->deleteEntity(id);
-		m_scene->m_selectedEntities.clear();
-	}
+	if (Hyko::Input::isKeyPressed(Hyko::Key::HK_KEYBOARD_DELETE))
+		deleteEntity();
 
 	if (ImGui::IsWindowHovered() && !ImGui::IsAnyItemHovered()) {
 		if (ImGui::IsMouseClicked(ImGuiMouseButton_Left)) {

@@ -155,7 +155,11 @@ namespace Hyko {
 		GroupComponent(const std::vector<uint32_t> _group)
 			: group(group) {}
 
-		void addEntityToGroup(const uint32_t entityID);
+		/*
+		* @tparam newEntityID is an entity that is added to the "srcEntityID" group
+		* @tparam srcEntityID is the source entity to wich you add the "newEntityID"
+		*/
+		bool addEntityToGroup(const uint32_t newEntityID, const uint32_t srcEntityID);
 		void moveToMainBranch(const uint32_t entityID);
 
 		void clone(GroupComponent& component) {

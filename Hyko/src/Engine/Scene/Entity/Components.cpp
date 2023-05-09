@@ -26,21 +26,37 @@ std::string Hyko::getSpriteTypeName(SpriteComponent::Type type)
 	}
 }
 
-void Hyko::GroupComponent::addEntityToGroup(const uint32_t entityID)
+bool Hyko::GroupComponent::addEntityToGroup(const uint32_t newEntityID, const uint32_t srcEntityID)
 {
-	auto& oldGroupComp = Entity::toEntity(entityID).getComponent<GroupComponent>();
+	auto& oldGroupComp = Entity::toEntity(newEntityID).getComponent<GroupComponent>();
+	auto& srcGroupComp = Entity::toEntity(srcEntityID).getComponent<Hyko::GroupComponent>();
 	if (oldGroupComp.isChild) {
 		auto& oldParentGroup = Entity::toEntity(oldGroupComp.parent).getComponent<GroupComponent>();
-		const auto it = std::find(oldParentGroup.group.begin(), oldParentGroup.group.end(), entityID);
+		const auto it = std::find(oldParentGroup.group.begin(), oldParentGroup.group.end(), newEntityID);
 		if(!oldParentGroup.isChild)
 			oldGroupComp.isChild = false;
 		if (it != oldParentGroup.group.end())
 			oldParentGroup.group.erase(it);
 	}
-	if (std::find(group.begin(), group.end(), entityID) == group.end())
-		group.push_back(entityID);
+
+	/*
+	* This check is necessary in order to prevent a bug in which it was possible to move the parent object to its child.
+	* Here we go through all the parent entities of the "srcEntityID" entity and if one of these entities is "newEntityID"
+	* we return false, thereby not adding the "newEntityID" entity to the group
+	*/
+	if (srcGroupComp.isChild && oldGroupComp.isParent) {
+		uint32_t tmpParent = srcGroupComp.parent;
+		while (tmpParent != (uint32_t)-1) {
+			if (tmpParent == newEntityID) return false;
+			else tmpParent = Entity::toEntity(tmpParent).getComponent<Hyko::GroupComponent>().parent;
+		}
+	}
+	if (std::find(group.begin(), group.end(), newEntityID) == group.end())
+		group.push_back(newEntityID);
 	if (group.size() > 1)
 		std::sort(group.begin(), group.end());
+
+	return true;
 }
 
 void Hyko::GroupComponent::moveToMainBranch(const uint32_t entityID)
