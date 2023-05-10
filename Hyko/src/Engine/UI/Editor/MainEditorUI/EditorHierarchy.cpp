@@ -11,43 +11,50 @@ void Hyko::EHierarchy::createNewTree(Entity entity)
 {
 	auto &tag = entity.getComponent<Hyko::TagComponent>().Tag;
 	auto& groupComp = entity.getComponent<Hyko::GroupComponent>();
+	static std::set<uint32_t> draggedEntities;
 	bool opened = false;
 	ImGuiTreeNodeFlags treeFlags = ImGuiTreeNodeFlags_OpenOnArrow;
 
 	if (groupComp.group.empty())
 		ImGui::Selectable(tag.c_str(), (std::binary_search(m_scene->m_selectedEntities.begin(), m_scene->m_selectedEntities.end(), (uint32_t)entity)) ? true : false, ImGuiSelectableFlags_SpanAllColumns);
 	else {
-		if (m_scene->m_selectedEntities.size() == 1)
-			treeFlags |= (*m_scene->m_selectedEntities.begin() == (uint32_t)entity) ? ImGuiTreeNodeFlags_Selected : 0;
-		else
-			treeFlags |= (std::binary_search(m_scene->m_selectedEntities.begin(), m_scene->m_selectedEntities.end(), (uint32_t)entity)) ? ImGuiTreeNodeFlags_Selected : 0;
-
+		treeFlags |= (std::binary_search(m_scene->m_selectedEntities.begin(), m_scene->m_selectedEntities.end(), (uint32_t)entity)) ? ImGuiTreeNodeFlags_Selected : 0;
 		opened = ImGui::TreeNodeEx((void*)(uint64_t)(uint32_t)entity, treeFlags, tag.c_str());
 	}
 	
 	if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_AcceptNoDrawDefaultRect)) {
-		ImGui::SetDragDropPayload("Entity", &entity, sizeof(Entity));
-		m_draggedEntity = (uint32_t)entity;
+		ImGui::SetDragDropPayload("Entities", &m_scene->m_selectedEntities, sizeof(std::set<uint32_t>));
+		draggedEntities = m_scene->m_selectedEntities;
 		ImGui::Text(tag.c_str());
 		ImGui::EndDragDropSource();
 	}
 
+	/*
+	* when we drag the object(s) to an empty place in the window, 
+	* the object(s) are moved to the main branch, that is, they are removed from all groups
+	*/
 	if (ImGui::IsDragDropActive() && ImGui::IsWindowHovered(ImGuiHoveredFlags_AllowWhenBlockedByActiveItem) && !ImGui::IsAnyItemHovered()) {
-		if (Entity::toEntity(m_draggedEntity).getComponent<Hyko::GroupComponent>().isChild && ImGui::IsMouseReleased(ImGuiMouseButton_Left))
-			Entity::toEntity(m_draggedEntity).getComponent<Hyko::GroupComponent>().moveToMainBranch(Entity::toEntity(m_draggedEntity));
+		if (ImGui::IsMouseReleased(ImGuiMouseButton_Left)) {
+			for (const uint32_t draggedID : draggedEntities) {
+				if (Entity::toEntity(draggedID).getComponent<Hyko::GroupComponent>().isChild)
+					Entity::toEntity(draggedID).getComponent<Hyko::GroupComponent>().moveToMainBranch(Entity::toEntity(draggedID));
+			}
+		}
 	}
 
 	if (ImGui::BeginDragDropTarget()) {
-		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entity")) {
-			HK_ASSERT(payload->DataSize == sizeof(Entity));
+		if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload("Entities")) {
+			HK_ASSERT(payload->DataSize == sizeof(std::set<uint32_t>));
 
-			auto payloadData = *(const Entity*)payload->Data;
-			if ((uint32_t)entity != (uint32_t)payloadData) {
-				if (groupComp.addEntityToGroup((uint32_t)payloadData, (uint32_t)entity)) {
-					auto& draggedGroup = Entity::toEntity(m_draggedEntity).getComponent<Hyko::GroupComponent>();
-					groupComp.isParent = true;
-					draggedGroup.parent = (uint32_t)entity;
-					draggedGroup.isChild = true;
+			auto &payloadData = *(const std::set<uint32_t>*)payload->Data;
+			if (payloadData.find((uint32_t)entity) == payloadData.end()) {
+				for (const uint32_t draggedID : payloadData) {
+					if (groupComp.addEntityToGroup(draggedID, (uint32_t)entity)) {
+						auto& draggedGroup = Entity::toEntity(draggedID).getComponent<Hyko::GroupComponent>();
+						groupComp.isParent = true;
+						draggedGroup.parent = (uint32_t)entity;
+						draggedGroup.isChild = true;
+					}
 				}
 			}
 		} 
